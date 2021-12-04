@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Oowada/OowadaTest.unity
+    guid: c53c3a29580976b4980c2f34e8f21fd5
   m_configObjects: {}
