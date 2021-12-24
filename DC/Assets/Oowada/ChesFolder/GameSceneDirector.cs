@@ -161,10 +161,50 @@ public class GameSceneDirector : MonoBehaviour
     //チェックメイトモード
     void checkMateMode()
     {
-
+        //次のモード
         nextMode = MODE.NORMAL;
+        Text info = txtResultInfo.GetComponent<Text>();
+        info.text = "";
+
+        //----------------
+        //TODO ドローのチェック
+        //----------------
+
+        //----------------
+        //チェックのチェック
+        //----------------
+        //今回のプレイヤーのキング
+        UnitController target = getUnit (nowPlayer, UnitController.TYPE.KING);
+        //チェックしているユニット
+        List<UnitController> checkunits = GetCheckUnits(units, nowPlayer);
+        //チェック状態セット
+        bool ischeck = (0 < checkunits.Count) ? true : false;
+
+        if(null != target)
+        {
+            target.SetCheckStatus(ischeck);
+        }
+
+        //ゲームが続くならチェックと表示
+        if( ischeck && MODE.RESULT != nextMode)
+        {
+            info.text = "チェック！！";
+        }
+
+        //----------------
+        //移動可能範囲を調べる
+        //----------------
+        int tilecount = 0;
+
+        //移動可能範囲をカウント
+        foreach(var v in getUnits(nowPlayer))
+        {
+            tilecount += getMovableTiles(v).Count;
+        }
+
+
     }
-   
+
     //ノーマルモード
     void normalMode()
     {
@@ -249,7 +289,7 @@ public class GameSceneDirector : MonoBehaviour
         nowPlayer = getNextPlayer();
 
         //Infoの更新
-        //txtTurnInfo.GetComponent<Text>().text = "" + (nowPlayer + 1) + "Pの番です";
+        txtTurnInfo.GetComponent<Text>().text = "" + (nowPlayer + 1) + "Pの番です";
 
         nextMode = MODE.CHECK_MATE;
     }
@@ -261,6 +301,19 @@ public class GameSceneDirector : MonoBehaviour
 
         return next;
     }
+
+    //指定のユニットを取得する
+    UnitController getUnit(int player, UnitController.TYPE type)
+    {
+        foreach(var v in getUnits(player))
+        {
+            if(player != v.Player)continue;
+            if(type == v.Type) return v;
+        }
+
+        return null;
+    }
+
 
     //指定されたプレイヤー番号のユニットを取得する
     List<UnitController>getUnits(int player = -1)
@@ -286,9 +339,35 @@ public class GameSceneDirector : MonoBehaviour
         return ret;
     }
 
+    //指定された配列をコピーして返す
+    public static UnitController[,] GetCopyArray(UnitController[,] org)
+    {
+        UnitController[,] ret = new UnitController[org.GetLength(0), org.GetLength(1)];
+        //Array.Copy(org, ret, org.Length);
+        return ret;
+    }
+
     //移動可能範囲取得
     List<Vector2Int> getMovableTiles(UnitController unit)
     {
+        //そこをどいたらチェックされてしまうか
+        UnitController[,] copyunits = GetCopyArray(units);
+        copyunits[unit.Pos.x, unit.Pos.y] = null;
+
+        //チェックされるかどうか
+        List<UnitController> checkunits = GetCheckUnits(copyunits, unit.Player);
+
+        //チェックを回避できるタイルを探す
+        if( 0 < checkunits.Count)
+        {
+            //移動可能範囲
+            List<Vector2Int> ret = new List<Vector2Int>();
+
+            //移動可能範囲
+            List<Vector2Int> movetiles = new List<Vector2Int>();
+
+        }
+
         //通常移動可能範囲を返す
         return unit.GetMovableTiles(units);
     }
@@ -362,5 +441,31 @@ public class GameSceneDirector : MonoBehaviour
         if(1 == player) prefab = prefabBlackUnits[idx];
 
         return prefab;
+    }
+
+    //指定された配置でチェックされているかチェック
+    static public List<UnitController>GetCheckUnits(UnitController[,] units,int player,bool checkking = true)
+    {
+        List<UnitController> ret = new List<UnitController>();
+
+        foreach(var v in units)
+        {
+            if(null == v) continue;
+            if(player == v.Player) continue;
+
+            //敵1体の移動可能範囲
+            List<Vector2Int>enemytiles = v.GetMovableTiles(units, checkking);
+
+            foreach (var t in enemytiles)
+            {
+                if(null == units[t.x,t.y])continue;
+
+                if(UnitController.TYPE.KING == units[t.x, t.y].Type)
+                {
+                    ret.Add(v);
+                }
+            }
+        }
+        return ret;
     }
 }
