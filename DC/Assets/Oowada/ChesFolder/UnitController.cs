@@ -52,7 +52,7 @@ public class UnitController : MonoBehaviour
     //初期設定
     public void SetUnit(int player, TYPE type, GameObject tile)
     {
-        this.Player = player;
+        Player = player;
         Type = type;
         MoveUnit(tile);
         ProgressTurnCount = -1;//初期状態に戻す
@@ -66,14 +66,23 @@ public class UnitController : MonoBehaviour
         //クイーン
         if(TYPE.QUEEN == Type)
         {
+            //ルークとビショップの動きを合成
             ret = getMovableTiles(units,TYPE.ROOK);
-            ret = getMovableTiles(units, TYPE.BISHOP);//クイーンだけの処理にする
+
+            foreach( var v in getMovableTiles(units, TYPE.BISHOP))
+            {
+                if(!ret.Contains(v))ret.Add(v);
+            }
         }
         else if(TYPE.KING == Type)
         {
             ret = getMovableTiles(units,TYPE.KING);
 
-            //敵の移動可能範囲にいけないようにする
+            //相手の移動範囲を考慮しない
+            if(!checkking) return ret;
+
+            //TODO敵の移動可能範囲にいけないようにする
+
         }
         else
         {
@@ -95,8 +104,8 @@ public class UnitController : MonoBehaviour
             //前方２ます
             List<Vector2Int> vec = new List<Vector2Int>()
             {
-                new Vector2Int(0,1*dir),
-                new Vector2Int(0,2*dir),
+                new Vector2Int(0 , 1*dir),
+                new Vector2Int(0 , 2*dir),
             };
 
             //2回目以降はいちますしか進めない
@@ -171,6 +180,99 @@ public class UnitController : MonoBehaviour
                     checkpos += v;
                 }
             }
+        }
+        //ナイト
+        else if( TYPE.KNIGHT == type)
+        {
+            List<Vector2Int> vec = new List<Vector2Int>()
+            {
+                new Vector2Int(-1, 2),
+                new Vector2Int(-2, 1),
+                new Vector2Int( 1, 2),
+                new Vector2Int( 2, 1),
+                new Vector2Int(-1,-2),
+                new Vector2Int(-2,-1),
+                new Vector2Int( 1,-2),
+                new Vector2Int( 2,-1),
+            };
+            foreach (var v in vec)
+            {
+                Vector2Int checkpos = Pos + v;
+                if (!isCheckable(units, checkpos)) continue;
+
+                //同じプレイヤーの場所へはいけない
+                if (null != units[checkpos.x, checkpos.y]
+                    && Player == units[checkpos.x, checkpos.y].Player)
+                {
+                    continue;
+                }
+
+                ret.Add(checkpos);
+            }
+
+        }
+        //ビショップ
+        else if(TYPE.BISHOP == type)
+        {
+            //上下左右ユニットにぶつかるまでどこまでも進める
+            List<Vector2Int> vec = new List<Vector2Int>()
+            {
+                new Vector2Int( 1, 1),
+                new Vector2Int(-1, 1),
+                new Vector2Int( 1,-1),
+                new Vector2Int(-1,-1),
+            };
+
+            foreach (var v in vec)
+            {
+                Vector2Int checkpos = Pos + v;
+                while (isCheckable(units, checkpos))
+                {
+                    //誰かいたら終了
+                    if (null != units[checkpos.x, checkpos.y])
+                    {
+                        if (Player != units[checkpos.x, checkpos.y].Player)
+                        {
+                            ret.Add(checkpos);//敵の駒がいたらそこも追加
+                        }
+                        break;
+                    }
+
+                    ret.Add(checkpos);
+                    checkpos += v;
+                }
+            }
+        }
+        //キング
+        else if(TYPE.KING == type)
+        {
+            List<Vector2Int> vec = new List<Vector2Int>()
+            {
+                new Vector2Int(-1, 1),
+                new Vector2Int( 0, 1),
+                new Vector2Int( 1, 1),
+                new Vector2Int(-1, 0),
+                new Vector2Int( 1, 0),
+                new Vector2Int(-1,-1),
+                new Vector2Int( 0,-1),
+                new Vector2Int( 1,-1),
+            };
+            foreach (var v in vec)
+            {
+                Vector2Int checkpos = Pos + v;
+                if (!isCheckable(units, checkpos)) continue;
+
+                //同じプレイヤーの場所へはいけない
+                if (null != units[checkpos.x, checkpos.y]
+                    && Player == units[checkpos.x, checkpos.y].Player)
+                {
+                    continue;
+                }
+
+                ret.Add(checkpos);
+            }
+
+            // TODO ここから下は特殊形
         }
 
         return ret;
