@@ -65,7 +65,8 @@ public class GameSceneDirector : MonoBehaviour
         BATTLE,
         STATUS_UPDATE,
         TURN_CHANGE,
-        RESULT
+        RESULT,
+        FIRST_TURN
     }
 
     MODE nowMode, nextMode;
@@ -137,7 +138,8 @@ public class GameSceneDirector : MonoBehaviour
 
         nowPlayer = -1;
         nowMode = MODE.NONE;
-        nextMode = MODE.TURN_CHANGE;
+        //nextMode = MODE.TURN_CHANGE;
+        nextMode = MODE.FIRST_TURN;
     }
 
     // Update is called once per frame
@@ -174,6 +176,10 @@ public class GameSceneDirector : MonoBehaviour
                     Retry();
                 }
             }
+        }
+        else if(MODE.FIRST_TURN == nowMode)
+        {
+            firstTurn();
         }
 
         // モード変更
@@ -670,10 +676,29 @@ public class GameSceneDirector : MonoBehaviour
         return ret;
     }
 
+
     void attack()
     {
-
+    
     }
+
+    public void firstTurn()
+    {
+        int rnd = Random.Range(0,2);
+
+        if(rnd == 0)
+        {
+            nowPlayer = 0;
+        }
+        else if(rnd == 1)
+        {
+            nowPlayer = 1;
+        }
+
+        nextMode = MODE.TURN_CHANGE;
+      }
+
+   
 
     public void Retry()
     {
