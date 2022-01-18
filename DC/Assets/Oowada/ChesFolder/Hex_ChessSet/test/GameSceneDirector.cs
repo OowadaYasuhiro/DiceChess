@@ -62,6 +62,7 @@ public class GameSceneDirector : MonoBehaviour
         NONE,
         CHECK_MATE,
         NORMAL,
+        BATTLE,
         STATUS_UPDATE,
         TURN_CHANGE,
         RESULT
@@ -70,7 +71,7 @@ public class GameSceneDirector : MonoBehaviour
     MODE nowMode, nextMode;
     int nowPlayer;
 
-    // 前回ユニット削除から経過ターン
+    // 前回ユニット削除から経過ターン　50以上で引き分け
     int prevDestroyTurn;
 
     // 前回の盤面
@@ -149,6 +150,10 @@ public class GameSceneDirector : MonoBehaviour
         else if(MODE.NORMAL == nowMode)
         {
             normalMode();
+        }
+        else if(MODE.BATTLE == nowMode)
+        {
+            battleMode();
         }
         else if(MODE.STATUS_UPDATE == nowMode)
         {
@@ -383,6 +388,12 @@ public class GameSceneDirector : MonoBehaviour
         }
     }
 
+    //戦闘処理
+    void battleMode()
+    {
+
+    }
+
     // 移動後の処理
     void statusUpdateMode()
     {
@@ -598,11 +609,15 @@ public class GameSceneDirector : MonoBehaviour
         // 現在地
         Vector2Int unitpos = unit.Pos;
 
-        // 誰かいたら消す
+        // 誰かいたら消す ここが攻撃できるところ
         if(null != units[tilepos.x, tilepos.y])
         {
+            nextMode = MODE.BATTLE;
+            goto a;
+            //
             Destroy(units[tilepos.x, tilepos.y].gameObject);
             prevDestroyTurn = 0;
+            a:;
         }
 
         // 新しい場所へ移動
@@ -653,6 +668,11 @@ public class GameSceneDirector : MonoBehaviour
         }
 
         return ret;
+    }
+
+    void attack()
+    {
+
     }
 
     public void Retry()
