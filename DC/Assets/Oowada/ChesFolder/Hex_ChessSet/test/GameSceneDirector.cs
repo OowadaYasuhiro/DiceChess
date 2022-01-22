@@ -117,6 +117,7 @@ public class GameSceneDirector : MonoBehaviour
                 // ユニットの作成
                 int type = unitType[i, j] % 10;
                 int player = unitType[i, j] / 10;
+                int hp = unitType[i, j] %10 * 3;
 
                 GameObject prefab = getPrefabUnit(player, type);
                 GameObject unit = null;
@@ -618,12 +619,21 @@ public class GameSceneDirector : MonoBehaviour
         // 誰かいたら消す ここが攻撃できるところ
         if(null != units[tilepos.x, tilepos.y])
         {
-            nextMode = MODE.BATTLE;
-            goto a;
-            //
+            //戦闘モードに移行
+            nextMode = MODE.BATTLE;//いらない
+            //TODO　攻撃ダイスを振り攻撃値を決める
+            //TODO　敵の駒のHPを攻撃値をの値だけ削る
+            //TODO　駒のHPが0になった時その駒を消す
             Destroy(units[tilepos.x, tilepos.y].gameObject);
             prevDestroyTurn = 0;
-            a:;
+            //TODO　場所を乗っ取る
+            //TODO　選択したマスから１マス前に駒を置く
+            //TODO　STATUS_UPDATEに移行
+
+            //１マス前に置いたら　tilepos をかえ内部データの更新
+            //
+
+
         }
 
         // 新しい場所へ移動
@@ -677,9 +687,14 @@ public class GameSceneDirector : MonoBehaviour
     }
 
 
-    void attack()
+    void attack(Vector2Int tilepos)
     {
-    
+        //TODO　攻撃ダイスを振り攻撃値を決める
+        //TODO　敵の駒のHPを攻撃値をの値だけ削る
+        //TODO　駒のHPが0になった時その駒を消す
+        //TODO　場所を乗っ取
+        //TODO　STATUS_UPDATEに移行
+
     }
 
     public void firstTurn()
