@@ -8,6 +8,8 @@ public class UnitController : MonoBehaviour
     public int Player;
     // ユニットの種類
     public TYPE Type;
+    //ユニットの体力
+    public int HP;
     // 置いてからの経過ターン
     public int ProgressTurnCount;
     // 置いてる場所
