@@ -622,16 +622,20 @@ public class GameSceneDirector : MonoBehaviour
             //戦闘モードに移行
             nextMode = MODE.BATTLE;//いらない
             //TODO　攻撃ダイスを振り攻撃値を決める
+            int PU = daise();
             //TODO　敵の駒のHPを攻撃値をの値だけ削る
+                                                            //選択された敵の駒を把握してUnitControllerにあるSetHPをよびHPを減らす
             //TODO　駒のHPが0になった時その駒を消す
-            Destroy(units[tilepos.x, tilepos.y].gameObject);
+            Destroy(units[tilepos.x, tilepos.y].gameObject);//敵の駒のHPをUnitControllerのGetHPからとりif文で分岐
             prevDestroyTurn = 0;
             //TODO　場所を乗っ取る
+                                                            //カッコ外でやってるので特に付け加えることは無い
             //TODO　選択したマスから１マス前に駒を置く
+                                                            //unitposのＸ，Ｙを見てどうにかしようとしてる
             //TODO　STATUS_UPDATEに移行
-
+                                                            //いらないかも
             //１マス前に置いたら　tilepos をかえ内部データの更新
-            //
+                                                            //内部データ更新は下でやってくれているのでtileposを帰る
 
 
         }
@@ -723,5 +727,10 @@ public class GameSceneDirector : MonoBehaviour
     public void Title()
     {
         SceneManager.LoadScene("TitleScene");
+    }
+
+     public int daise()
+    {
+        return 1;
     }
 }
