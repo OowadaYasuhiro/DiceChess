@@ -501,4 +501,13 @@ public class UnitController : MonoBehaviour
         Status.Remove(STATUS.CHECK);
         if (flag) Status.Add(STATUS.CHECK);
     }
+
+    public int GetHP()
+    {
+        return this.HP;
+    }
+    public int SetHP(int x)
+    {
+        return this.HP - x;
+    }
 }
