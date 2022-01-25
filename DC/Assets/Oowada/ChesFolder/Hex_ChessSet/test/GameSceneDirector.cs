@@ -636,8 +636,6 @@ public class GameSceneDirector : MonoBehaviour
                                                             //いらないかも
             //１マス前に置いたら　tilepos をかえ内部データの更新
                                                             //内部データ更新は下でやってくれているのでtileposを帰る
-
-
         }
 
         // 新しい場所へ移動
