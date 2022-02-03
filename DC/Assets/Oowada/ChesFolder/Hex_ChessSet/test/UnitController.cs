@@ -9,7 +9,8 @@ public class UnitController : MonoBehaviour
     // ユニットの種類
     public TYPE Type;
     //ユニットの体力
-    public int HP;
+    [SerializeField]
+    private int HP;
     // 置いてからの経過ターン
     public int ProgressTurnCount;
     // 置いてる場所
@@ -43,13 +44,6 @@ public class UnitController : MonoBehaviour
     {
         
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     // 初期設定
     public void SetUnit(int player, TYPE type, GameObject tile)
     {
@@ -508,6 +502,11 @@ public class UnitController : MonoBehaviour
     }
     public int SetHP(int x)
     {
+
         return this.HP - x;
+    }
+    public int GetMaxHp()
+    {
+        return this.HP;
     }
 }
