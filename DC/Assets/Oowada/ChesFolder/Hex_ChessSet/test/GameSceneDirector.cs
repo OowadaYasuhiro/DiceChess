@@ -624,10 +624,15 @@ public class GameSceneDirector : MonoBehaviour
             //TODO　攻撃ダイスを振り攻撃値を決める
             int PU = daise();
             //TODO　敵の駒のHPを攻撃値をの値だけ削る
-                                                            //選択された敵の駒を把握してUnitControllerにあるSetHPをよびHPを減らす
+                                                               //units[tilepos.x, tilepos.y].gameObject.GetComponent<UnitController>();//選択された敵の駒を把握してUnitControllerにあるSetHPをよびHPを減らす
+            int Hp = units[tilepos.x, tilepos.y].SetHP(PU);
             //TODO　駒のHPが0になった時その駒を消す
-            Destroy(units[tilepos.x, tilepos.y].gameObject);//敵の駒のHPをUnitControllerのGetHPからとりif文で分岐
-            prevDestroyTurn = 0;
+            if (Hp <= 0)
+            {
+                Destroy(units[tilepos.x, tilepos.y].gameObject);//敵の駒のHPをUnitControllerのGetHPからとりif文で分岐
+                prevDestroyTurn = 0;
+            }
+            
             //TODO　場所を乗っ取る
                                                             //カッコ外でやってるので特に付け加えることは無い
             //TODO　選択したマスから１マス前に駒を置く
