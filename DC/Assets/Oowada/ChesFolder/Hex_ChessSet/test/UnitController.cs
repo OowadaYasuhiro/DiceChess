@@ -11,6 +11,8 @@ public class UnitController : MonoBehaviour
     //ユニットの体力
     [SerializeField]
     private int HP;
+    [SerializeField]
+    private int MAXHP;
     // 置いてからの経過ターン
     public int ProgressTurnCount;
     // 置いてる場所
@@ -42,7 +44,12 @@ public class UnitController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (TYPE.PAWN == Type) HP = 3 ; MAXHP = 3;
+        if (TYPE.ROOK == Type) HP = 8; MAXHP = 8;
+        if (TYPE.KNIGHT == Type) HP = 8; MAXHP = 8;
+        if (TYPE.BISHOP == Type) HP = 8; MAXHP = 8;
+        if (TYPE.QUEEN == Type) HP = 15; MAXHP = 15;
+        if (TYPE.KING == Type) HP = 20; MAXHP = 20;
     }
     // 初期設定
     public void SetUnit(int player, TYPE type, GameObject tile)
@@ -502,11 +509,11 @@ public class UnitController : MonoBehaviour
     }
     public int SetHP(int x)
     {
-
-        return this.HP - x;
+        HP = HP - x;
+        return this.HP;
     }
     public int GetMaxHp()
     {
-        return this.HP;
+        return this.MAXHP;
     }
 }
