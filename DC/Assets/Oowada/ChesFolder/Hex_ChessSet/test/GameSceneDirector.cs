@@ -330,17 +330,40 @@ public class GameSceneDirector : MonoBehaviour
         GameObject tile = null;
         UnitController unit = null;
 
-        if(canAtk == true) {
-            // プレイヤーの処理
-            if(Input.GetMouseButtonUp(0)) {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //ここで駒の動きを変える
+        int foge = daise();
 
-                // ユニットにも当たり判定があるのでヒットした全てのオブジェクト情報を取得
-                foreach(RaycastHit hit in Physics.RaycastAll(ray)) {
-                    if(hit.transform.name.Contains("Tile")) {
-                        tile = hit.transform.gameObject;
-                        break;
-                    }
+        for(int i = 0; i < unitType.GetLength(0); i++)
+        {
+            for(int j = 0; j < unitType.GetLength(0); j++)
+            {
+                if(unitType[i, j]/10 == 0)
+                {
+                    unitType[i, j] = foge;
+                }
+                else if(unitType[i, j] / 10 == 1)
+                {
+                    unitType[i, j] = foge+10;
+                }
+                else
+                {
+                    unitType[i, j] = 0;
+                }
+            }
+        }
+
+        // プレイヤーの処理
+        if (Input.GetMouseButtonUp(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            // ユニットにも当たり判定があるのでヒットした全てのオブジェクト情報を取得
+            foreach (RaycastHit hit in Physics.RaycastAll(ray))
+            {
+                if (hit.transform.name.Contains("Tile"))
+                {
+                    tile = hit.transform.gameObject;
+                    break;
                 }
             }
         }
@@ -745,8 +768,8 @@ public class GameSceneDirector : MonoBehaviour
             
             //TODO　場所を乗っ取る
                                                             //カッコ外でやってるので特に付け加えることは無い
-            //TODO　選択したマスから１マス前に駒を置く
-                                                            //unitposのＸ，Ｙを見てどうにかしようとしてる
+            //TODO　選択したマスから１マス前に駒を置く//unitposのＸ，Ｙを見てどうにかしようとしてる
+            //unitpos = unitType[tilepos.x, tilepos.y] % 10;
             //TODO　STATUS_UPDATEに移行
                                                             //いらないかも
             //１マス前に置いたら　tilepos をかえ内部データの更新
