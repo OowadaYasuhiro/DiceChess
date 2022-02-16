@@ -156,6 +156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: 0
   Type: 1
+  HP: 5
   ProgressTurnCount: 0
   Pos: {x: 0, y: 0}
   OldPos: {x: 0, y: 0}

@@ -500,10 +500,10 @@ public class UnitController : MonoBehaviour
     {
         return this.HP;
     }
-    public int SetHP(int x)
+    public void SetHP(int x)
     {
 
-        return this.HP - x;
+        HP = x;
     }
     public int GetMaxHp()
     {
