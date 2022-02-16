@@ -306,6 +306,28 @@ public class GameSceneDirector : MonoBehaviour
         GameObject tile = null;
         UnitController unit = null;
 
+        //ここで駒の動きを変える
+        int foge = daise();
+
+        for(int i = 0; i < unitType.GetLength(0); i++)
+        {
+            for(int j = 0; j < unitType.GetLength(0); j++)
+            {
+                if(unitType[i, j]/10 == 0)
+                {
+                    unitType[i, j] = foge;
+                }
+                else if(unitType[i, j] / 10 == 1)
+                {
+                    unitType[i, j] = foge+10;
+                }
+                else
+                {
+                    unitType[i, j] = 0;
+                }
+            }
+        }
+
         // プレイヤーの処理
         if (Input.GetMouseButtonUp(0))
         {
