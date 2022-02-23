@@ -769,7 +769,10 @@ public class GameSceneDirector : MonoBehaviour
             //TODO　場所を乗っ取る
                                                             //カッコ外でやってるので特に付け加えることは無い
             //TODO　選択したマスから１マス前に駒を置く//unitposのＸ，Ｙを見てどうにかしようとしてる
-            //unitpos = unitType[tilepos.x, tilepos.y] % 10;
+            if(unitType[tilepos.x, tilepos.y] % 10 == 1)
+            {
+
+            }
             //TODO　STATUS_UPDATEに移行
                                                             //いらないかも
             //１マス前に置いたら　tilepos をかえ内部データの更新
