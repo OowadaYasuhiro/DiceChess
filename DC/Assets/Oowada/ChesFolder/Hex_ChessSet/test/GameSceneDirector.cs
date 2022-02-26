@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -29,6 +29,9 @@ public class GameSceneDirector : MonoBehaviour
     // ユニットのプレハブ（色ごと）
     public List<GameObject> prefabWhiteUnits;
     public List<GameObject> prefabBlackUnits;
+
+    //バトルfalse
+    bool battleEnd = false;
 
     // 1 = ポーン 2 = ルーク 3 = ナイト 4 = ビショップ 5 = クイーン 6 = キング
     public int[,] unitType =
@@ -88,8 +91,8 @@ public class GameSceneDirector : MonoBehaviour
     GameObject eneUnit;
     Text aText;
     //攻撃ダイスを振ったかどうかのチェック    
-    bool diceCheck = false;
-    bool pushAButton = false;
+    public bool diceCheck = false;
+    public bool pushAButton = false;
     int Hp = 0;
     bool canAtk = true;
 
@@ -330,40 +333,17 @@ public class GameSceneDirector : MonoBehaviour
         GameObject tile = null;
         UnitController unit = null;
 
-        //ここで駒の動きを変える
-        int foge = daise();
+        if(canAtk == true) {
+            // プレイヤーの処理
+            if(Input.GetMouseButtonUp(0)) {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        for(int i = 0; i < unitType.GetLength(0); i++)
-        {
-            for(int j = 0; j < unitType.GetLength(0); j++)
-            {
-                if(unitType[i, j]/10 == 0)
-                {
-                    unitType[i, j] = foge;
-                }
-                else if(unitType[i, j] / 10 == 1)
-                {
-                    unitType[i, j] = foge+10;
-                }
-                else
-                {
-                    unitType[i, j] = 0;
-                }
-            }
-        }
-
-        // プレイヤーの処理
-        if (Input.GetMouseButtonUp(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            // ユニットにも当たり判定があるのでヒットした全てのオブジェクト情報を取得
-            foreach (RaycastHit hit in Physics.RaycastAll(ray))
-            {
-                if (hit.transform.name.Contains("Tile"))
-                {
-                    tile = hit.transform.gameObject;
-                    break;
+                // ユニットにも当たり判定があるのでヒットした全てのオブジェクト情報を取得
+                foreach(RaycastHit hit in Physics.RaycastAll(ray)) {
+                    if(hit.transform.name.Contains("Tile")) {
+                        tile = hit.transform.gameObject;
+                        break;
+                    }
                 }
             }
         }
@@ -454,6 +434,10 @@ public class GameSceneDirector : MonoBehaviour
     //戦闘処理
     void battleMode()
     {
+        //battleEndがtrueになったらstatusUpdateMode()に移行する
+        if(battleEnd == true) {
+            nextMode = MODE.STATUS_UPDATE;
+        }
 
     }
 
@@ -518,6 +502,8 @@ public class GameSceneDirector : MonoBehaviour
 
         // カーソル
         setSelectCursors();
+
+        battleEnd = false;
 
         nextMode = MODE.TURN_CHANGE;
     }
@@ -677,9 +663,14 @@ public class GameSceneDirector : MonoBehaviour
         // 誰かいたら消す ここが攻撃できるところ
         if(null != units[tilepos.x, tilepos.y])
         {
+            Hp = units[tilepos.x, tilepos.y].GetHP();
+
+            //戦闘モードに移行
+            nextMode = MODE.BATTLE_SET;
+
             canAtk = false;
             
-            Hp = units[tilepos.x, tilepos.y].GetHP();
+            
             int PU = 0;
             
 
@@ -689,23 +680,19 @@ public class GameSceneDirector : MonoBehaviour
             Invoke("battleSetMode", 1f);
 
 
-            pushAButton = true;
-            //戦闘モードに移行
-            nextMode = MODE.BATTLE_SET;
+            //pushAButton = true;
+            
             //TODO　攻撃ダイスを振り攻撃値を決める
 
             //TODO　敵の駒のHPを攻撃値をの値だけ削る
             /*if(pushAButton == true) {
-
-                Debug.Log("ボタン押した");
+                //Debug.Log("ボタン押した");
                 diceTime();
-                
-                
-
-                
+  
             }*/
             //units[tilepos.x, tilepos.y].gameObject.GetComponent<UnitController>();//選択された敵の駒を把握してUnitControllerにあるSetHPをよびHPを減らす
             if(pushAButton == true) {
+                Debug.Log("戦闘の処理に入りました");
                 PU = diceTime();
 
                 Hp = Hp - PU;
@@ -713,8 +700,7 @@ public class GameSceneDirector : MonoBehaviour
 
 
                 if(Hp <= 0) {
-                    nextMode = MODE.STATUS_UPDATE;
-                    
+                    battleEnd = true;
 
                     Destroy(units[tilepos.x, tilepos.y].gameObject);//敵の駒のHPをUnitControllerのGetHPからとりif文で分岐
                     prevDestroyTurn = 0;
@@ -737,12 +723,14 @@ public class GameSceneDirector : MonoBehaviour
 
                     
                 } else {
-                    nextMode = MODE.STATUS_UPDATE;
+
 
                     //自分の攻撃したコマが「ポーン、ナイト、キング」だったら移動しないでその場にとどまる
 
                     //自分の攻撃したコマが上のコマ以外だったら相手の駒の目の前でとどまる
 
+
+                    battleEnd = true;
 
                     panelAnim.SetTrigger("out");
                     AttackButton.SetActive(false);
@@ -768,8 +756,8 @@ public class GameSceneDirector : MonoBehaviour
             
             //TODO　場所を乗っ取る
                                                             //カッコ外でやってるので特に付け加えることは無い
-            //TODO　選択したマスから１マス前に駒を置く//unitposのＸ，Ｙを見てどうにかしようとしてる
-            //unitpos = unitType[tilepos.x, tilepos.y] % 10;
+            //TODO　選択したマスから１マス前に駒を置く
+                                                            //unitposのＸ，Ｙを見てどうにかしようとしてる
             //TODO　STATUS_UPDATEに移行
                                                             //いらないかも
             //１マス前に置いたら　tilepos をかえ内部データの更新
@@ -811,13 +799,17 @@ public class GameSceneDirector : MonoBehaviour
     //試しダイス
     int rnd;
     public int diceTime() {
+        Debug.Log("ダイスON");
         rnd = Random.Range(1, 11);
-        diceCheck = true;
+        
         
         ATKText.SetActive(true);
         aText.text = rnd.ToString();
 
+        diceCheck = true;
         return rnd;
+
+        
     }
 
 
