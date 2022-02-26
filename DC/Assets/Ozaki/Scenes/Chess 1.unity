@@ -3685,8 +3685,6 @@ MonoBehaviour:
   - {fileID: 1312771594950542517, guid: 0d7ebaf7f745f094697188a924bc063c, type: 3}
   - {fileID: 3339908815428753290, guid: a4188421d7d183942830cb3969471b40, type: 3}
   - {fileID: 7297026580602183812, guid: 78bb34228078a874793bf30d89216711, type: 3}
-  diceCheck: 0
-  pushAButton: 0
 --- !u!4 &1472558010
 Transform:
   m_ObjectHideFlags: 0
@@ -4626,7 +4624,6 @@ GameObject:
   - component: {fileID: 2088663571}
   - component: {fileID: 2088663570}
   - component: {fileID: 2088663569}
-  - component: {fileID: 2088663572}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -4682,34 +4679,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2088663572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2088663568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 344435784}
-          m_MethodName: 
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: 
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &2093369913
 GameObject:
   m_ObjectHideFlags: 0
