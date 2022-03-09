@@ -14,9 +14,11 @@ public class a : MonoBehaviour
     [SerializeField] GameObject Piece;
     [SerializeField] GameObject Piece1;
     [SerializeField] GameObject Piece2;
+
     [SerializeField] GameObject Cursor;
     [SerializeField] GameObject Cursor1;
     [SerializeField] GameObject Cursor2;
+
     GameObject selectedObj;
     // Start is called before the first frame update
     void Start()
@@ -28,6 +30,7 @@ public class a : MonoBehaviour
         Cursor.gameObject.SetActive(false);
         Cursor1.gameObject.SetActive(false);
         Cursor2.gameObject.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -61,7 +64,6 @@ public class a : MonoBehaviour
             Cursor.gameObject.SetActive(false);
             Cursor1.gameObject.SetActive(false);
             Cursor2.gameObject.SetActive(true);
-
         }
     }
 }

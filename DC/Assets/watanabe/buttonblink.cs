@@ -1,21 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; //Button‚ğg—p‚·‚é‚½‚ß’Ç‰Á
+using UnityEngine.UI; //Buttonã‚’ä½¿ç”¨ã™ã‚‹ãŸã‚è¿½åŠ 
 
 public class buttonblink : MonoBehaviour
 {
     
-    // ƒ{ƒ^ƒ“‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
+    // ãƒœã‚¿ãƒ³ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
     Button button;
 
-    // ƒJƒEƒ“ƒ^
+    // ã‚«ã‚¦ãƒ³ã‚¿
     int cnt;
 
-    // “_–Å‚Ì‘¬‚³‚ğİ’è(60‚Ìê‡C30ƒtƒŒ[ƒ€‚²‚Æ‚ÉF‚ª•Ï‚í‚é)
+    // ç‚¹æ»…ã®é€Ÿã•ã‚’è¨­å®š(60ã®å ´åˆï¼Œ30ãƒ•ãƒ¬ãƒ¼ãƒ ã”ã¨ã«è‰²ãŒå¤‰ã‚ã‚‹)
     public int MAX_COUNT = 60;
 
-    // “_–ÅF‚Ìİ’è
+    // ç‚¹æ»…è‰²ã®è¨­å®š
     public List<Color> colors = new List<Color>() { new Color(1, 1, 1, 1), new Color(1, 1, 1, 0) };
 
 
@@ -23,9 +23,9 @@ public class buttonblink : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //ƒ{ƒ^ƒ“‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğİ’è
+        //ãƒœã‚¿ãƒ³ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’è¨­å®š
         button = GetComponent<Button>();
-        //ƒJƒEƒ“ƒ^‚Ì‰Šú’l‚ğ0‚Éİ’è
+        //ã‚«ã‚¦ãƒ³ã‚¿ã®åˆæœŸå€¤ã‚’0ã«è¨­å®š
         cnt = 0;
         
     }
@@ -33,17 +33,12 @@ public class buttonblink : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Blink == true)
-        {
-            
-        }
-        {
-            cnt++;
-            cnt %= MAX_COUNT;
-            var cls = button.colors;
-            cls.normalColor = colors[cnt / (MAX_COUNT / colors.Count)];
-            button.colors = cls;
-        }
+        cnt++;
+        cnt %= MAX_COUNT;
+        var cls = button.colors;
+        cls.normalColor = colors[cnt / (MAX_COUNT / colors.Count)];
+        button.colors = cls;
+          
     }
 
     public void setBool()
