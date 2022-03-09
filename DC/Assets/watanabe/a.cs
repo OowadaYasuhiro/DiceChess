@@ -14,6 +14,11 @@ public class a : MonoBehaviour
     [SerializeField] GameObject Piece;
     [SerializeField] GameObject Piece1;
     [SerializeField] GameObject Piece2;
+
+    [SerializeField] GameObject Cursor;
+    [SerializeField] GameObject Cursor1;
+    [SerializeField] GameObject Cursor2;
+
     GameObject selectedObj;
     // Start is called before the first frame update
     void Start()
@@ -22,6 +27,10 @@ public class a : MonoBehaviour
         Piece.gameObject.SetActive(false);
         Piece1.gameObject.SetActive(false);
         Piece2.gameObject.SetActive(false);
+        Cursor.gameObject.SetActive(false);
+        Cursor1.gameObject.SetActive(false);
+        Cursor2.gameObject.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -30,32 +39,31 @@ public class a : MonoBehaviour
         selectedObj = EventSystem.current.currentSelectedGameObject;
         if(Button == selectedObj)
         {
-            Button.GetComponent<buttonblink>().setBool();
-            Button1.GetComponent<buttonblink>().notBool();
-            Button2.GetComponent<buttonblink>().notBool();
             Piece.gameObject.SetActive(true);
             Piece1.gameObject.SetActive(false);
             Piece2.gameObject.SetActive(false);
-            
+            Cursor.gameObject.SetActive(true);
+            Cursor1.gameObject.SetActive(false);
+            Cursor2.gameObject.SetActive(false);
+
         }
         if (Button1 == selectedObj)
         {
-            Button.GetComponent<buttonblink>().notBool();
-            Button1.GetComponent<buttonblink>().setBool();
-            Button2.GetComponent<buttonblink>().notBool();
             Piece.gameObject.SetActive(false);
             Piece1.gameObject.SetActive(true);
             Piece2.gameObject.SetActive(false);
+            Cursor.gameObject.SetActive(false);
+            Cursor1.gameObject.SetActive(true);
+            Cursor2.gameObject.SetActive(false);
         }
         if (Button2 == selectedObj)
         {
-            Button.GetComponent<buttonblink>().notBool();
-            Button1.GetComponent<buttonblink>().notBool();
-            Button2.GetComponent<buttonblink>().setBool();
             Piece.gameObject.SetActive(false);
             Piece1.gameObject.SetActive(false);
             Piece2.gameObject.SetActive(true);
-           
+            Cursor.gameObject.SetActive(false);
+            Cursor1.gameObject.SetActive(false);
+            Cursor2.gameObject.SetActive(true);
         }
     }
 }
