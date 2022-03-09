@@ -344,6 +344,9 @@ public class GameSceneDirector : MonoBehaviour
             }
         }
 
+        //コントローラーでのプレイヤー処理
+
+
         // CPUの処理
         /*while( TitleSceneDirector.PlayerCount <= nowPlayer
                 && (null == selectUnit || null == tile ) )
@@ -654,13 +657,40 @@ public class GameSceneDirector : MonoBehaviour
                 Destroy(units[tilepos.x, tilepos.y].gameObject);//敵の駒のHPをUnitControllerのGetHPからとりif文で分岐
                 prevDestroyTurn = 0;
             }
-            
-            //TODO　場所を乗っ取る
-                                                            //カッコ外でやってるので特に付け加えることは無い
-            //TODO　選択したマスから１マス前に駒を置く//unitposのＸ，Ｙを見てどうにかしようとしてる
-            if(unitType[tilepos.x, tilepos.y] % 10 == 1)
-            {
 
+            //TODO　場所を乗っ取る
+            //カッコ外でやってるので特に付け加えることは無い
+            //TODO　選択したマスから１マス前に駒を置く//unitposのＸ，Ｙを見てどうにかしようとしてる 
+            // 1 = ポーン 2 = ルーク 3 = ナイト 4 = ビショップ 5 = クイーン 6 = キング
+            if (unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 1 || 
+                unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 3 ||
+                unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 6)
+            {
+                //動かない
+                tilepos.x = selectUnit.Pos.x;
+                tilepos.y = selectUnit.Pos.y;
+            }
+            if (unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 2 ||
+                unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 4 ||
+                unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 5)
+            {
+                //右に移動
+                if (tilepos.x < selectUnit.Pos.x)
+                {
+                    tilepos.x = tilepos.x - 1;
+                }//左に移動
+                else if(tilepos.x > selectUnit.Pos.x)
+                {
+                    tilepos.x = tilepos.x + 1;
+                }//上に移動
+                if(tilepos.y > selectUnit.Pos.y)
+                {
+                    tilepos.y = tilepos.y - 1;
+                }//下に移動
+                else if (tilepos.y < selectUnit.Pos.y)
+                {
+                    tilepos.y = tilepos.y + 1;
+                }
             }
             //TODO　STATUS_UPDATEに移行
                                                             //いらないかも
