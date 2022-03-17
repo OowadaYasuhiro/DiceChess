@@ -367,10 +367,63 @@ public class GameSceneDirector : MonoBehaviour
                 }
             }
         }
-        
+
 
         //コントローラーでのプレイヤー処理
-
+        float dph = Input.GetAxis("D_Pad_H");
+        float dpv = Input.GetAxis("D_Pad_V");
+        float dph2 = Input.GetAxis("D_Pad_H_2");
+        float dpv2 = Input.GetAxis("D_Pad_V_2");
+        // transformを取得
+        Transform myTransform = this.transform;
+        // 座標を取得
+        Vector3 pos = myTransform.position;
+        if (myTransform.position.x < 3 )
+        {
+            if ((dph > 0 || dph2 < 0))
+            {
+                pos.x += 1;
+                myTransform.position = pos;  // 座標を設定
+            }
+        }
+        if (myTransform.position.x > -4)
+        {
+            if ((dph < 0 || dph2 > 0))
+            {
+                pos.x -= 1;
+                myTransform.position = pos;  // 座標を設定
+            }
+        }
+        if (myTransform.position.z < 3)
+        {
+            if ((dpv > 0 || dpv2 < 0))
+            {
+                pos.z += 1;
+                myTransform.position = pos;  // 座標を設定
+            }
+        }
+        if (myTransform.position.z > -4)
+        {
+            if ((dpv < 0 || dpv2 > 0))
+            {
+                pos.z -= 1;
+                myTransform.position = pos;  // 座標を設定
+            }
+        }
+         
+        if (Input.GetKeyDown("joystick 1 button 0") || Input.GetKeyDown("joystick 2 button 0"))
+        {
+            Debug.Log("a");
+            // ユニットにも当たり判定があるのでヒットした全てのオブジェクト情報を取得
+            foreach (RaycastHit hit in Physics.RaycastAll(transform.position,new Vector3(myTransform.position.x,-2, myTransform.position.y)))
+            {
+                if (hit.transform.name.Contains("Tile"))
+                {
+                    tile = hit.transform.gameObject;
+                    break;
+                }
+            }
+        }
 
         // CPUの処理
         /*while( TitleSceneDirector.PlayerCount <= nowPlayer
@@ -743,9 +796,38 @@ public class GameSceneDirector : MonoBehaviour
                     nextMode = MODE.STATUS_UPDATE;
 
                     //自分の攻撃したコマが「ポーン、ナイト、キング」だったら移動しないでその場にとどまる
-
+                    // 1 = ポーン 2 = ルーク 3 = ナイト 4 = ビショップ 5 = クイーン 6 = キング
+                    if (unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 1 ||
+                        unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 3 ||
+                        unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 6)
+                    {
+                        //動かない
+                        tilepos.x = selectUnit.Pos.x;
+                        tilepos.y = selectUnit.Pos.y;
+                    }
                     //自分の攻撃したコマが上のコマ以外だったら相手の駒の目の前でとどまる
-
+                    if (unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 2 ||
+                        unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 4 ||
+                        unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 5)
+                    {
+                        //右に移動
+                        if (tilepos.x < selectUnit.Pos.x)
+                        {
+                            tilepos.x = tilepos.x - 1;
+                        }//左に移動
+                        else if (tilepos.x > selectUnit.Pos.x)
+                        {
+                            tilepos.x = tilepos.x + 1;
+                        }//上に移動
+                        if (tilepos.y > selectUnit.Pos.y)
+                        {
+                            tilepos.y = tilepos.y - 1;
+                        }//下に移動
+                        else if (tilepos.y < selectUnit.Pos.y)
+                        {
+                            tilepos.y = tilepos.y + 1;
+                        }
+                    }
 
                     panelAnim.SetTrigger("out");
                     AttackButton.SetActive(false);
@@ -765,52 +847,6 @@ public class GameSceneDirector : MonoBehaviour
                     
                 }
             }
-            
-            //TODO　駒のHPが0になった時その駒を消す
-            if (Hp <= 0)
-            {
-                Destroy(units[tilepos.x, tilepos.y].gameObject);//敵の駒のHPをUnitControllerのGetHPからとりif文で分岐
-                prevDestroyTurn = 0;
-            }
-
-            //TODO　場所を乗っ取る
-            //カッコ外でやってるので特に付け加えることは無い
-            //TODO　選択したマスから１マス前に駒を置く//unitposのＸ，Ｙを見てどうにかしようとしてる 
-            // 1 = ポーン 2 = ルーク 3 = ナイト 4 = ビショップ 5 = クイーン 6 = キング
-            if (unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 1 || 
-                unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 3 ||
-                unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 6)
-            {
-                //動かない
-                tilepos.x = selectUnit.Pos.x;
-                tilepos.y = selectUnit.Pos.y;
-            }
-            if (unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 2 ||
-                unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 4 ||
-                unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 5)
-            {
-                //右に移動
-                if (tilepos.x < selectUnit.Pos.x)
-                {
-                    tilepos.x = tilepos.x - 1;
-                }//左に移動
-                else if(tilepos.x > selectUnit.Pos.x)
-                {
-                    tilepos.x = tilepos.x + 1;
-                }//上に移動
-                if(tilepos.y > selectUnit.Pos.y)
-                {
-                    tilepos.y = tilepos.y - 1;
-                }//下に移動
-                else if (tilepos.y < selectUnit.Pos.y)
-                {
-                    tilepos.y = tilepos.y + 1;
-                }
-            }
-            //TODO　STATUS_UPDATEに移行
-                                                            //いらないかも
-            //１マス前に置いたら　tilepos をかえ内部データの更新
-                                                            //内部データ更新は下でやってくれているのでtileposを帰る
         }
         else{
 
@@ -824,19 +860,11 @@ public class GameSceneDirector : MonoBehaviour
 
             // 内部データ更新（新しい場所）
             units[tilepos.x, tilepos.y] = unit;
-
-            
-        }
-
-        
+        }  
     }
 
     public void battleSetMode() {
-        
         AttackButton.SetActive(true);
-        
-
-
     }
 
     //ダイス回すボタンクリック
@@ -856,9 +884,6 @@ public class GameSceneDirector : MonoBehaviour
 
         return rnd;
     }
-
-
-
 
     // ユニットのプレハブを取得
     GameObject getPrefabUnit(int player, int type)
