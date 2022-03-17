@@ -371,7 +371,63 @@ public class GameSceneDirector : MonoBehaviour
                 }
             }
         }
-        
+
+
+        //コントローラーでのプレイヤー処理
+        float dph = Input.GetAxis("D_Pad_H");
+        float dpv = Input.GetAxis("D_Pad_V");
+        float dph2 = Input.GetAxis("D_Pad_H_2");
+        float dpv2 = Input.GetAxis("D_Pad_V_2");
+        // transformを取得
+        Transform myTransform = this.transform;
+        // 座標を取得
+        Vector3 pos = myTransform.position;
+        if (myTransform.position.x < 3 )
+        {
+            if ((dph > 0 || dph2 < 0))
+            {
+                pos.x += 1;
+                myTransform.position = pos;  // 座標を設定
+            }
+        }
+        if (myTransform.position.x > -4)
+        {
+            if ((dph < 0 || dph2 > 0))
+            {
+                pos.x -= 1;
+                myTransform.position = pos;  // 座標を設定
+            }
+        }
+        if (myTransform.position.z < 3)
+        {
+            if ((dpv > 0 || dpv2 < 0))
+            {
+                pos.z += 1;
+                myTransform.position = pos;  // 座標を設定
+            }
+        }
+        if (myTransform.position.z > -4)
+        {
+            if ((dpv < 0 || dpv2 > 0))
+            {
+                pos.z -= 1;
+                myTransform.position = pos;  // 座標を設定
+            }
+        }
+         
+        if (Input.GetKeyDown("joystick 1 button 0") || Input.GetKeyDown("joystick 2 button 0"))
+        {
+            Debug.Log("a");
+            // ユニットにも当たり判定があるのでヒットした全てのオブジェクト情報を取得
+            foreach (RaycastHit hit in Physics.RaycastAll(transform.position,new Vector3(myTransform.position.x,-2, myTransform.position.y)))
+            {
+                if (hit.transform.name.Contains("Tile"))
+                {
+                    tile = hit.transform.gameObject;
+                    break;
+                }
+            }
+        }
 
         // CPUの処理
         /*while( TitleSceneDirector.PlayerCount <= nowPlayer
@@ -786,7 +842,6 @@ public class GameSceneDirector : MonoBehaviour
                 pushAButton = false;
                 diceCheck = false;
 
-
                 //自分の攻撃したコマが「ポーン、ナイト、キング」だったら移動しないでその場にとどまる
                 if(unit.Type == UnitController.TYPE.PAWN || unit.Type == UnitController.TYPE.KNIGHT || unit.Type == UnitController.TYPE.KING) {
                     tilepos.x = selectUnit.Pos.x;
@@ -812,7 +867,6 @@ public class GameSceneDirector : MonoBehaviour
                 }
 
 
-
                 // 新しい場所へ移動
                 unit.MoveUnit(tiles[tilepos.x, tilepos.y]);
 
@@ -824,7 +878,6 @@ public class GameSceneDirector : MonoBehaviour
 
                 yield break;
             }
-
         }
         else{
 
@@ -838,18 +891,13 @@ public class GameSceneDirector : MonoBehaviour
 
             // 内部データ更新（新しい場所）
             units[tilepos.x, tilepos.y] = unit;
-
             yield break;
         }
-
-        
     }
 
     //ボタン表示
     public void battleSetMode() {
-        
         AttackButton.SetActive(true);
-        
     }
 
     //ダイス回すボタンクリック
@@ -873,9 +921,6 @@ public class GameSceneDirector : MonoBehaviour
 
         
     }
-
-
-
 
     // ユニットのプレハブを取得
     GameObject getPrefabUnit(int player, int type)
