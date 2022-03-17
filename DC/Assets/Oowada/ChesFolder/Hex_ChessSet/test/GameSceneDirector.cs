@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
-
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -30,6 +31,9 @@ public class GameSceneDirector : MonoBehaviour
     public List<GameObject> prefabWhiteUnits;
     public List<GameObject> prefabBlackUnits;
 
+    //バトルfalse
+    bool battleEnd = false;
+
     // 1 = ポーン 2 = ルーク 3 = ナイト 4 = ビショップ 5 = クイーン 6 = キング
     public int[,] unitType =
     {
@@ -48,6 +52,10 @@ public class GameSceneDirector : MonoBehaviour
     GameObject txtResultInfo;
     GameObject btnApply;
     GameObject btnCancel;
+    GameObject ui_Player1;        //もしかしたらプレイヤーUI系をプレハブにするかもしれないのでそれ用のモノ
+    GameObject ui_BackGroundP1;
+    GameObject ui_Player2;
+    GameObject ui_BackGroundP2;
 
     // 選択ユニット
     UnitController selectUnit;
@@ -87,15 +95,31 @@ public class GameSceneDirector : MonoBehaviour
     GameObject ATKText;
     GameObject eneUnit;
     Text aText;
+
+
     //攻撃ダイスを振ったかどうかのチェック    
-    bool diceCheck = false;
-    bool pushAButton = false;
+    public bool diceCheck = false;
+    public bool pushAButton = false;
     int Hp = 0;
-    bool canAtk = true;
+    //タイルを触れるようにするためのbool
+    bool invalidTile = true;
+
+    int turnNum = 0;
+    int turnCount = 0;
+    Text turnText;
+
+    //先攻後攻に使うランダム
+    int turnRnd;
+    //turnChangeを最初に行わないためのbool
+    bool firstTurnFlag;
 
     // Start is called before the first frame update
     void Start()
     {
+        turnRnd = Random.Range(0, 2);
+        firstTurnFlag = true;
+        turnNum = 1;
+
         // UIオブジェクト取得
         txtTurnInfo = GameObject.Find("TextTurnInfo");
         txtResultInfo = GameObject.Find("TextResultInfo");
@@ -108,6 +132,7 @@ public class GameSceneDirector : MonoBehaviour
         AttackButton = GameObject.Find("AttackDiceButton");
         ATKText = GameObject.Find("AttackDameText");
         aText = ATKText.GetComponent<Text>();
+        turnText = GameObject.Find("TurnText").GetComponent<Text>();
 
         // リザルト関連は非表示
         btnApply.SetActive(false);
@@ -163,7 +188,6 @@ public class GameSceneDirector : MonoBehaviour
 
         nowPlayer = -1;
         nowMode = MODE.NONE;
-        //nextMode = MODE.TURN_CHANGE;
         nextMode = MODE.FIRST_TURN;
     }
 
@@ -189,6 +213,7 @@ public class GameSceneDirector : MonoBehaviour
         else if(MODE.TURN_CHANGE == nowMode)
         {
             turnChangeMode();
+            firstTurnFlag = false;
         }
         else if(MODE.RESULT == nowMode)
         {
@@ -202,9 +227,11 @@ public class GameSceneDirector : MonoBehaviour
                 }
             }
         }
+        //最初のターンのみ実行するenem
         else if(MODE.FIRST_TURN == nowMode)
         {
-            firstTurn();
+            StartCoroutine("firstTurn");
+            firstTurnFlag = true;
         }
 
         // モード変更
@@ -330,40 +357,17 @@ public class GameSceneDirector : MonoBehaviour
         GameObject tile = null;
         UnitController unit = null;
 
-        //ここで駒の動きを変える
-        int foge = daise();
+        if(invalidTile == true) {
+            // プレイヤーの処理
+            if(Input.GetMouseButtonUp(0)) {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        for(int i = 0; i < unitType.GetLength(0); i++)
-        {
-            for(int j = 0; j < unitType.GetLength(0); j++)
-            {
-                if(unitType[i, j]/10 == 0)
-                {
-                    unitType[i, j] = foge;
-                }
-                else if(unitType[i, j] / 10 == 1)
-                {
-                    unitType[i, j] = foge+10;
-                }
-                else
-                {
-                    unitType[i, j] = 0;
-                }
-            }
-        }
-
-        // プレイヤーの処理
-        if (Input.GetMouseButtonUp(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            // ユニットにも当たり判定があるのでヒットした全てのオブジェクト情報を取得
-            foreach (RaycastHit hit in Physics.RaycastAll(ray))
-            {
-                if (hit.transform.name.Contains("Tile"))
-                {
-                    tile = hit.transform.gameObject;
-                    break;
+                // ユニットにも当たり判定があるのでヒットした全てのオブジェクト情報を取得
+                foreach(RaycastHit hit in Physics.RaycastAll(ray)) {
+                    if(hit.transform.name.Contains("Tile")) {
+                        tile = hit.transform.gameObject;
+                        break;
+                    }
                 }
             }
         }
@@ -483,9 +487,8 @@ public class GameSceneDirector : MonoBehaviour
         // 移動
         else if (null != selectUnit && movableTiles.Contains(tilepos))
         {
-            
-            
-            moveUnit(selectUnit, tilepos);
+
+            StartCoroutine(moveUnit(selectUnit, tilepos));
             //nextMode = MODE.STATUS_UPDATE;
         }
         // 移動範囲だけ見られる
@@ -500,16 +503,14 @@ public class GameSceneDirector : MonoBehaviour
         }
     }
 
-    //セレクトしたタイルにいる相手のユニットを保存する
-    public void enemyUnit(UnitController unit, Vector2Int tilepos) {
-
-
-
-    }
 
     //戦闘処理
     void battleMode()
     {
+        //battleEndがtrueになったらstatusUpdateMode()に移行する
+        if(battleEnd == true) {
+            nextMode = MODE.STATUS_UPDATE;
+        }
 
     }
 
@@ -570,10 +571,13 @@ public class GameSceneDirector : MonoBehaviour
         {
             v.ProgressTurn();
         }
-        canAtk = true;
+        //タイルを触れるようにする
+        invalidTile = true;
 
         // カーソル
         setSelectCursors();
+
+        battleEnd = false;
 
         nextMode = MODE.TURN_CHANGE;
     }
@@ -581,6 +585,14 @@ public class GameSceneDirector : MonoBehaviour
     // ターン変更
     void turnChangeMode()
     {
+        //最初のターンじゃない時実行する
+        if(firstTurnFlag == false) {
+            //先攻後攻のアニメ表示
+            StartCoroutine("turnChangeAnim");
+            //ターンカウントを+1する
+            turnCount++;
+        }      
+
         // ターンの処理
         nowPlayer = getNextPlayer();
 
@@ -592,6 +604,14 @@ public class GameSceneDirector : MonoBehaviour
         {
             prevDestroyTurn++;
         }
+        //ターン数表示(カウントが2になったら表示を更新する)
+        if(turnCount == 2) {
+            turnCount = 0;
+            turnNum++;
+        }
+        turnText.text = turnNum.ToString();
+        
+        
 
         nextMode = MODE.CHECK_MATE;
     }
@@ -602,6 +622,26 @@ public class GameSceneDirector : MonoBehaviour
         if (PLAYER_MAX <= next) next = 0;
 
         return next;
+    }
+
+    IEnumerator turnChangeAnim() {
+        //ターンチェンジアニメ取得
+        Animator turnAnim = GameObject.Find("TurnChangeImage").GetComponent<Animator>();
+
+        invalidTile = false;
+        if(nowPlayer == 1) {
+            turnAnim.SetTrigger("EnemyOn");
+            
+        } else if(nowPlayer == 0) {
+            turnAnim.SetTrigger("YourOn");
+        }
+
+        yield return new WaitForSeconds(2.5f);
+
+        Debug.Log("時間たった");
+        invalidTile = true;
+
+        yield break;
     }
 
     // 指定のユニットを取得する
@@ -724,7 +764,7 @@ public class GameSceneDirector : MonoBehaviour
     }
 
     // ユニット移動
-    public void moveUnit(UnitController unit, Vector2Int tilepos)
+    public IEnumerator moveUnit(UnitController unit, Vector2Int tilepos)
     {
         // 現在地
         Vector2Int unitpos = unit.Pos;
@@ -733,119 +773,110 @@ public class GameSceneDirector : MonoBehaviour
         // 誰かいたら消す ここが攻撃できるところ
         if(null != units[tilepos.x, tilepos.y])
         {
-            canAtk = false;
-            
+            //選択したタイルのコマのスクリプトを読み取り、GetHP()をHpにいれる
             Hp = units[tilepos.x, tilepos.y].GetHP();
+
+
+
+            //戦闘モードに移行
+            nextMode = MODE.BATTLE_SET;
+
+
+            //タイルをクリックできなくする　※モード移行を追加したのでいらないかも
+            invalidTile = false;
+            
+            //攻撃ダメージを保存する変数
             int PU = 0;
             
-
+            //戦闘時の背景暗転とバトルテキストを表示
             panelAnim.SetTrigger("in");
             textAnim.SetTrigger("in");
 
+            //ダイスをまわすボタンを少し遅らせて表示させる
             Invoke("battleSetMode", 1f);
 
+            //pushAButtonがtrueになるまでここで待機
+            yield return new WaitUntil(() => pushAButton == true);
 
-            pushAButton = true;
-            //戦闘モードに移行
-            nextMode = MODE.BATTLE_SET;
-            //TODO　攻撃ダイスを振り攻撃値を決める
+            //ダイスで出た数値をPUに入れる→Hp
+            PU = diceTime();
+            Hp = Hp - PU;
 
-            //TODO　敵の駒のHPを攻撃値をの値だけ削る
-            /*if(pushAButton == true) {
+            //SetHpを行う(相手コマに体力を保存させる)
+            units[tilepos.x, tilepos.y].SetHP(Hp);
 
-                Debug.Log("ボタン押した");
-                diceTime();
-                
-                
+            //少し待つ
+            yield return new WaitForSeconds(1f);
 
-                
-            }*/
-            //units[tilepos.x, tilepos.y].gameObject.GetComponent<UnitController>();//選択された敵の駒を把握してUnitControllerにあるSetHPをよびHPを減らす
-            if(pushAButton == true) {
-                PU = diceTime();
+            
+            if(Hp <= 0) {
+                battleEnd = true;
 
-                Hp = Hp - PU;
-                
+                Destroy(units[tilepos.x, tilepos.y].gameObject);//敵の駒のHPをUnitControllerのGetHPからとりif文で分岐
+                prevDestroyTurn = 0;
 
+                //バトル演出系をoffする
+                panelAnim.SetTrigger("out");
+                AttackButton.SetActive(false);
+                ATKText.SetActive(false);
+                pushAButton = false;
+                diceCheck = false;
 
-                if(Hp <= 0) {
-                    nextMode = MODE.STATUS_UPDATE;
-                    
+                // 新しい場所へ移動
+                unit.MoveUnit(tiles[tilepos.x, tilepos.y]);
 
-                    Destroy(units[tilepos.x, tilepos.y].gameObject);//敵の駒のHPをUnitControllerのGetHPからとりif文で分岐
-                    prevDestroyTurn = 0;
+                // 内部データ更新（元の場所）
+                units[unitpos.x, unitpos.y] = null;
 
-                    panelAnim.SetTrigger("out");
-                    AttackButton.SetActive(false);
-                    ATKText.SetActive(false);
-                    pushAButton = false;
-                    diceCheck = false;
+                // 内部データ更新（新しい場所）
+                units[tilepos.x, tilepos.y] = unit;
 
-                    // 新しい場所へ移動
-                    unit.MoveUnit(tiles[tilepos.x, tilepos.y]);
+                yield break;
 
-                    // 内部データ更新（元の場所）
-                    units[unitpos.x, unitpos.y] = null;
+            } else {
+                battleEnd = true;
 
-                    // 内部データ更新（新しい場所）
-                    units[tilepos.x, tilepos.y] = unit;
+                panelAnim.SetTrigger("out");
+                AttackButton.SetActive(false);
+                ATKText.SetActive(false);
+                pushAButton = false;
+                diceCheck = false;
 
-
-                    
-                } else {
-                    nextMode = MODE.STATUS_UPDATE;
-
-                    //自分の攻撃したコマが「ポーン、ナイト、キング」だったら移動しないでその場にとどまる
-                    // 1 = ポーン 2 = ルーク 3 = ナイト 4 = ビショップ 5 = クイーン 6 = キング
-                    if (unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 1 ||
-                        unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 3 ||
-                        unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 6)
-                    {
-                        //動かない
-                        tilepos.x = selectUnit.Pos.x;
-                        tilepos.y = selectUnit.Pos.y;
-                    }
-                    //自分の攻撃したコマが上のコマ以外だったら相手の駒の目の前でとどまる
-                    if (unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 2 ||
-                        unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 4 ||
-                        unitType[selectUnit.Pos.x, selectUnit.Pos.y] % 10 == 5)
-                    {
-                        //右に移動
-                        if (tilepos.x < selectUnit.Pos.x)
-                        {
-                            tilepos.x = tilepos.x - 1;
-                        }//左に移動
-                        else if (tilepos.x > selectUnit.Pos.x)
-                        {
-                            tilepos.x = tilepos.x + 1;
-                        }//上に移動
-                        if (tilepos.y > selectUnit.Pos.y)
-                        {
-                            tilepos.y = tilepos.y - 1;
-                        }//下に移動
-                        else if (tilepos.y < selectUnit.Pos.y)
-                        {
-                            tilepos.y = tilepos.y + 1;
-                        }
-                    }
-
-                    panelAnim.SetTrigger("out");
-                    AttackButton.SetActive(false);
-                    ATKText.SetActive(false);
-                    pushAButton = false;
-                    diceCheck = false;
-
-                    // 新しい場所へ移動
-                    unit.MoveUnit(tiles[tilepos.x, tilepos.y]);
-
-                    // 内部データ更新（元の場所）
-                    units[unitpos.x, unitpos.y] = null;
-
-                    // 内部データ更新（新しい場所）
-                    units[tilepos.x, tilepos.y] = unit;
-
-                    
+                //自分の攻撃したコマが「ポーン、ナイト、キング」だったら移動しないでその場にとどまる
+                if(unit.Type == UnitController.TYPE.PAWN || unit.Type == UnitController.TYPE.KNIGHT || unit.Type == UnitController.TYPE.KING) {
+                    tilepos.x = selectUnit.Pos.x;
+                    tilepos.y = selectUnit.Pos.y;
                 }
+                //自分の攻撃したコマが上のコマ以外だったら相手の駒の目の前でとどまる
+                else if(unit.Type == UnitController.TYPE.BISHOP || unit.Type == UnitController.TYPE.QUEEN || unit.Type == UnitController.TYPE.ROOK) {
+
+                    //右に移動
+                    if(tilepos.x < selectUnit.Pos.x) {
+                        tilepos.x = tilepos.x + 1;
+                    }//左に移動
+                    else if(tilepos.x > selectUnit.Pos.x) {
+                        tilepos.x = tilepos.x - 1;
+                    }//上に移動
+                    if(tilepos.y > selectUnit.Pos.y) {
+                        tilepos.y = tilepos.y - 1;
+                    }//下に移動
+                    else if(tilepos.y < selectUnit.Pos.y) {
+                        tilepos.y = tilepos.y + 1;
+                    }
+
+                }
+
+
+                // 新しい場所へ移動
+                unit.MoveUnit(tiles[tilepos.x, tilepos.y]);
+
+                // 内部データ更新（元の場所）
+                units[unitpos.x, unitpos.y] = null;
+
+                // 内部データ更新（新しい場所）
+                units[tilepos.x, tilepos.y] = unit;
+
+                yield break;
             }
         }
         else{
@@ -860,9 +891,11 @@ public class GameSceneDirector : MonoBehaviour
 
             // 内部データ更新（新しい場所）
             units[tilepos.x, tilepos.y] = unit;
-        }  
+            yield break;
+        }
     }
 
+    //ボタン表示
     public void battleSetMode() {
         AttackButton.SetActive(true);
     }
@@ -876,13 +909,17 @@ public class GameSceneDirector : MonoBehaviour
     //試しダイス
     int rnd;
     public int diceTime() {
+        Debug.Log("ダイスON");
         rnd = Random.Range(1, 11);
-        diceCheck = true;
+        
         
         ATKText.SetActive(true);
         aText.text = rnd.ToString();
 
+        diceCheck = true;
         return rnd;
+
+        
     }
 
     // ユニットのプレハブを取得
@@ -925,31 +962,31 @@ public class GameSceneDirector : MonoBehaviour
         return ret;
     }
 
-
-    void attack(Vector2Int tilepos)
+    //先攻後攻をきめる
+    public IEnumerator firstTurn()
     {
-        //TODO　攻撃ダイスを振り攻撃値を決める
-        //TODO　敵の駒のHPを攻撃値をの値だけ削る
-        //TODO　駒のHPが0になった時その駒を消す
-        //TODO　場所を乗っ取
-        //TODO　STATUS_UPDATEに移行
+        
+        Animator turnOrder = GameObject.Find("FirstTurnImage").GetComponent<Animator>();
 
-    }
-
-    public void firstTurn()
-    {
-        int rnd = Random.Range(0,2);
-
-        if(rnd == 0)
+        if(turnRnd == 0)
         {
             nowPlayer = 0;
+            turnOrder.SetTrigger("Second");
+
         }
-        else if(rnd == 1)
+        else if(turnRnd == 1)
         {
             nowPlayer = 1;
+            
+            turnOrder.SetTrigger("First");
+
         }
 
+        //yield return new WaitForSeconds(1.5f);
+        
         nextMode = MODE.TURN_CHANGE;
+
+        yield break;
       }
 
    

@@ -512,8 +512,8 @@ public class UnitController : MonoBehaviour
     }
     public int SetHP(int x)
     {
-        HP = HP - x;
-        return this.HP;
+        //HP = HP - x;
+        HP = x;
     }
     public int GetMaxHp()
     {
