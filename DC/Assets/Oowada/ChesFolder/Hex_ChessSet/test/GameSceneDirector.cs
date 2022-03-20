@@ -80,7 +80,7 @@ public class GameSceneDirector : MonoBehaviour
     }
 
     MODE nowMode, nextMode;
-    int nowPlayer;
+    public int nowPlayer;
 
     // 前回ユニット削除から経過ターン　50以上で引き分け
     int prevDestroyTurn;
