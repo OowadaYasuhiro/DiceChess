@@ -47,12 +47,12 @@ public class UnitController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (TYPE.PAWN == Type) HP = 6 ; MAXHP = 6; POINT = 10;
-        if (TYPE.ROOK == Type) HP = 8; MAXHP = 8; POINT = 30;
-        if (TYPE.KNIGHT == Type) HP = 12; MAXHP = 12; POINT = 20;
-        if (TYPE.BISHOP == Type) HP = 8; MAXHP = 8; POINT = 30;
-        if (TYPE.QUEEN == Type) HP = 17; MAXHP = 17; POINT = 60;
-        if (TYPE.KING == Type) HP = 20; MAXHP = 20; POINT = 0;
+        if (TYPE.PAWN == Type){ HP = 6 ; MAXHP = 6; POINT = 10; }
+        if (TYPE.ROOK == Type){ HP = 8; MAXHP = 8; POINT = 30; }
+        if (TYPE.KNIGHT == Type){ HP = 12; MAXHP = 12; POINT = 20; }
+        if (TYPE.BISHOP == Type){ HP = 8; MAXHP = 8; POINT = 30; }
+        if (TYPE.QUEEN == Type){ HP = 17; MAXHP = 17; POINT = 60;}
+        if (TYPE.KING == Type){ HP = 20; MAXHP = 20; POINT = 0;}
     }
     // 初期設定
     public void SetUnit(int player, TYPE type, GameObject tile)
@@ -510,7 +510,7 @@ public class UnitController : MonoBehaviour
     {
         return this.HP;
     }
-    public int SetHP(int x)
+    public void SetHP(int x)
     {
         //HP = HP - x;
         HP = x;
