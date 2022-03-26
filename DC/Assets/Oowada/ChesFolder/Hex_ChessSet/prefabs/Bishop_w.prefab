@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -2243535383789399309}
   m_Layer: 0
   m_Name: Bishop_w
-  m_TagString: Untagged
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,6 +78,7 @@ MonoBehaviour:
   Player: 0
   Type: 4
   HP: 5
+  MAXHP: 0
   ProgressTurnCount: 0
   Pos: {x: 0, y: 0}
   OldPos: {x: 0, y: 0}
