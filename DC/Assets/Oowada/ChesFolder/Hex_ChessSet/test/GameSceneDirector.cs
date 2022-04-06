@@ -56,8 +56,6 @@ public class GameSceneDirector : MonoBehaviour
     GameObject ui_BackGroundP1;
     GameObject ui_Player2;
     GameObject ui_BackGroundP2;
-    CharacterStatus player1Chara; //プレイヤー1キャラのスクリプトを読み込む(読み込み対象変わるかも)
-    CharacterStatus player2Chara; //同じく変わるかも
 
     // 選択ユニット
     UnitController selectUnit;
@@ -135,10 +133,6 @@ public class GameSceneDirector : MonoBehaviour
         ATKText = GameObject.Find("AttackDameText");
         aText = ATKText.GetComponent<Text>();
         turnText = GameObject.Find("TurnText").GetComponent<Text>();
-
-        //プレイヤー1取得
-        player1Chara = GameObject.Find("Player1Chara").GetComponent<CharacterStatus>();
-        player2Chara = GameObject.Find("Player2Chara").GetComponent<CharacterStatus>();
 
         // リザルト関連は非表示
         btnApply.SetActive(false);
@@ -827,14 +821,6 @@ public class GameSceneDirector : MonoBehaviour
                 ATKText.SetActive(false);
                 pushAButton = false;
                 diceCheck = false;
-
-                //攻撃した側のターンを読み取って1P側か2P側の攻撃かを判断する(SP取得用)
-                if(nowPlayer == 0) {
-                    player1Chara.setSP(units[tilepos.x, tilepos.y].GetPOINT());
-                }
-                else if(nowPlayer == 1) {
-                    player2Chara.setSP(units[tilepos.x, tilepos.y].GetPOINT());
-                }
 
                 // 新しい場所へ移動
                 unit.MoveUnit(tiles[tilepos.x, tilepos.y]);
