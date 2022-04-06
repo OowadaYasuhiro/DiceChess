@@ -56,6 +56,8 @@ public class GameSceneDirector : MonoBehaviour
     GameObject ui_BackGroundP1;
     GameObject ui_Player2;
     GameObject ui_BackGroundP2;
+    CharacterStatus player1Chara; //プレイヤー1キャラのスクリプトを読み込む(読み込み対象変わるかも)
+    CharacterStatus player2Chara; //同じく変わるかも
 
     //コントローラーのため
     [SerializeField] EventSystem eventSystem;
@@ -92,7 +94,7 @@ public class GameSceneDirector : MonoBehaviour
     }
 
     MODE nowMode, nextMode;
-    int nowPlayer;
+    public int nowPlayer;
 
     // 前回ユニット削除から経過ターン　50以上で引き分け
     int prevDestroyTurn;
@@ -145,6 +147,10 @@ public class GameSceneDirector : MonoBehaviour
         ATKText = GameObject.Find("AttackDameText");
         aText = ATKText.GetComponent<Text>();
         turnText = GameObject.Find("TurnText").GetComponent<Text>();
+
+        //プレイヤー1取得
+        player1Chara = GameObject.Find("Player1Chara").GetComponent<CharacterStatus>();
+        player2Chara = GameObject.Find("Player2Chara").GetComponent<CharacterStatus>();
 
         // リザルト関連は非表示
         btnApply.SetActive(false);
@@ -416,14 +422,14 @@ public class GameSceneDirector : MonoBehaviour
         if ("B_2_2" == selectedObj.name) { pos.x = -2; pos.z = -2; myTransform.position = pos; }
         if ("B_2_3" == selectedObj.name) { pos.x = -2; pos.z = -3; myTransform.position = pos; }
         if ("B_2_4" == selectedObj.name) { pos.x = -2; pos.z = -4; myTransform.position = pos; }
-        if ("B13" == selectedObj.name) { pos.x = -1; pos.z = 3; myTransform.position = pos; }
-        if ("B12" == selectedObj.name) { pos.x = -1; pos.z = 2; myTransform.position = pos; }
-        if ("B11" == selectedObj.name) { pos.x = -1; pos.z = 1; myTransform.position = pos; }
-        if ("B10" == selectedObj.name) { pos.x = -1; pos.z = 0; myTransform.position = pos; }
-        if ("B1_1" == selectedObj.name) { pos.x = -1; pos.z = -1; myTransform.position = pos; }
-        if ("B1_2" == selectedObj.name) { pos.x = -1; pos.z = -2; myTransform.position = pos; }
-        if ("B1_3" == selectedObj.name) { pos.x = -1; pos.z = -3; myTransform.position = pos; }
-        if ("B1_4" == selectedObj.name) { pos.x = -1; pos.z = -4; myTransform.position = pos; }
+        if ("B_13" == selectedObj.name) { pos.x = -1; pos.z = 3; myTransform.position = pos; }
+        if ("B_12" == selectedObj.name) { pos.x = -1; pos.z = 2; myTransform.position = pos; }
+        if ("B_11" == selectedObj.name) { pos.x = -1; pos.z = 1; myTransform.position = pos; }
+        if ("B_10" == selectedObj.name) { pos.x = -1; pos.z = 0; myTransform.position = pos; }
+        if ("B_1_1" == selectedObj.name) { pos.x = -1; pos.z = -1; myTransform.position = pos; }
+        if ("B_1_2" == selectedObj.name) { pos.x = -1; pos.z = -2; myTransform.position = pos; }
+        if ("B_1_3" == selectedObj.name) { pos.x = -1; pos.z = -3; myTransform.position = pos; }
+        if ("B_1_4" == selectedObj.name) { pos.x = -1; pos.z = -4; myTransform.position = pos; }
         if ("B03" == selectedObj.name) { pos.x = 0; pos.z = 3; myTransform.position = pos; }
         if ("B02" == selectedObj.name) { pos.x = 0; pos.z = 2; myTransform.position = pos; }
         if ("B01" == selectedObj.name) { pos.x = 0; pos.z = 1; myTransform.position = pos; }
@@ -457,11 +463,12 @@ public class GameSceneDirector : MonoBehaviour
         if ("B3_3" == selectedObj.name) { pos.x = 3; pos.z = -3; myTransform.position = pos; }
         if ("B3_4" == selectedObj.name) { pos.x = 3; pos.z = -4; myTransform.position = pos; }
 
-        if (Input.GetKeyDown("joystick 1 button 0") || Input.GetKeyDown("joystick 2 button 0"))
+
+        if (Input.GetKeyDown("joystick 1 button 0") || Input.GetKeyDown("joystick 2 button 0") || Input.GetKey(KeyCode.Space))
         {
             Debug.Log("a");
             // ユニットにも当たり判定があるのでヒットした全てのオブジェクト情報を取得
-            foreach (RaycastHit hit in Physics.RaycastAll(transform.position,new Vector3(myTransform.position.x,-2, myTransform.position.y)))
+            foreach (RaycastHit hit in Physics.RaycastAll(transform.position, new Vector3(myTransform.position.x, -6, myTransform.position.y)))
             {
                 if (hit.transform.name.Contains("Tile"))
                 {
@@ -863,6 +870,14 @@ public class GameSceneDirector : MonoBehaviour
                 ATKText.SetActive(false);
                 pushAButton = false;
                 diceCheck = false;
+
+                //攻撃した側のターンを読み取って1P側か2P側の攻撃かを判断する(SP取得用)
+                if(nowPlayer == 0) {
+                    player1Chara.setSP(units[tilepos.x, tilepos.y].GetPOINT());
+                }
+                else if(nowPlayer == 1) {
+                    player2Chara.setSP(units[tilepos.x, tilepos.y].GetPOINT());
+                }
 
                 // 新しい場所へ移動
                 unit.MoveUnit(tiles[tilepos.x, tilepos.y]);

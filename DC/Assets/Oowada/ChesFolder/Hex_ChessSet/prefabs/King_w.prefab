@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: -7208187379785055196}
   m_Layer: 0
   m_Name: King_w
-  m_TagString: Untagged
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -157,6 +157,7 @@ MonoBehaviour:
   Player: 0
   Type: 6
   HP: 5
+  MAXHP: 0
   ProgressTurnCount: 0
   Pos: {x: 0, y: 0}
   OldPos: {x: 0, y: 0}
