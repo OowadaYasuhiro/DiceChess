@@ -510,7 +510,7 @@ public class UnitController : MonoBehaviour
     {
         return this.HP;
     }
-    public int SetHP(int x)
+    public void SetHP(int x)
     {
         //HP = HP - x;
         HP = x;
