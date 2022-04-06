@@ -67,8 +67,12 @@ public class GameSceneDirector : MonoBehaviour
     [SerializeField] Button B03;[SerializeField] Button B02;[SerializeField] Button B01;[SerializeField] Button B00;[SerializeField] Button B0_1;[SerializeField] Button B0_2;[SerializeField] Button B0_3;[SerializeField] Button B0_4;
     [SerializeField] Button B13;[SerializeField] Button B12;[SerializeField] Button B11;[SerializeField] Button B10;[SerializeField] Button B1_1;[SerializeField] Button B1_2;[SerializeField] Button B1_3;[SerializeField] Button B1_4;
     [SerializeField] Button B23;[SerializeField] Button B22;[SerializeField] Button B21;[SerializeField] Button B20;[SerializeField] Button B2_1;[SerializeField] Button B2_2;[SerializeField] Button B2_3;[SerializeField] Button B2_4;
+<<<<<<< HEAD
+    [SerializeField] Button B33;[SerializeField] Button B32;[SerializeField] Button B31;[SerializeField] Button B30;[SerializeField] Button B3_1;[SerializeField] Button B3_2;[SerializeField] Button B3_3;[SerializeField] Button B3_4;
+=======
     [SerializeField] Button B33;[SerializeField] Button B32;[SerializeField] Button B31;[SerializeField] Button B30;[SerializeField] Button B3_1;[SerializeField] Button B3_2;[SerializeField] Button B3_3;[SerializeField] Button B3_4; 
     
+>>>>>>> 839d3b9ae8a42dbe7029b331d0fc6f55db34c75e
 
     // 選択ユニット
     UnitController selectUnit;
@@ -393,6 +397,74 @@ public class GameSceneDirector : MonoBehaviour
         // 座標を取得
         Vector3 pos = myTransform.position;
 
+<<<<<<< HEAD
+        if ("B_43" == selectedObj.name) { pos.x = -4; pos.z = 3; myTransform.position = pos; }
+        if ("B_42" == selectedObj.name) { pos.x = -4; pos.z = 2; myTransform.position = pos; }
+        if ("B_41" == selectedObj.name) { pos.x = -4; pos.z = 1; myTransform.position = pos; }
+        if ("B_40" == selectedObj.name) { pos.x = -4; pos.z = 0; myTransform.position = pos; }
+        if ("B_4_1" == selectedObj.name) { pos.x = -4; pos.z = -1; myTransform.position = pos; }
+        if ("B_4_2" == selectedObj.name) { pos.x = -4; pos.z = -2; myTransform.position = pos; }
+        if ("B_4_3" == selectedObj.name) { pos.x = -4; pos.z = -3; myTransform.position = pos; }
+        if ("B_4_4" == selectedObj.name) { pos.x = -4; pos.z = -4; myTransform.position = pos; }
+        if ("B_33" == selectedObj.name) { pos.x = -3; pos.z = 3; myTransform.position = pos; }
+        if ("B_32" == selectedObj.name) { pos.x = -3; pos.z = 2; myTransform.position = pos; }
+        if ("B_31" == selectedObj.name) { pos.x = -3; pos.z = 1; myTransform.position = pos; }
+        if ("B_30" == selectedObj.name) { pos.x = -3; pos.z = 0; myTransform.position = pos; }
+        if ("B_3_1" == selectedObj.name) { pos.x = -3; pos.z = -1; myTransform.position = pos; }
+        if ("B_3_2" == selectedObj.name) { pos.x = -3; pos.z = -2; myTransform.position = pos; }
+        if ("B_3_3" == selectedObj.name) { pos.x = -3; pos.z = -3; myTransform.position = pos; }
+        if ("B_3_4" == selectedObj.name) { pos.x = -3; pos.z = -4; myTransform.position = pos; }
+        if ("B_23" == selectedObj.name) { pos.x = -2; pos.z = 3; myTransform.position = pos; }
+        if ("B_22" == selectedObj.name) { pos.x = -2; pos.z = 2; myTransform.position = pos; }
+        if ("B_21" == selectedObj.name) { pos.x = -2; pos.z = 1; myTransform.position = pos; }
+        if ("B_20" == selectedObj.name) { pos.x = -2; pos.z = 0; myTransform.position = pos; }
+        if ("B_2_1" == selectedObj.name) { pos.x = -2; pos.z = -1; myTransform.position = pos; }
+        if ("B_2_2" == selectedObj.name) { pos.x = -2; pos.z = -2; myTransform.position = pos; }
+        if ("B_2_3" == selectedObj.name) { pos.x = -2; pos.z = -3; myTransform.position = pos; }
+        if ("B_2_4" == selectedObj.name) { pos.x = -2; pos.z = -4; myTransform.position = pos; }
+        if ("B13" == selectedObj.name) { pos.x = -1; pos.z = 3; myTransform.position = pos; }
+        if ("B12" == selectedObj.name) { pos.x = -1; pos.z = 2; myTransform.position = pos; }
+        if ("B11" == selectedObj.name) { pos.x = -1; pos.z = 1; myTransform.position = pos; }
+        if ("B10" == selectedObj.name) { pos.x = -1; pos.z = 0; myTransform.position = pos; }
+        if ("B1_1" == selectedObj.name) { pos.x = -1; pos.z = -1; myTransform.position = pos; }
+        if ("B1_2" == selectedObj.name) { pos.x = -1; pos.z = -2; myTransform.position = pos; }
+        if ("B1_3" == selectedObj.name) { pos.x = -1; pos.z = -3; myTransform.position = pos; }
+        if ("B1_4" == selectedObj.name) { pos.x = -1; pos.z = -4; myTransform.position = pos; }
+        if ("B03" == selectedObj.name) { pos.x = 0; pos.z = 3; myTransform.position = pos; }
+        if ("B02" == selectedObj.name) { pos.x = 0; pos.z = 2; myTransform.position = pos; }
+        if ("B01" == selectedObj.name) { pos.x = 0; pos.z = 1; myTransform.position = pos; }
+        if ("B00" == selectedObj.name) { pos.x = 0; pos.z = 0; myTransform.position = pos; }
+        if ("B0_1" == selectedObj.name) { pos.x = 0; pos.z = -1; myTransform.position = pos; }
+        if ("B0_2" == selectedObj.name) { pos.x = 0; pos.z = -2; myTransform.position = pos; }
+        if ("B0_3" == selectedObj.name) { pos.x = 0; pos.z = -3; myTransform.position = pos; }
+        if ("B0_4" == selectedObj.name) { pos.x = 0; pos.z = -4; myTransform.position = pos; }
+        if ("B13" == selectedObj.name) { pos.x = 1; pos.z = 3; myTransform.position = pos; }
+        if ("B12" == selectedObj.name) { pos.x = 1; pos.z = 2; myTransform.position = pos; }
+        if ("B11" == selectedObj.name) { pos.x = 1; pos.z = 1; myTransform.position = pos; }
+        if ("B10" == selectedObj.name) { pos.x = 1; pos.z = 0; myTransform.position = pos; }
+        if ("B1_1" == selectedObj.name) { pos.x = 1; pos.z = -1; myTransform.position = pos; }
+        if ("B1_2" == selectedObj.name) { pos.x = 1; pos.z = -2; myTransform.position = pos; }
+        if ("B1_3" == selectedObj.name) { pos.x = 1; pos.z = -3; myTransform.position = pos; }
+        if ("B1_4" == selectedObj.name) { pos.x = 1; pos.z = -4; myTransform.position = pos; }
+        if ("B23" == selectedObj.name) { pos.x = 2; pos.z = 3; myTransform.position = pos; }
+        if ("B22" == selectedObj.name) { pos.x = 2; pos.z = 2; myTransform.position = pos; }
+        if ("B21" == selectedObj.name) { pos.x = 2; pos.z = 1; myTransform.position = pos; }
+        if ("B20" == selectedObj.name) { pos.x = 2; pos.z = 0; myTransform.position = pos; }
+        if ("B2_1" == selectedObj.name) { pos.x = 2; pos.z = -1; myTransform.position = pos; }
+        if ("B2_2" == selectedObj.name) { pos.x = 2; pos.z = -2; myTransform.position = pos; }
+        if ("B2_3" == selectedObj.name) { pos.x = 2; pos.z = -3; myTransform.position = pos; }
+        if ("B2_4" == selectedObj.name) { pos.x = 2; pos.z = -4; myTransform.position = pos; }
+        if ("B33" == selectedObj.name) { pos.x = 3; pos.z = 3; myTransform.position = pos; }
+        if ("B32" == selectedObj.name) { pos.x = 3; pos.z = 2; myTransform.position = pos; }
+        if ("B31" == selectedObj.name) { pos.x = 3; pos.z = 1; myTransform.position = pos; }
+        if ("B30" == selectedObj.name) { pos.x = 3; pos.z = 0; myTransform.position = pos; }
+        if ("B3_1" == selectedObj.name) { pos.x = 3; pos.z = -1; myTransform.position = pos; }
+        if ("B3_2" == selectedObj.name) { pos.x = 3; pos.z = -2; myTransform.position = pos; }
+        if ("B3_3" == selectedObj.name) { pos.x = 3; pos.z = -3; myTransform.position = pos; }
+        if ("B3_4" == selectedObj.name) { pos.x = 3; pos.z = -4; myTransform.position = pos; }
+
+        if (Input.GetKeyDown("joystick 1 button 0") || Input.GetKeyDown("joystick 2 button 0"))
+=======
         if ("B_43" == selectedObj.name){ pos.x = -4; pos.z = 3; myTransform.position = pos; }
         if ("B_42" == selectedObj.name) {pos.x = -4; pos.z = 2; myTransform.position = pos; }
         if ("B_41" == selectedObj.name) {pos.x = -4; pos.z = 1; myTransform.position = pos; }
@@ -460,6 +532,7 @@ public class GameSceneDirector : MonoBehaviour
 
 
         if (Input.GetKeyDown("joystick 1 button 0") || Input.GetKeyDown("joystick 2 button 0") || Input.GetKey(KeyCode.Space))
+>>>>>>> 839d3b9ae8a42dbe7029b331d0fc6f55db34c75e
         {
             Debug.Log("a");
             // ユニットにも当たり判定があるのでヒットした全てのオブジェクト情報を取得
