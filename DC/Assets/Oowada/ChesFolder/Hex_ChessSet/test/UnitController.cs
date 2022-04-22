@@ -523,4 +523,9 @@ public class UnitController : MonoBehaviour
     {
         return this.POINT;
     }
+    public int GetTYPE()
+    {
+        if(TYPE.PAWN == Type){return 1;}
+        else {return 0;}
+    }
 }
