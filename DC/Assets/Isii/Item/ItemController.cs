@@ -6,8 +6,12 @@ public class ItemController : MonoBehaviour
 {
     GameSceneDirector GSD;
     UnitController unitCon;
+    CharacterStatus status;
     GameObject[] player;
+    [SerializeField]
+    private GameObject[] chara;
     public int recovery = 3;//回復量
+    public int spRecovery = 30;//sp回復量
     public int hp = 0;
     public int maxHp = 0;
 
@@ -24,6 +28,14 @@ public class ItemController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             StartCoroutine(Kaihuku());
+        }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            StartCoroutine(DamageItem());
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            StartCoroutine(SpItem());
         }
     }
 
@@ -72,6 +84,41 @@ public class ItemController : MonoBehaviour
             }
         }
         Debug.Log(player);
+        yield break;
+    }
+
+    //攻撃力を二倍にする
+    public IEnumerator DamageItem()
+    {
+        //自分の番に使った時damageflagを1増やす
+        if(GSD.nowPlayer == 0)
+        {
+            GSD.damageflag += 1;
+        }
+        //相手の番に使った時damageflagを2増やす
+        else if (GSD.nowPlayer == 1)
+        {
+            GSD.damageflag += 2;
+        }
+        Debug.Log(GSD.damageflag);
+        yield break;
+    }
+
+    public IEnumerator SpItem()
+    {
+        //nowPlayerが0の時は自分の番
+        if (GSD.nowPlayer == 0)
+        {
+            status = chara[0].GetComponent<CharacterStatus>();
+            status.setSP(spRecovery);
+        }
+        //nowPlayerが1の時は相手の番
+        else if (GSD.nowPlayer == 1)
+        {
+            status = chara[1].GetComponent<CharacterStatus>();
+            status.setSP(spRecovery);
+        }
+        Debug.Log(GSD.nowPlayer + "pに" + spRecovery + "したのでspの合計値が" + status.sp);
         yield break;
     }
 }
