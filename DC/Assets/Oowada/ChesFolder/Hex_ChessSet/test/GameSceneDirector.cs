@@ -77,6 +77,7 @@ public class GameSceneDirector : MonoBehaviour
     // 移動関連
     List<Vector2Int> movableTiles;
     List<GameObject> cursors;
+    bool canMoveCounter = true; 
 
     // モード
     enum MODE
@@ -96,7 +97,6 @@ public class GameSceneDirector : MonoBehaviour
     MODE nowMode, nextMode;
     public int nowPlayer;
 
-    //攻撃力二倍判定　0はアイテム使っていない　1はプレイヤー1が使用　2はプレイヤー2が使用　3はどちらも使用
     public int damageflag = 0;
 
     // 前回ユニット削除から経過ターン　50以上で引き分け
@@ -226,6 +226,7 @@ public class GameSceneDirector : MonoBehaviour
         else if(MODE.BATTLE_SET == nowMode)
         {
             battleMode();
+            Debug.Log("バトルに入った");
         }
         else if(MODE.STATUS_UPDATE == nowMode)
         {
@@ -401,70 +402,74 @@ public class GameSceneDirector : MonoBehaviour
         // 座標を取得
         Vector3 pos = myTransform.position;
 
-        if ("B_43" == selectedObj.name) { pos.x = -4; pos.z = 3; myTransform.position = pos; }
-        if ("B_42" == selectedObj.name) { pos.x = -4; pos.z = 2; myTransform.position = pos; }
-        if ("B_41" == selectedObj.name) { pos.x = -4; pos.z = 1; myTransform.position = pos; }
-        if ("B_40" == selectedObj.name) { pos.x = -4; pos.z = 0; myTransform.position = pos; }
-        if ("B_4_1" == selectedObj.name) { pos.x = -4; pos.z = -1; myTransform.position = pos; }
-        if ("B_4_2" == selectedObj.name) { pos.x = -4; pos.z = -2; myTransform.position = pos; }
-        if ("B_4_3" == selectedObj.name) { pos.x = -4; pos.z = -3; myTransform.position = pos; }
-        if ("B_4_4" == selectedObj.name) { pos.x = -4; pos.z = -4; myTransform.position = pos; }
-        if ("B_33" == selectedObj.name) { pos.x = -3; pos.z = 3; myTransform.position = pos; }
-        if ("B_32" == selectedObj.name) { pos.x = -3; pos.z = 2; myTransform.position = pos; }
-        if ("B_31" == selectedObj.name) { pos.x = -3; pos.z = 1; myTransform.position = pos; }
-        if ("B_30" == selectedObj.name) { pos.x = -3; pos.z = 0; myTransform.position = pos; }
-        if ("B_3_1" == selectedObj.name) { pos.x = -3; pos.z = -1; myTransform.position = pos; }
-        if ("B_3_2" == selectedObj.name) { pos.x = -3; pos.z = -2; myTransform.position = pos; }
-        if ("B_3_3" == selectedObj.name) { pos.x = -3; pos.z = -3; myTransform.position = pos; }
-        if ("B_3_4" == selectedObj.name) { pos.x = -3; pos.z = -4; myTransform.position = pos; }
-        if ("B_23" == selectedObj.name) { pos.x = -2; pos.z = 3; myTransform.position = pos; }
-        if ("B_22" == selectedObj.name) { pos.x = -2; pos.z = 2; myTransform.position = pos; }
-        if ("B_21" == selectedObj.name) { pos.x = -2; pos.z = 1; myTransform.position = pos; }
-        if ("B_20" == selectedObj.name) { pos.x = -2; pos.z = 0; myTransform.position = pos; }
-        if ("B_2_1" == selectedObj.name) { pos.x = -2; pos.z = -1; myTransform.position = pos; }
-        if ("B_2_2" == selectedObj.name) { pos.x = -2; pos.z = -2; myTransform.position = pos; }
-        if ("B_2_3" == selectedObj.name) { pos.x = -2; pos.z = -3; myTransform.position = pos; }
-        if ("B_2_4" == selectedObj.name) { pos.x = -2; pos.z = -4; myTransform.position = pos; }
-        if ("B_13" == selectedObj.name) { pos.x = -1; pos.z = 3; myTransform.position = pos; }
-        if ("B_12" == selectedObj.name) { pos.x = -1; pos.z = 2; myTransform.position = pos; }
-        if ("B_11" == selectedObj.name) { pos.x = -1; pos.z = 1; myTransform.position = pos; }
-        if ("B_10" == selectedObj.name) { pos.x = -1; pos.z = 0; myTransform.position = pos; }
-        if ("B_1_1" == selectedObj.name) { pos.x = -1; pos.z = -1; myTransform.position = pos; }
-        if ("B_1_2" == selectedObj.name) { pos.x = -1; pos.z = -2; myTransform.position = pos; }
-        if ("B_1_3" == selectedObj.name) { pos.x = -1; pos.z = -3; myTransform.position = pos; }
-        if ("B_1_4" == selectedObj.name) { pos.x = -1; pos.z = -4; myTransform.position = pos; }
-        if ("B03" == selectedObj.name) { pos.x = 0; pos.z = 3; myTransform.position = pos; }
-        if ("B02" == selectedObj.name) { pos.x = 0; pos.z = 2; myTransform.position = pos; }
-        if ("B01" == selectedObj.name) { pos.x = 0; pos.z = 1; myTransform.position = pos; }
-        if ("B00" == selectedObj.name) { pos.x = 0; pos.z = 0; myTransform.position = pos; }
-        if ("B0_1" == selectedObj.name) { pos.x = 0; pos.z = -1; myTransform.position = pos; }
-        if ("B0_2" == selectedObj.name) { pos.x = 0; pos.z = -2; myTransform.position = pos; }
-        if ("B0_3" == selectedObj.name) { pos.x = 0; pos.z = -3; myTransform.position = pos; }
-        if ("B0_4" == selectedObj.name) { pos.x = 0; pos.z = -4; myTransform.position = pos; }
-        if ("B13" == selectedObj.name) { pos.x = 1; pos.z = 3; myTransform.position = pos; }
-        if ("B12" == selectedObj.name) { pos.x = 1; pos.z = 2; myTransform.position = pos; }
-        if ("B11" == selectedObj.name) { pos.x = 1; pos.z = 1; myTransform.position = pos; }
-        if ("B10" == selectedObj.name) { pos.x = 1; pos.z = 0; myTransform.position = pos; }
-        if ("B1_1" == selectedObj.name) { pos.x = 1; pos.z = -1; myTransform.position = pos; }
-        if ("B1_2" == selectedObj.name) { pos.x = 1; pos.z = -2; myTransform.position = pos; }
-        if ("B1_3" == selectedObj.name) { pos.x = 1; pos.z = -3; myTransform.position = pos; }
-        if ("B1_4" == selectedObj.name) { pos.x = 1; pos.z = -4; myTransform.position = pos; }
-        if ("B23" == selectedObj.name) { pos.x = 2; pos.z = 3; myTransform.position = pos; }
-        if ("B22" == selectedObj.name) { pos.x = 2; pos.z = 2; myTransform.position = pos; }
-        if ("B21" == selectedObj.name) { pos.x = 2; pos.z = 1; myTransform.position = pos; }
-        if ("B20" == selectedObj.name) { pos.x = 2; pos.z = 0; myTransform.position = pos; }
-        if ("B2_1" == selectedObj.name) { pos.x = 2; pos.z = -1; myTransform.position = pos; }
-        if ("B2_2" == selectedObj.name) { pos.x = 2; pos.z = -2; myTransform.position = pos; }
-        if ("B2_3" == selectedObj.name) { pos.x = 2; pos.z = -3; myTransform.position = pos; }
-        if ("B2_4" == selectedObj.name) { pos.x = 2; pos.z = -4; myTransform.position = pos; }
-        if ("B33" == selectedObj.name) { pos.x = 3; pos.z = 3; myTransform.position = pos; }
-        if ("B32" == selectedObj.name) { pos.x = 3; pos.z = 2; myTransform.position = pos; }
-        if ("B31" == selectedObj.name) { pos.x = 3; pos.z = 1; myTransform.position = pos; }
-        if ("B30" == selectedObj.name) { pos.x = 3; pos.z = 0; myTransform.position = pos; }
-        if ("B3_1" == selectedObj.name) { pos.x = 3; pos.z = -1; myTransform.position = pos; }
-        if ("B3_2" == selectedObj.name) { pos.x = 3; pos.z = -2; myTransform.position = pos; }
-        if ("B3_3" == selectedObj.name) { pos.x = 3; pos.z = -3; myTransform.position = pos; }
-        if ("B3_4" == selectedObj.name) { pos.x = 3; pos.z = -4; myTransform.position = pos; }
+        if (selectedObj)
+        {
+            if ("B_43" == selectedObj.name) { pos.x = -4; pos.z = 3; myTransform.position = pos; }
+            if ("B_42" == selectedObj.name) { pos.x = -4; pos.z = 2; myTransform.position = pos; }
+            if ("B_41" == selectedObj.name) { pos.x = -4; pos.z = 1; myTransform.position = pos; }
+            if ("B_40" == selectedObj.name) { pos.x = -4; pos.z = 0; myTransform.position = pos; }
+            if ("B_4_1" == selectedObj.name) { pos.x = -4; pos.z = -1; myTransform.position = pos; }
+            if ("B_4_2" == selectedObj.name) { pos.x = -4; pos.z = -2; myTransform.position = pos; }
+            if ("B_4_3" == selectedObj.name) { pos.x = -4; pos.z = -3; myTransform.position = pos; }
+            if ("B_4_4" == selectedObj.name) { pos.x = -4; pos.z = -4; myTransform.position = pos; }
+            if ("B_33" == selectedObj.name) { pos.x = -3; pos.z = 3; myTransform.position = pos; }
+            if ("B_32" == selectedObj.name) { pos.x = -3; pos.z = 2; myTransform.position = pos; }
+            if ("B_31" == selectedObj.name) { pos.x = -3; pos.z = 1; myTransform.position = pos; }
+            if ("B_30" == selectedObj.name) { pos.x = -3; pos.z = 0; myTransform.position = pos; }
+            if ("B_3_1" == selectedObj.name) { pos.x = -3; pos.z = -1; myTransform.position = pos; }
+            if ("B_3_2" == selectedObj.name) { pos.x = -3; pos.z = -2; myTransform.position = pos; }
+            if ("B_3_3" == selectedObj.name) { pos.x = -3; pos.z = -3; myTransform.position = pos; }
+            if ("B_3_4" == selectedObj.name) { pos.x = -3; pos.z = -4; myTransform.position = pos; }
+            if ("B_23" == selectedObj.name) { pos.x = -2; pos.z = 3; myTransform.position = pos; }
+            if ("B_22" == selectedObj.name) { pos.x = -2; pos.z = 2; myTransform.position = pos; }
+            if ("B_21" == selectedObj.name) { pos.x = -2; pos.z = 1; myTransform.position = pos; }
+            if ("B_20" == selectedObj.name) { pos.x = -2; pos.z = 0; myTransform.position = pos; }
+            if ("B_2_1" == selectedObj.name) { pos.x = -2; pos.z = -1; myTransform.position = pos; }
+            if ("B_2_2" == selectedObj.name) { pos.x = -2; pos.z = -2; myTransform.position = pos; }
+            if ("B_2_3" == selectedObj.name) { pos.x = -2; pos.z = -3; myTransform.position = pos; }
+            if ("B_2_4" == selectedObj.name) { pos.x = -2; pos.z = -4; myTransform.position = pos; }
+            if ("B_13" == selectedObj.name) { pos.x = -1; pos.z = 3; myTransform.position = pos; }
+            if ("B_12" == selectedObj.name) { pos.x = -1; pos.z = 2; myTransform.position = pos; }
+            if ("B_11" == selectedObj.name) { pos.x = -1; pos.z = 1; myTransform.position = pos; }
+            if ("B_10" == selectedObj.name) { pos.x = -1; pos.z = 0; myTransform.position = pos; }
+            if ("B_1_1" == selectedObj.name) { pos.x = -1; pos.z = -1; myTransform.position = pos; }
+            if ("B_1_2" == selectedObj.name) { pos.x = -1; pos.z = -2; myTransform.position = pos; }
+            if ("B_1_3" == selectedObj.name) { pos.x = -1; pos.z = -3; myTransform.position = pos; }
+            if ("B_1_4" == selectedObj.name) { pos.x = -1; pos.z = -4; myTransform.position = pos; }
+            if ("B03" == selectedObj.name) { pos.x = 0; pos.z = 3; myTransform.position = pos; }
+            if ("B02" == selectedObj.name) { pos.x = 0; pos.z = 2; myTransform.position = pos; }
+            if ("B01" == selectedObj.name) { pos.x = 0; pos.z = 1; myTransform.position = pos; }
+            if ("B00" == selectedObj.name) { pos.x = 0; pos.z = 0; myTransform.position = pos; }
+            if ("B0_1" == selectedObj.name) { pos.x = 0; pos.z = -1; myTransform.position = pos; }
+            if ("B0_2" == selectedObj.name) { pos.x = 0; pos.z = -2; myTransform.position = pos; }
+            if ("B0_3" == selectedObj.name) { pos.x = 0; pos.z = -3; myTransform.position = pos; }
+            if ("B0_4" == selectedObj.name) { pos.x = 0; pos.z = -4; myTransform.position = pos; }
+            if ("B13" == selectedObj.name) { pos.x = 1; pos.z = 3; myTransform.position = pos; }
+            if ("B12" == selectedObj.name) { pos.x = 1; pos.z = 2; myTransform.position = pos; }
+            if ("B11" == selectedObj.name) { pos.x = 1; pos.z = 1; myTransform.position = pos; }
+            if ("B10" == selectedObj.name) { pos.x = 1; pos.z = 0; myTransform.position = pos; }
+            if ("B1_1" == selectedObj.name) { pos.x = 1; pos.z = -1; myTransform.position = pos; }
+            if ("B1_2" == selectedObj.name) { pos.x = 1; pos.z = -2; myTransform.position = pos; }
+            if ("B1_3" == selectedObj.name) { pos.x = 1; pos.z = -3; myTransform.position = pos; }
+            if ("B1_4" == selectedObj.name) { pos.x = 1; pos.z = -4; myTransform.position = pos; }
+            if ("B23" == selectedObj.name) { pos.x = 2; pos.z = 3; myTransform.position = pos; }
+            if ("B22" == selectedObj.name) { pos.x = 2; pos.z = 2; myTransform.position = pos; }
+            if ("B21" == selectedObj.name) { pos.x = 2; pos.z = 1; myTransform.position = pos; }
+            if ("B20" == selectedObj.name) { pos.x = 2; pos.z = 0; myTransform.position = pos; }
+            if ("B2_1" == selectedObj.name) { pos.x = 2; pos.z = -1; myTransform.position = pos; }
+            if ("B2_2" == selectedObj.name) { pos.x = 2; pos.z = -2; myTransform.position = pos; }
+            if ("B2_3" == selectedObj.name) { pos.x = 2; pos.z = -3; myTransform.position = pos; }
+            if ("B2_4" == selectedObj.name) { pos.x = 2; pos.z = -4; myTransform.position = pos; }
+            if ("B33" == selectedObj.name) { pos.x = 3; pos.z = 3; myTransform.position = pos; }
+            if ("B32" == selectedObj.name) { pos.x = 3; pos.z = 2; myTransform.position = pos; }
+            if ("B31" == selectedObj.name) { pos.x = 3; pos.z = 1; myTransform.position = pos; }
+            if ("B30" == selectedObj.name) { pos.x = 3; pos.z = 0; myTransform.position = pos; }
+            if ("B3_1" == selectedObj.name) { pos.x = 3; pos.z = -1; myTransform.position = pos; }
+            if ("B3_2" == selectedObj.name) { pos.x = 3; pos.z = -2; myTransform.position = pos; }
+            if ("B3_3" == selectedObj.name) { pos.x = 3; pos.z = -3; myTransform.position = pos; }
+            if ("B3_4" == selectedObj.name) { pos.x = 3; pos.z = -4; myTransform.position = pos; }
+        }
+        else { Debug.Log("No game object called wibble found");}
 
 
         if (Input.GetKeyDown("joystick 1 button 0") || Input.GetKeyDown("joystick 2 button 0") || Input.GetKey(KeyCode.Space))
@@ -539,8 +544,12 @@ public class GameSceneDirector : MonoBehaviour
         // 移動
         else if (null != selectUnit && movableTiles.Contains(tilepos))
         {
-
-            StartCoroutine(moveUnit(selectUnit, tilepos));
+            if(canMoveCounter == true)
+            {
+                StartCoroutine(moveUnit(selectUnit, tilepos));
+                
+            }
+            
             //nextMode = MODE.STATUS_UPDATE;
         }
         // 移動範囲だけ見られる
@@ -643,7 +652,9 @@ public class GameSceneDirector : MonoBehaviour
             StartCoroutine("turnChangeAnim");
             //ターンカウントを+1する
             turnCount++;
-        }      
+        }
+        //駒の移動処理の制御
+        canMoveCounter = true;
 
         // ターンの処理
         nowPlayer = getNextPlayer();
@@ -831,7 +842,7 @@ public class GameSceneDirector : MonoBehaviour
 
 
             //戦闘モードに移行
-            nextMode = MODE.BATTLE_SET;
+            //nextMode = MODE.BATTLE_SET;
 
 
             //タイルをクリックできなくする　※モード移行を追加したのでいらないかも
@@ -891,6 +902,9 @@ public class GameSceneDirector : MonoBehaviour
                 // 内部データ更新（新しい場所）
                 units[tilepos.x, tilepos.y] = unit;
 
+                //動けないようにする
+                canMoveCounter = false;
+
                 yield break;
 
             } else {
@@ -936,12 +950,15 @@ public class GameSceneDirector : MonoBehaviour
                 // 内部データ更新（新しい場所）
                 units[tilepos.x, tilepos.y] = unit;
 
+                //動けないようにする
+                canMoveCounter = false;
+
                 yield break;
             }
         }
         else{
 
-            nextMode = MODE.STATUS_UPDATE;
+            //nextMode = MODE.STATUS_UPDATE;
 
             // 新しい場所へ移動
             unit.MoveUnit(tiles[tilepos.x, tilepos.y]);
@@ -951,6 +968,10 @@ public class GameSceneDirector : MonoBehaviour
 
             // 内部データ更新（新しい場所）
             units[tilepos.x, tilepos.y] = unit;
+
+            //動けないようにする
+            canMoveCounter = false;
+
             yield break;
         }
     }
@@ -966,9 +987,11 @@ public class GameSceneDirector : MonoBehaviour
         Debug.Log("ボタン押した");
     }
 
+
     //試しダイス
     int rnd;
-    public int diceTime() {
+    public int diceTime()
+    {
         Debug.Log("ダイスON");
         rnd = Random.Range(1, 7);
 
@@ -1002,7 +1025,7 @@ public class GameSceneDirector : MonoBehaviour
         diceCheck = true;
         return rnd;
 
-        
+
     }
 
     // ユニットのプレハブを取得
@@ -1087,5 +1110,11 @@ public class GameSceneDirector : MonoBehaviour
      public int daise()
     {
         return 1;
+    }
+
+    public void TrnEnd()
+    {
+        nextMode = MODE.STATUS_UPDATE;
+        Debug.Log("tannenndo");
     }
 }
