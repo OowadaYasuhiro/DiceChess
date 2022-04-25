@@ -99,6 +99,9 @@ public class GameSceneDirector : MonoBehaviour
 
     public int damageflag = 0;
 
+    //ターンエンドフラグ
+    bool moved = false;
+
     // 前回ユニット削除から経過ターン　50以上で引き分け
     int prevDestroyTurn;
 
@@ -701,7 +704,6 @@ public class GameSceneDirector : MonoBehaviour
 
         yield return new WaitForSeconds(2.5f);
 
-        Debug.Log("時間たった");
         invalidTile = true;
 
         yield break;
@@ -831,10 +833,12 @@ public class GameSceneDirector : MonoBehaviour
     {
         // 現在地
         Vector2Int unitpos = unit.Pos;
-        
+
+        //移動したかどうかのフラグ
+        moved = true;
 
         // 誰かいたら消す ここが攻撃できるところ
-        if(null != units[tilepos.x, tilepos.y])
+        if (null != units[tilepos.x, tilepos.y])
         {
             //選択したタイルのコマのスクリプトを読み取り、GetHP()をHpにいれる
             Hp = units[tilepos.x, tilepos.y].GetHP();
@@ -1093,7 +1097,7 @@ public class GameSceneDirector : MonoBehaviour
         nextMode = MODE.TURN_CHANGE;
 
         yield break;
-      }
+    }
 
    
 
@@ -1114,7 +1118,6 @@ public class GameSceneDirector : MonoBehaviour
 
     public void TrnEnd()
     {
-        nextMode = MODE.STATUS_UPDATE;
-        Debug.Log("tannenndo");
+        if(moved == true) {nextMode = MODE.STATUS_UPDATE; moved = false;}
     }
 }
