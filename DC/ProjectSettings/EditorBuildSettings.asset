@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/watanabe/Scenes/Title.unity
+    guid: 4727aaf8247ae6d488ed5c63b911a308
+  - enabled: 1
+    path: Assets/Ozaki/Scenes/Tutorial.unity
+    guid: 06556342331d2f642b1aef3654f08133
+  - enabled: 1
     path: Assets/Ozaki/Scenes/Chess 1.unity
     guid: 1f9de92fcb1d74542a459f8e4c954393
   - enabled: 0
