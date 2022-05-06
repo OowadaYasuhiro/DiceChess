@@ -56,4 +56,25 @@ public class nanika: MonoBehaviour
             }
         }
     }
+
+    public void ButtonNanika()
+    {
+        if (count == 5)
+        {
+            tomato();
+        }
+    Randomreturn:
+        number = Random.Range(0, 6);
+        for (int i = 0; i < hairetu.Length; i++)
+        {
+            if (number == hairetu[i])
+            {
+                goto Randomreturn;
+            }
+        }
+        hairetu[count] = number;
+        transform.parent.position = new Vector3(0, 100, 0);
+        Instantiate(CubePrefabs[number]); //ランダム出現
+        count++;
+    }
 }

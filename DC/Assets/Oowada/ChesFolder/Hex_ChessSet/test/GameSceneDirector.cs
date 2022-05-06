@@ -472,7 +472,7 @@ public class GameSceneDirector : MonoBehaviour
             if ("B3_3" == selectedObj.name) { pos.x = 3; pos.z = -3; myTransform.position = pos; }
             if ("B3_4" == selectedObj.name) { pos.x = 3; pos.z = -4; myTransform.position = pos; }
         }
-        else { Debug.Log("No game object called wibble found");}
+        else { /*Debug.Log("No game object called wibble found");*/}
 
 
         if (Input.GetKeyDown("joystick 1 button 0") || Input.GetKeyDown("joystick 2 button 0") || Input.GetKey(KeyCode.Space))
