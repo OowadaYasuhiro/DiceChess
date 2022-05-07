@@ -12,6 +12,7 @@ public class nanika: MonoBehaviour
     public int[] hairetu = new int[6];
     public int count;
     public bool dice;
+ 
 
     void Start()
     {
@@ -51,11 +52,13 @@ public class nanika: MonoBehaviour
                 }
                 hairetu[count] = number;
                 transform.parent.position = new Vector3(0, 100, 0);
-                Instantiate(CubePrefabs[number]); //ランダム出現
+                Instantiate(CubePrefabs[number]); //ランダム出現　
+                Debug.Log(number+1);
                 count++;
             }
         }
     }
+
 
     public void ButtonNanika()
     {
@@ -63,7 +66,7 @@ public class nanika: MonoBehaviour
         {
             tomato();
         }
-    Randomreturn:
+        Randomreturn:
         number = Random.Range(0, 6);
         for (int i = 0; i < hairetu.Length; i++)
         {
@@ -74,7 +77,25 @@ public class nanika: MonoBehaviour
         }
         hairetu[count] = number;
         transform.parent.position = new Vector3(0, 100, 0);
-        Instantiate(CubePrefabs[number]); //ランダム出現
+        Instantiate(CubePrefabs[number]);
         count++;
+        number += 1;
+        Debug.Log("みつけるのは" + number);
+        GameObject deme ;
+        if (number == 1) { deme = GameObject.Find("1(Clone)"); }
+        else if (number == 2) { deme = GameObject.Find("2(Clone)"); }
+        else if (number == 3) { deme = GameObject.Find("3(Clone)"); }
+        else if (number == 4) { deme = GameObject.Find("4(Clone)"); }
+        else if (number == 5) { deme = GameObject.Find("5(Clone)"); }
+        else if (number == 6) { deme = GameObject.Find("6(Clone)"); }
+        else { deme = GameObject.Find("6(Clone)"); }
+        deme.SendMessage("ButtonKieru");
+    }
+
+    public int GetNumber()
+    {
+        Debug.Log("GetNumberは"+number);
+        return number;
     }
 }
+
