@@ -100,7 +100,7 @@ public class GameSceneDirector : MonoBehaviour
     public int damageflag = 0;
 
     //ターンエンドフラグ
-    bool moved = false;
+    public bool moved = false;
 
     // 前回ユニット削除から経過ターン　50以上で引き分け
     int prevDestroyTurn;
