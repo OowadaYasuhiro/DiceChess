@@ -22,6 +22,10 @@ public class UnitController : MonoBehaviour
     public Vector2Int Pos, OldPos;
     // 移動状態
     public List<STATUS> Status;
+    //移動距離の倍率　アイテム4
+    public int moveTwice = 1;
+
+    GameSceneDirector GS;
 
     // 1 = ポーン 2 = ルーク 3 = ナイト 4 = ビショップ 5 = クイーン 6 = キング
     public enum TYPE
@@ -53,6 +57,15 @@ public class UnitController : MonoBehaviour
         if (TYPE.BISHOP == Type) {HP = 8; MAXHP = 8; POINT = 30;}
         if (TYPE.QUEEN == Type) {HP = 17; MAXHP = 17; POINT = 60;}
         if (TYPE.KING == Type) {HP = 20; MAXHP = 20; POINT = 0;}
+        GS = GameObject.Find("SceneDirector").GetComponent<GameSceneDirector>();
+    }
+
+    void Update()
+    {
+        if(moveTwice == 2 && GS.moved == true)
+        {
+            moveTwice = 1;
+        }
     }
     // 初期設定
     public void SetUnit(int player, TYPE type, GameObject tile)
@@ -82,7 +95,7 @@ public class UnitController : MonoBehaviour
         }
         else if( TYPE.KING == Type)
         {
-            ret = getMovableTiles(units, TYPE.KING);
+            /*ret = getMovableTiles(units, TYPE.KING);
 
             // 相手の移動範囲を考慮しない
             if (!checkking) return ret;
@@ -95,8 +108,8 @@ public class UnitController : MonoBehaviour
             {
                 // 移動した状態を作る
                 UnitController[,] copyunits2 = GameSceneDirector.GetCopyArray(units);
-                copyunits2[Pos.x, Pos.y]    = null;
-                copyunits2[v.x, v.y]        = this;
+                copyunits2[Pos.x , Pos.y]    = null;
+                copyunits2[v.x , v.y]        = this;
 
                 int checkcount = GameSceneDirector.GetCheckUnits(copyunits2, Player, false).Count;
 
@@ -122,8 +135,33 @@ public class UnitController : MonoBehaviour
                     ret.Remove(del);
                 }
 
-            }
+            }*/
+            List<Vector2Int> vec = new List<Vector2Int>()
+            {
+                new Vector2Int(-1 * moveTwice, 1 * moveTwice),
+                new Vector2Int( 0 * moveTwice, 1 * moveTwice),
+                new Vector2Int( 1 * moveTwice, 1 * moveTwice),
+                new Vector2Int( 1 * moveTwice, 0 * moveTwice),
+                new Vector2Int( 1 * moveTwice,-1 * moveTwice),
+                new Vector2Int( 0 * moveTwice,-1 * moveTwice),
+                new Vector2Int(-1 * moveTwice,-1 * moveTwice),
+                new Vector2Int(-1 * moveTwice, 0 * moveTwice),
+            };
 
+            foreach (var v in vec)
+            {
+                Vector2Int checkpos = Pos + v;
+                if (!isCheckable(units, checkpos)) continue;
+
+                // 同じプレイヤーの場所へは行けない
+                if (null != units[checkpos.x, checkpos.y]
+                    && Player == units[checkpos.x, checkpos.y].Player)
+                {
+                    continue;
+                }
+
+                ret.Add(checkpos);
+            }
         }
         else
         {
@@ -147,8 +185,8 @@ public class UnitController : MonoBehaviour
             // 前方2マス
             List<Vector2Int> vec = new List<Vector2Int>()
             {
-                new Vector2Int(0 , 1 * dir ),
-                new Vector2Int(0 , 2 * dir ),
+                new Vector2Int(0 , 1 * dir * moveTwice),
+                new Vector2Int(0 , 2 * dir * moveTwice),
             };
 
             // 2回目以降は1マスしかすすめない
@@ -157,7 +195,7 @@ public class UnitController : MonoBehaviour
             // 前方
             foreach (var v in vec)
             {
-                Vector2Int checkpos = Pos + v;
+                Vector2Int checkpos = Pos + v * moveTwice;
                 if (!isCheckable(units, checkpos)) continue;
                 if (null != units[checkpos.x, checkpos.y]) break;
 
@@ -231,14 +269,14 @@ public class UnitController : MonoBehaviour
         {
             List<Vector2Int> vec = new List<Vector2Int>()
             {
-                new Vector2Int(-1, 2),
-                new Vector2Int(-2, 1),
-                new Vector2Int( 1, 2),
-                new Vector2Int( 2, 1),
-                new Vector2Int(-1,-2),
-                new Vector2Int(-2,-1),
-                new Vector2Int( 1,-2),
-                new Vector2Int( 2,-1),
+                new Vector2Int(-1 * moveTwice, 2 * moveTwice),
+                new Vector2Int(-2 * moveTwice, 1 * moveTwice),
+                new Vector2Int( 1 * moveTwice, 2 * moveTwice),
+                new Vector2Int( 2 * moveTwice, 1 * moveTwice),
+                new Vector2Int(-1 * moveTwice,-2 * moveTwice),
+                new Vector2Int(-2 * moveTwice,-1 * moveTwice),
+                new Vector2Int( 1 * moveTwice,-2 * moveTwice),
+                new Vector2Int( 2 * moveTwice,-1 * moveTwice),
             };
 
             foreach (var v in vec)
@@ -527,5 +565,9 @@ public class UnitController : MonoBehaviour
     {
         if(TYPE.PAWN == Type){return 1;}
         else {return 0;}
+    }
+    public void returnTwice()
+    {
+        moveTwice = 1;
     }
 }
