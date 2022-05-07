@@ -3085,17 +3085,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &344435788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7353,17 +7342,17 @@ PrefabInstance:
     - target: {fileID: 6130387034342381488, guid: 1faf1ae3e489a554ba0fd860af5432e5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6130387034342381488, guid: 1faf1ae3e489a554ba0fd860af5432e5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.05
       objectReference: {fileID: 0}
     - target: {fileID: 6130387034342381488, guid: 1faf1ae3e489a554ba0fd860af5432e5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6130387034342381488, guid: 1faf1ae3e489a554ba0fd860af5432e5,
         type: 3}
@@ -7409,6 +7398,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: d6 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6130387034342476688, guid: 1faf1ae3e489a554ba0fd860af5432e5,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7707190669517410563, guid: 1faf1ae3e489a554ba0fd860af5432e5,
         type: 3}
@@ -13561,6 +13555,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6130387034342476688, guid: 8d5f1e41565576b4d86945d1e0b711d5,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d5f1e41565576b4d86945d1e0b711d5, type: 3}
 --- !u!1 &1449895410
@@ -17881,7 +17880,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1952203807}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 1PDice
   m_TagString: Untagged
   m_Icon: {fileID: 0}

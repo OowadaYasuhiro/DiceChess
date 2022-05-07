@@ -983,6 +983,9 @@ public class GameSceneDirector : MonoBehaviour
     //ボタン表示
     public void battleSetMode() {
         AttackButton.SetActive(true);
+        GameObject Dice = GameObject.Find("1PDice");
+        Transform DiceTrn = Dice.transform;
+        DiceTrn.Translate(0, -98, 0);//画面に映る値
     }
 
     //ダイス回すボタンクリック
@@ -996,8 +999,11 @@ public class GameSceneDirector : MonoBehaviour
     int rnd;
     public int diceTime()
     {
+        GameObject d6 = GameObject.Find("1PDice/d6 2");
         Debug.Log("ダイスON");
-        rnd = Random.Range(1, 7);
+        rnd = d6.GetComponent<nanika>().GetNumber();
+        Debug.Log("じっす鵜"+rnd);
+        //rnd = Random.Range(1, 7);
 
         if (damageflag == 1)
         {
