@@ -155,5 +155,17 @@ public class ItemController : MonoBehaviour
             }
         }
         yield break;
+
+    public void UseItem1()
+    {
+        Debug.Log("アイテム開始");
+        StartCoroutine("Kaihuku");
+        Debug.Log("アイテム仕様");
+    }
+    public void UseItem2()
+    {
+        Debug.Log("アイテム2仕様");
+        StartCoroutine("DamageItem");
+
     }
 }
