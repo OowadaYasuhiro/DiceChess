@@ -14,10 +14,8 @@ public class a : MonoBehaviour
     [SerializeField] GameObject Piece;
     [SerializeField] GameObject Piece1;
     [SerializeField] GameObject Piece2;
+
     GameObject selectedObj;
-
-    private AudioSource audioSource = null;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -25,45 +23,29 @@ public class a : MonoBehaviour
         Piece.gameObject.SetActive(false);
         Piece1.gameObject.SetActive(false);
         Piece2.gameObject.SetActive(false);
-
-        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
         selectedObj = EventSystem.current.currentSelectedGameObject;
-        if(Button == selectedObj)
+        if (Button == selectedObj)
         {
-            Button.GetComponent<buttonblink>().setBool();
-            Button1.GetComponent<buttonblink>().notBool();
-            Button2.GetComponent<buttonblink>().notBool();
             Piece.gameObject.SetActive(true);
             Piece1.gameObject.SetActive(false);
             Piece2.gameObject.SetActive(false);
-            
         }
         if (Button1 == selectedObj)
         {
-            Button.GetComponent<buttonblink>().notBool();
-            Button1.GetComponent<buttonblink>().setBool();
-            Button2.GetComponent<buttonblink>().notBool();
             Piece.gameObject.SetActive(false);
             Piece1.gameObject.SetActive(true);
             Piece2.gameObject.SetActive(false);
-            
         }
         if (Button2 == selectedObj)
         {
-            Button.GetComponent<buttonblink>().notBool();
-            Button1.GetComponent<buttonblink>().notBool();
-            Button2.GetComponent<buttonblink>().setBool();
             Piece.gameObject.SetActive(false);
             Piece1.gameObject.SetActive(false);
             Piece2.gameObject.SetActive(true);
-            
         }
-
-        
     }
 }
