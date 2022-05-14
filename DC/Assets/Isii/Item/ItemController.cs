@@ -155,6 +155,7 @@ public class ItemController : MonoBehaviour
             }
         }
         yield break;
+    }
 
     public void UseItem1()
     {
