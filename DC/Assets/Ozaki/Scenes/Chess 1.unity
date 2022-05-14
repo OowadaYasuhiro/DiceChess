@@ -3503,6 +3503,7 @@ MonoBehaviour:
   spRecovery: 30
   hp: 0
   maxHp: 0
+  move: 2
 --- !u!1 &400847934
 GameObject:
   m_ObjectHideFlags: 0
@@ -12090,7 +12091,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 6/6
+  m_Text: 1/1
 --- !u!222 &1314942839
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14265,6 +14266,8 @@ MonoBehaviour:
   - {fileID: 1312771594950542517, guid: 0d7ebaf7f745f094697188a924bc063c, type: 3}
   - {fileID: 3339908815428753290, guid: a4188421d7d183942830cb3969471b40, type: 3}
   - {fileID: 7297026580602183812, guid: 78bb34228078a874793bf30d89216711, type: 3}
+  hpText: {fileID: 1314942838}
+  hpSlider: {fileID: 2021373829}
   eventSystem: {fileID: 2088663570}
   B_43: {fileID: 1460696529}
   B_42: {fileID: 926021314}

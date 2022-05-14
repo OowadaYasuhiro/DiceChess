@@ -58,6 +58,8 @@ public class GameSceneDirector : MonoBehaviour
     GameObject ui_BackGroundP2;
     CharacterStatus player1Chara; //プレイヤー1キャラのスクリプトを読み込む(読み込み対象変わるかも)
     CharacterStatus player2Chara; //同じく変わるかも
+    [SerializeField] private Text hpText; //HPのテキスト
+    [SerializeField] private Slider hpSlider;
 
     //コントローラーのため
     [SerializeField] EventSystem eventSystem;
@@ -313,7 +315,7 @@ public class GameSceneDirector : MonoBehaviour
         }
 
         // 3回続いたか
-        if( 2 < prevcount)
+        if( 15 < prevcount)
         {
             info.text = "同じ盤面が続いたので\n引き分け";
             nextMode = MODE.RESULT;
@@ -529,6 +531,11 @@ public class GameSceneDirector : MonoBehaviour
 
         // ユニット
         unit = units[tilepos.x, tilepos.y];
+        if(unit != null)
+        {
+            hpText.text = (unit.GetHP() + "/" + unit.GetMaxHp());
+            hpSlider.value = (float)unit.GetHP() / unit.GetMaxHp();
+        }
 
         // ユニット選択
         if (null != unit
@@ -543,6 +550,7 @@ public class GameSceneDirector : MonoBehaviour
 
             movableTiles = tiles;
             setSelectCursors(unit);
+            
         }
         // 移動
         else if (null != selectUnit && movableTiles.Contains(tilepos))
