@@ -1,0 +1,30 @@
+fileFormatVersion: 2
+guid: a876fa10294a1094ab4956ab630d5401
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - komaugoku: {fileID: 8300000, guid: 9623136618cb91b4b83aacf949f76c19, type: 3}
+  - komasentou: {fileID: 8300000, guid: ee4bc0b9c5a01304188e70406dee980e, type: 3}
+  - daisufuru: {fileID: 8300000, guid: a8f72a529cc5c8243b09bbdaaaf90c35, type: 3}
+  - daisunome: {fileID: 8300000, guid: e5506b5acfcd4ac4392f740b42ba911c, type: 3}
+  - ketteion: {fileID: 8300000, guid: 1a694719a58ade043b51702c2402afd3, type: 3}
+  - hissatuwaza: {fileID: 8300000, guid: b58cd6d3c42c5d1479fbf246f413fc4b, type: 3}
+  - sentakuka_soru: {fileID: 8300000, guid: a3e0a580b44682346929ad8f05c5c749, type: 3}
+  - ge_musyuuryouji: {fileID: 8300000, guid: e0e83d5868092784c89434f1e4704942, type: 3}
+  - senkoukoukouhyouji: {fileID: 8300000, guid: 4eebb6bb84cabc74fa1a93103b0528a3,
+      type: 3}
+  - aitemusiyouji: {fileID: 8300000, guid: 9e9a0494e294e474f84f5e5465d557cf, type: 3}
+  - me_ta_fueru: {fileID: 8300000, guid: 33d9501b5731f444f947f42426421701, type: 3}
+  - sousapureiya_hyouji: {fileID: 8300000, guid: 9330a3a611b5b0d46bda5b2d1b7de85e,
+      type: 3}
+  - ta_nsyuuryouji: {fileID: 8300000, guid: 7fa0066a1187afe439edf106e37c5d42, type: 3}
+  - kingtaosita: {fileID: 8300000, guid: 46f5244cf8fba3e489fd4e04664038f5, type: 3}
+  - suujihyouji: {fileID: 8300000, guid: abee2b6d9b75d8943b43a4892b96211f, type: 3}
+  - pe_jiskip: {fileID: 8300000, guid: b73c23207a8b70d468f614bff7361147, type: 3}
+  - syutujinbotan: {fileID: 8300000, guid: 965b65dc9f4311649abc946e4f4b560c, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
