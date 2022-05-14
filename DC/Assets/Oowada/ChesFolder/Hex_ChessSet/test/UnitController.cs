@@ -10,12 +10,12 @@ public class UnitController : MonoBehaviour
     public TYPE Type;
     //ユニットの体力
     [SerializeField]
-    private int HP;
+    private int hp;
     [SerializeField]
-    private int MAXHP;
+    private int maxHp;
     //ユニットのポイント
     [SerializeField]
-    private int POINT;
+    private int point;
     // 置いてからの経過ターン
     public int ProgressTurnCount;
     // 置いてる場所
@@ -47,12 +47,12 @@ public class UnitController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (TYPE.PAWN == Type) {HP = 6 ; MAXHP = 6; POINT = 10;}
-        if (TYPE.ROOK == Type) {HP = 8; MAXHP = 8; POINT = 30;}
-        if (TYPE.KNIGHT == Type) {HP = 12; MAXHP = 12; POINT = 20;}
-        if (TYPE.BISHOP == Type) {HP = 8; MAXHP = 8; POINT = 30;}
-        if (TYPE.QUEEN == Type) {HP = 17; MAXHP = 17; POINT = 60;}
-        if (TYPE.KING == Type) {HP = 20; MAXHP = 20; POINT = 0;}
+        if (TYPE.PAWN == Type) {hp = 6 ; maxHp = 6; point = 10;}
+        if (TYPE.ROOK == Type) {hp = 8; maxHp = 8; point = 30;}
+        if (TYPE.KNIGHT == Type) {hp = 12; maxHp = 12; point = 20;}
+        if (TYPE.BISHOP == Type) {hp = 8; maxHp = 8; point = 30;}
+        if (TYPE.QUEEN == Type) {hp = 17; maxHp = 17; point = 60;}
+        if (TYPE.KING == Type) {hp = 20; maxHp = 20; point = 0;}
     }
     // 初期設定
     public void SetUnit(int player, TYPE type, GameObject tile)
@@ -508,20 +508,20 @@ public class UnitController : MonoBehaviour
 
     public int GetHP()
     {
-        return this.HP;
+        return this.hp;
     }
     public void SetHP(int x)
     {
-        //HP = HP - x;
-        HP = x;
+        //hp = hp - x;
+        hp = x;
     }
     public int GetMaxHp()
     {
-        return this.MAXHP;
+        return this.maxHp;
     }
     public int GetPOINT()
     {
-        return this.POINT;
+        return this.point;
     }
     public int GetTYPE()
     {

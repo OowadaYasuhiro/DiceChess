@@ -93,14 +93,14 @@ public class ItemController : MonoBehaviour
         //自分の番に使った時damageflagを1増やす
         if(GSD.nowPlayer == 0)
         {
-            GSD.damageflag += 1;
+            GSD.damageFlag += 1;
         }
         //相手の番に使った時damageflagを2増やす
         else if (GSD.nowPlayer == 1)
         {
-            GSD.damageflag += 2;
+            GSD.damageFlag += 2;
         }
-        Debug.Log(GSD.damageflag);
+        Debug.Log(GSD.damageFlag);
         yield break;
     }
 
