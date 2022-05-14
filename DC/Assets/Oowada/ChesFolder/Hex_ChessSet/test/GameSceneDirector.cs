@@ -97,7 +97,7 @@ public class GameSceneDirector : MonoBehaviour
     MODE nowMode, nextMode;
     public int nowPlayer;
 
-    public int damageflag = 0;
+    public int damageFlag = 0;
 
     //ターンエンドフラグ
     public bool moved = false;
@@ -1005,27 +1005,27 @@ public class GameSceneDirector : MonoBehaviour
         Debug.Log("じっす鵜"+rnd);
         //rnd = Random.Range(1, 7);
 
-        if (damageflag == 1)
+        if (damageFlag == 1)
         {
             rnd *= 2;
-            damageflag -= 1;
+            damageFlag -= 1;
         }
-        else if (damageflag == 2)
+        else if (damageFlag == 2)
         {
             rnd *= 2;
-            damageflag -= 2;
+            damageFlag -= 2;
         }
-        else if (damageflag == 3)
+        else if (damageFlag == 3)
         {
             if (nowPlayer == 0)
             {
                 rnd *= 2;
-                damageflag -= 1;
+                damageFlag -= 1;
             }
             else if (nowPlayer == 1)
             {
                 rnd *= 2;
-                damageflag -= 2;
+                damageFlag -= 2;
             }
         }
 

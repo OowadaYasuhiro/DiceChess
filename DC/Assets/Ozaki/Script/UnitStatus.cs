@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UnitStatus : MonoBehaviour
 {
-    //HP
+    //hp
     [SerializeField]
     private int hp = 10;
 
