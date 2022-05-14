@@ -2416,6 +2416,7 @@ GameObject:
   - component: {fileID: 298744076}
   - component: {fileID: 298744075}
   - component: {fileID: 298744077}
+  - component: {fileID: 298744078}
   m_Layer: 5
   m_Name: Player1Chara
   m_TagString: Untagged
@@ -2492,6 +2493,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sp: 0
+--- !u!114 &298744078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298744073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5898e774dee3044b8cd548e77439baf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chara:
+  - {fileID: 0}
+  - {fileID: 0}
+  recovery: 3
+  spRecovery: 30
+  hp: 0
+  maxHp: 0
+  move: 2
 --- !u!1 &305966322
 GameObject:
   m_ObjectHideFlags: 0
@@ -14311,6 +14332,7 @@ MonoBehaviour:
   B3_4: {fileID: 1517078919}
   nowPlayer: 0
   damageFlag: 0
+  moved: 0
   diceCheck: 0
   pushAButton: 0
 --- !u!4 &1472558010
