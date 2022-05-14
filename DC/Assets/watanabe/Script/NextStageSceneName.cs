@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NextStageSceneName : MonoBehaviour
 {
+    public string nextStageSceneName;
     /// 現在のゲームの状態が勝利演出中の時の更新を行う
     void WinUpdate()
     {
