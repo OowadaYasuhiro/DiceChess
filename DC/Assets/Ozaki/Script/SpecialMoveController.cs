@@ -166,7 +166,7 @@ public class SpecialMoveController : MonoBehaviour
     }
 
     public void getSpMove() {
-
+        StartCoroutine("specialMove1");
     }
 
     /*必殺技使用方法
