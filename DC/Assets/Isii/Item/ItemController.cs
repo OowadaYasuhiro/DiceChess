@@ -161,7 +161,7 @@ public class ItemController : MonoBehaviour
     {
         Debug.Log("アイテム開始");
         StartCoroutine("Kaihuku");
-        Debug.Log("アイテム仕様");
+
     }
     public void UseItem2()
     {
