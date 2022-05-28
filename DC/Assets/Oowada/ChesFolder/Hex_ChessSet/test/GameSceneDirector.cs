@@ -23,6 +23,10 @@ public class GameSceneDirector : MonoBehaviour
     // カーソルのプレハブ
     public GameObject prefabCursor;
 
+    //SEのためのオブジェクト
+    [SerializeField] private GameObject SeObject;
+    
+
     // 内部データ
     GameObject[,] tiles;
     UnitController[,] units;
@@ -236,7 +240,6 @@ public class GameSceneDirector : MonoBehaviour
         else if(MODE.BATTLE_SET == nowMode)
         {
             battleMode();
-            Debug.Log("バトルに入った");
         }
         else if(MODE.STATUS_UPDATE == nowMode)
         {
@@ -320,7 +323,7 @@ public class GameSceneDirector : MonoBehaviour
         }
 
         // 3回続いたか
-        if( 15 < prevcount)
+        if( 20 < prevcount)
         {
             info.text = "同じ盤面が続いたので\n引き分け";
             nextMode = MODE.RESULT;
@@ -547,6 +550,7 @@ public class GameSceneDirector : MonoBehaviour
             && selectUnit != unit
             && nowPlayer == unit.Player )
         {
+
             // 移動可能範囲を取得
             List<Vector2Int> tiles = getMovableTiles(unit);
 
@@ -850,17 +854,15 @@ public class GameSceneDirector : MonoBehaviour
         //移動したかどうかのフラグ
         moved = true;
 
+        //moveSoundを流す
+        SE sePlayer = SeObject.GetComponent<SE>();
+        sePlayer.moveSound();
+
         // 誰かいたら消す ここが攻撃できるところ
         if (null != units[tilepos.x, tilepos.y])
         {
             //選択したタイルのコマのスクリプトを読み取り、GetHP()をHpにいれる
             Hp = units[tilepos.x, tilepos.y].GetHP();
-
-
-
-            //戦闘モードに移行
-            //nextMode = MODE.BATTLE_SET;
-
 
             //タイルをクリックできなくする　※モード移行を追加したのでいらないかも
             invalidTile = false;
@@ -877,6 +879,7 @@ public class GameSceneDirector : MonoBehaviour
 
             //pushAButtonがtrueになるまでここで待機
             yield return new WaitUntil(() => pushAButton == true);
+            sePlayer.moveSound2();//ダイスを振る音
 
             //ダイスで出た数値をPUに入れる→Hp
             PU = diceTime();
@@ -900,7 +903,7 @@ public class GameSceneDirector : MonoBehaviour
                 diceCheck = false;
 
                 effCon.enemyPositionEff(0, units[tilepos.x, tilepos.y].unitVec());
-
+                sePlayer.moveSound1();//戦闘音
                 yield return new WaitForSeconds(0.3f);
 
                 effCon.enemyPositionEff(4, units[tilepos.x, tilepos.y].unitVec());
@@ -948,7 +951,7 @@ public class GameSceneDirector : MonoBehaviour
                 diceCheck = false;
 
                 effCon.enemyPositionEff(0, units[tilepos.x, tilepos.y].unitVec());
-
+                sePlayer.moveSound1();//戦闘音
                 yield return new WaitForSeconds(1.0f);
 
                 //自分の攻撃したコマが「ポーン、ナイト、キング」だったら移動しないでその場にとどまる
@@ -1096,7 +1099,7 @@ public class GameSceneDirector : MonoBehaviour
     {
         List<UnitController> ret = new List<UnitController>();
 
-        foreach (var v in units)
+        /*foreach (var v in units)
         {
             if (null == v) continue;
             if (player == v.Player) continue;
@@ -1113,7 +1116,7 @@ public class GameSceneDirector : MonoBehaviour
                     ret.Add(v);
                 }
             }
-        }
+        }*/
 
         return ret;
     }

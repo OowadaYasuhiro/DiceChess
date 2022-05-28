@@ -27,7 +27,7 @@ public class UnitController : MonoBehaviour
 
     GameSceneDirector GS;
 
-    // 1 = ポーン 2 = ルーク 3 = ナイト 4 = ビショップ 5 = クイーン 6 = キング
+    // 1 = ポーン 2 = ルーク 3 = ナイト 4 = ビショップ 5 = クイーン 6 = キング 7 = 真のキング
     public enum TYPE
     {
         NONE = -1,
@@ -37,6 +37,7 @@ public class UnitController : MonoBehaviour
         BISHOP,
         QUEEN,
         KING,
+        TRUEKING,
     }
 
     public enum STATUS
@@ -51,13 +52,13 @@ public class UnitController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         if (TYPE.PAWN == Type) {hp = 6 ; maxHp = 6; point = 10;}
         if (TYPE.ROOK == Type) {hp = 8; maxHp = 8; point = 30;}
         if (TYPE.KNIGHT == Type) {hp = 12; maxHp = 12; point = 20;}
         if (TYPE.BISHOP == Type) {hp = 8; maxHp = 8; point = 30;}
         if (TYPE.QUEEN == Type) {hp = 17; maxHp = 17; point = 60;}
         if (TYPE.KING == Type) {hp = 20; maxHp = 20; point = 0;}
+        if (TYPE.TRUEKING == Type) { hp = 20; maxHp = 20; point = 0; }
         GS = GameObject.Find("SceneDirector").GetComponent<GameSceneDirector>();
     }
 
@@ -164,11 +165,36 @@ public class UnitController : MonoBehaviour
                 ret.Add(checkpos);
             }
         }
+        else if (TYPE.TRUEKING == Type)
+        {
+            List<Vector2Int> vec = new List<Vector2Int>()
+            {
+                new Vector2Int(-1 * moveTwice, 1 * moveTwice),
+                new Vector2Int( 0 * moveTwice, 1 * moveTwice),
+                new Vector2Int( 1 * moveTwice, 1 * moveTwice),
+                new Vector2Int( 1 * moveTwice, 0 * moveTwice),
+                new Vector2Int( 1 * moveTwice,-1 * moveTwice),
+                new Vector2Int( 0 * moveTwice,-1 * moveTwice),
+                new Vector2Int(-1 * moveTwice,-1 * moveTwice),
+                new Vector2Int(-1 * moveTwice, 0 * moveTwice),
+            };
+            foreach (var v in vec)
+            {
+                Vector2Int checkpos = Pos + v;
+                if (!isCheckable(units, checkpos)) continue;
+                // 同じプレイヤーの場所へは行けない
+                if (null != units[checkpos.x, checkpos.y]
+                    && Player == units[checkpos.x, checkpos.y].Player)
+                {
+                    continue;
+                }
+                ret.Add(checkpos);
+            }
+        }
         else
         {
             ret = getMovableTiles(units, Type);
         }
-        
         return ret;
     }
 

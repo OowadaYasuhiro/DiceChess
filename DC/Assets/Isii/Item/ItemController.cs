@@ -10,16 +10,25 @@ public class ItemController : MonoBehaviour
     GameObject[] player;
     [SerializeField]
     private GameObject[] chara;
-    public int recovery = 3;//回復量
-    public int spRecovery = 30;//sp回復量
-    public int hp = 0;
-    public int maxHp = 0;
-    public int move = 2;
+    private int recovery = 3;//回復量
+    private int spRecovery = 30;//sp回復量
+    private int hp = 0;
+    private int maxHp = 0;
+    private int move = 2;
+    //アイテムを一回で使うためのbool
+    private bool canItem1_1P;
+    private bool canItem1_2P;
+    private bool canItem2_1P;
+    private bool canItem2_2P;
 
     // Start is called before the first frame update
     void Start()
     {
         GSD = GameObject.Find("SceneDirector").GetComponent<GameSceneDirector>();
+        canItem1_1P = true;
+        canItem1_2P = true;
+        canItem2_1P = true;
+        canItem2_2P = true;
     }
 
     // Update is called once per frame
@@ -163,14 +172,47 @@ public class ItemController : MonoBehaviour
 
     public void UseItem1()
     {
-        Debug.Log("アイテム開始");
-        StartCoroutine("Kaihuku");
-        Debug.Log("アイテム仕様");
+        //アイテムを一回だけ使わせるため
+        if(GSD.nowPlayer == 0)
+        {
+            if (canItem1_1P)
+            {
+                Debug.Log("アイテム開始");
+                StartCoroutine("Kaihuku");
+                Debug.Log("アイテム仕様");
+                canItem1_1P = false;
+            }
+        }
+        if (GSD.nowPlayer == 1)
+        {
+            if (canItem1_2P)
+            {
+                Debug.Log("アイテム開始");
+                StartCoroutine("Kaihuku");
+                Debug.Log("アイテム仕様");
+                canItem1_2P = false;
+            }
+        }
     }
     public void UseItem2()
     {
-        Debug.Log("アイテム2仕様");
-        StartCoroutine("DamageItem");
-
+        if (GSD.nowPlayer == 0)
+        {
+            if (canItem2_1P)
+            {
+                Debug.Log("アイテム2仕様");
+                StartCoroutine("DamageItem");
+                canItem2_1P = false;
+            }
+        }
+        if (GSD.nowPlayer == 1)
+        {
+            if (canItem2_2P)
+            {
+                Debug.Log("アイテム2仕様");
+                StartCoroutine("DamageItem");
+                canItem2_2P = false;
+            }
+        }
     }
 }
