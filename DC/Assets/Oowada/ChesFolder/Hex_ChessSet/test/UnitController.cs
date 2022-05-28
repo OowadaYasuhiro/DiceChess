@@ -571,4 +571,9 @@ public class UnitController : MonoBehaviour
     {
         moveTwice = 1;
     }
+
+    public Vector3 unitVec() {
+
+        return this.transform.position;
+    }
 }

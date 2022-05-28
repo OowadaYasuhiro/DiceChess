@@ -13,8 +13,11 @@ public class SpecialMoveController : MonoBehaviour
     CharacterStatus player1Chara; //プレイヤー1キャラのスクリプトを読み込む(読み込み対象変わるかも)
     CharacterStatus player2Chara; //同じく変わるかも
     GameSceneDirector sceneDirector;
+    EffectController effCon;
     UnitController unitCon;
     GameObject[] player;
+    Vector3 enemyVec;
+    Animator fadeAnim;
 
     //キャラタイプ。これで必殺技内容を変える。 1=ティカ　2=リアン　3=ヴィオラ　4=ララ＆リリ＆ロロ
     public enum TYPE
@@ -32,6 +35,8 @@ public class SpecialMoveController : MonoBehaviour
         player1Chara = GameObject.Find("Player1Chara").GetComponent<CharacterStatus>();
         player2Chara = GameObject.Find("Player2Chara").GetComponent<CharacterStatus>();
         sceneDirector = GameObject.Find("SceneDirector").GetComponent<GameSceneDirector>();
+        effCon = GameObject.Find("SceneDirector").GetComponent<EffectController>();
+        fadeAnim = GameObject.Find("AttackBackPanel").GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -47,42 +52,83 @@ public class SpecialMoveController : MonoBehaviour
     }
 
     public IEnumerator specialMove1() {
+        
+
         //nowPlayerが0の時は自分の番
-        if(sceneDirector.nowPlayer == 0 && player1Chara.sp == 100) {
+        if(sceneDirector.nowPlayer == 0 && player1Chara.Sp == 100) {
+            sceneDirector.tileBoolInversion();
+            fadeAnim.SetTrigger("spFadeIn");
+            yield return new WaitForSeconds(0.3f);
+
+            effCon.setEff(3);
+
+            yield return new WaitForSeconds(0.4f);
+
+            fadeAnim.SetTrigger("spFadeOut");
+
+            yield return new WaitForSeconds(0.3f);
+
             player = GameObject.FindGameObjectsWithTag("Player2");
             foreach(GameObject unit in player) {
                 unitCon = unit.GetComponent<UnitController>();
+                //敵全体(一体一体)にヒットエフェクトを発生させる
+                enemyVec = unit.transform.position;
+                effCon.enemyPositionEff(0,enemyVec);
+
                 hp = unitCon.GetHP();
                 hp -= damage;
                 unitCon.SetHP(hp);
                 Debug.Log(unit.name);
 
                 if(unitCon.GetHP() <= 0) {
+                    effCon.enemyPositionEff(4, enemyVec);
                     Destroy(unit);
                 }
             }
 
-            player1Chara.sp = 0;
+            player1Chara.setSP(-100);
+            player1Chara.setPlayer1SpBar();
         }
         //nowPlayerが1の時は相手の番
-        else if(sceneDirector.nowPlayer == 1 && player2Chara.sp == 100) {
-            player = GameObject.FindGameObjectsWithTag("Player1");
+        else if(sceneDirector.nowPlayer == 1 && player2Chara.Sp == 100) {
+            sceneDirector.tileBoolInversion();
+            fadeAnim.SetTrigger("spFadeIn");
+            yield return new WaitForSeconds(0.3f);
 
+            effCon.setEff(3);
+
+            yield return new WaitForSeconds(0.4f);
+
+            fadeAnim.SetTrigger("spFadeOut");
+
+            yield return new WaitForSeconds(0.3f);
+
+            player = GameObject.FindGameObjectsWithTag("Player1");
             foreach(GameObject unit in player) {
                 unitCon = unit.GetComponent<UnitController>();
+
+                enemyVec = unit.transform.position;
+                effCon.enemyPositionEff(0, enemyVec);
+
                 hp = unitCon.GetHP();
                 hp -= damage;
                 unitCon.SetHP(hp);
                 Debug.Log(unit.name);
 
                 if(unitCon.GetHP() <= 0) {
+                    effCon.enemyPositionEff(4, enemyVec);
                     Destroy(unit);
                 }
             }
 
-            player2Chara.sp = 0;
+            player2Chara.setSP(-100);
+            player2Chara.setPlayer2SpBar();
         }
         Debug.Log(damage);
+
+        yield return new WaitForSeconds(1f);
+
+        sceneDirector.tileBoolInversion();
 
         yield break;
     }
@@ -96,12 +142,16 @@ public class SpecialMoveController : MonoBehaviour
     }
 
     public IEnumerator specialMove4() {
-        if(sceneDirector.nowPlayer == 0 && player1Chara.sp == 100) {
-            player2Chara.sp -= minSp;
-            player1Chara.sp = 0;
-        } else if(sceneDirector.nowPlayer == 1 && player2Chara.sp == 100) {
-            player1Chara.sp -= minSp;
-            player2Chara.sp = 0;
+        if(sceneDirector.nowPlayer == 0 && player1Chara.Sp == 100) {
+            player2Chara.setSP(-minSp);
+            player2Chara.setPlayer2SpBar();
+            player1Chara.setSP(-100);
+            player1Chara.setPlayer1SpBar();
+        } else if(sceneDirector.nowPlayer == 1 && player2Chara.Sp == 100) {
+            player1Chara.setSP(-minSp);
+            player1Chara.setPlayer1SpBar();
+            player2Chara.setSP(-100);
+            player2Chara.setPlayer2SpBar();
         }
 
         yield break;
