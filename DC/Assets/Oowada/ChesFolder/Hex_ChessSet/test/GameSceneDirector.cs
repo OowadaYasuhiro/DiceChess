@@ -1037,17 +1037,25 @@ public class GameSceneDirector : MonoBehaviour
         Debug.Log("じっす鵜"+rnd);
         //rnd = Random.Range(1, 7);
 
-        if (damageFlag == 1)
+        if(nowPlayer == 0)
         {
-            rnd *= 2;
-            damageFlag -= 1;
+            if (damageFlag == 1)
+            {
+                rnd *= 2;
+                damageFlag -= 1;
+                Debug.Log("1P");
+            }
         }
-        else if (damageFlag == 2)
+        if(nowPlayer == 1)
         {
-            rnd *= 2;
-            damageFlag -= 2;
+            if (damageFlag == 2)
+            {
+                rnd *= 2;
+                damageFlag -= 2;
+                Debug.Log("2P");
+            }
         }
-        else if (damageFlag == 3)
+        if (damageFlag == 3)
         {
             if (nowPlayer == 0)
             {

@@ -56,6 +56,9 @@ public class SpecialMoveController : MonoBehaviour
 
         //nowPlayerが0の時は自分の番
         if(sceneDirector.nowPlayer == 0 && player1Chara.Sp == 100) {
+            player1Chara.setSP(-100);
+            player1Chara.setPlayer1SpBar();
+
             sceneDirector.tileBoolInversion();
             fadeAnim.SetTrigger("spFadeIn");
             yield return new WaitForSeconds(0.3f);
@@ -86,11 +89,13 @@ public class SpecialMoveController : MonoBehaviour
                 }
             }
 
-            player1Chara.setSP(-100);
-            player1Chara.setPlayer1SpBar();
+            
         }
         //nowPlayerが1の時は相手の番
         else if(sceneDirector.nowPlayer == 1 && player2Chara.Sp == 100) {
+            player2Chara.setSP(-100);
+            player2Chara.setPlayer2SpBar();
+
             sceneDirector.tileBoolInversion();
             fadeAnim.SetTrigger("spFadeIn");
             yield return new WaitForSeconds(0.3f);
@@ -121,8 +126,7 @@ public class SpecialMoveController : MonoBehaviour
                 }
             }
 
-            player2Chara.setSP(-100);
-            player2Chara.setPlayer2SpBar();
+            
         }
         Debug.Log(damage);
 
@@ -143,15 +147,19 @@ public class SpecialMoveController : MonoBehaviour
 
     public IEnumerator specialMove4() {
         if(sceneDirector.nowPlayer == 0 && player1Chara.Sp == 100) {
-            player2Chara.setSP(-minSp);
-            player2Chara.setPlayer2SpBar();
             player1Chara.setSP(-100);
             player1Chara.setPlayer1SpBar();
+
+            player2Chara.setSP(-minSp);
+            player2Chara.setPlayer2SpBar();
+            
         } else if(sceneDirector.nowPlayer == 1 && player2Chara.Sp == 100) {
-            player1Chara.setSP(-minSp);
-            player1Chara.setPlayer1SpBar();
             player2Chara.setSP(-100);
             player2Chara.setPlayer2SpBar();
+
+            player1Chara.setSP(-minSp);
+            player1Chara.setPlayer1SpBar();
+            
         }
 
         yield break;
