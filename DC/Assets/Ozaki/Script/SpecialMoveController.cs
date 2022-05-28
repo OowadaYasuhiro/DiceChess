@@ -59,9 +59,12 @@ public class SpecialMoveController : MonoBehaviour
             player1Chara.setSP(-100);
             player1Chara.setPlayer1SpBar();
 
+            effCon.setPositionEff(1,-8.25f,0f,-5f ,-35f,0f,0f);
             sceneDirector.tileBoolInversion();
-            fadeAnim.SetTrigger("spFadeIn");
             yield return new WaitForSeconds(0.3f);
+            
+            fadeAnim.SetTrigger("spFadeIn");
+            yield return new WaitForSeconds(0.5f);
 
             effCon.setEff(3);
 
@@ -96,7 +99,10 @@ public class SpecialMoveController : MonoBehaviour
             player2Chara.setSP(-100);
             player2Chara.setPlayer2SpBar();
 
+            effCon.setPositionEff(1, 6.25f, 5f, -1.5f, -35f, 0f, 0f);
             sceneDirector.tileBoolInversion();
+            yield return new WaitForSeconds(0.3f);
+
             fadeAnim.SetTrigger("spFadeIn");
             yield return new WaitForSeconds(0.3f);
 
