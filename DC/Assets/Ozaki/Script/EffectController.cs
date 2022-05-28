@@ -24,8 +24,8 @@ public class EffectController : MonoBehaviour
     }
 
     //位置を決めてエフェクトを出現させる
-    public void setPositionEff(int num, int x, int y, int z) {
-        Instantiate(_effPrefabs[num], new Vector3(x,y,z), Quaternion.identity);
+    public void setPositionEff(int num, float vecX, float vecY, float vecZ, float quaX, float quaY, float quaZ ) {
+        Instantiate(_effPrefabs[num], new Vector3(vecX,vecY,vecZ), Quaternion.Euler(quaX,quaY,quaZ));
     }
 
     //誰かの位置に出現させる
