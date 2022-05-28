@@ -116,14 +116,16 @@ public class ItemController : MonoBehaviour
         {
             status = chara[0].GetComponent<CharacterStatus>();
             status.setSP(spRecovery);
+            status.setPlayer1SpBar();
         }
         //nowPlayerが1の時は相手の番
         else if (GSD.nowPlayer == 1)
         {
             status = chara[1].GetComponent<CharacterStatus>();
             status.setSP(spRecovery);
+            status.setPlayer2SpBar();
         }
-        Debug.Log(GSD.nowPlayer + "pに" + spRecovery + "したのでspの合計値が" + status.sp);
+        Debug.Log(GSD.nowPlayer + "pに" + spRecovery + "したのでspの合計値が" + status.Sp);
         yield break;
     }
 
@@ -161,7 +163,7 @@ public class ItemController : MonoBehaviour
     {
         Debug.Log("アイテム開始");
         StartCoroutine("Kaihuku");
-
+        Debug.Log("アイテム仕様");
     }
     public void UseItem2()
     {

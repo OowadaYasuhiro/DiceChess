@@ -76,6 +76,9 @@ public class GameSceneDirector : MonoBehaviour
     // 選択ユニット
     UnitController selectUnit;
 
+    //エフェクトコントローラー
+    EffectController effCon;
+
     // 移動関連
     List<Vector2Int> movableTiles;
     List<GameObject> cursors;
@@ -155,6 +158,8 @@ public class GameSceneDirector : MonoBehaviour
         ATKText = GameObject.Find("AttackDameText");
         aText = ATKText.GetComponent<Text>();
         turnText = GameObject.Find("TurnText").GetComponent<Text>();
+        // エフェクトコントローラー
+        effCon = GameObject.Find("SceneDirector").GetComponent<EffectController>();
 
         //プレイヤー1取得
         player1Chara = GameObject.Find("Player1Chara").GetComponent<CharacterStatus>();
@@ -887,23 +892,37 @@ public class GameSceneDirector : MonoBehaviour
             if(Hp <= 0) {
                 battleEnd = true;
 
-                Destroy(units[tilepos.x, tilepos.y].gameObject);//敵の駒のHPをUnitControllerのGetHPからとりif文で分岐
-                prevDestroyTurn = 0;
-
                 //バトル演出系をoffする
-                panelAnim.SetTrigger("out");
+                panelAnim.SetTrigger("spFadeOut");
                 AttackButton.SetActive(false);
                 ATKText.SetActive(false);
                 pushAButton = false;
                 diceCheck = false;
 
+                effCon.enemyPositionEff(0, units[tilepos.x, tilepos.y].unitVec());
+
+                yield return new WaitForSeconds(0.3f);
+
+                effCon.enemyPositionEff(4, units[tilepos.x, tilepos.y].unitVec());
+
+                yield return new WaitForSeconds(0.2f);
+
+                Destroy(units[tilepos.x, tilepos.y].gameObject);//敵の駒のHPをUnitControllerのGetHPからとりif文で分岐
+                prevDestroyTurn = 0;
+
+                yield return new WaitForSeconds(1f);
+
                 //攻撃した側のターンを読み取って1P側か2P側の攻撃かを判断する(SP取得用)
                 if(nowPlayer == 0) {
                     player1Chara.setSP(units[tilepos.x, tilepos.y].GetPOINT());
+                    player1Chara.setPlayer1SpBar();
                 }
                 else if(nowPlayer == 1) {
                     player2Chara.setSP(units[tilepos.x, tilepos.y].GetPOINT());
+                    player2Chara.setPlayer2SpBar();
                 }
+
+                
 
                 // 新しい場所へ移動
                 unit.MoveUnit(tiles[tilepos.x, tilepos.y]);
@@ -922,11 +941,15 @@ public class GameSceneDirector : MonoBehaviour
             } else {
                 battleEnd = true;
 
-                panelAnim.SetTrigger("out");
+                panelAnim.SetTrigger("spFadeOut");
                 AttackButton.SetActive(false);
                 ATKText.SetActive(false);
                 pushAButton = false;
                 diceCheck = false;
+
+                effCon.enemyPositionEff(0, units[tilepos.x, tilepos.y].unitVec());
+
+                yield return new WaitForSeconds(1.0f);
 
                 //自分の攻撃したコマが「ポーン、ナイト、キング」だったら移動しないでその場にとどまる
                 if(unit.Type == UnitController.TYPE.PAWN || unit.Type == UnitController.TYPE.KNIGHT || unit.Type == UnitController.TYPE.KING) {
@@ -952,6 +975,7 @@ public class GameSceneDirector : MonoBehaviour
 
                 }
 
+                
 
                 // 新しい場所へ移動
                 unit.MoveUnit(tiles[tilepos.x, tilepos.y]);
@@ -1090,6 +1114,7 @@ public class GameSceneDirector : MonoBehaviour
     public IEnumerator firstTurn()
     {
         
+
         Animator turnOrder = GameObject.Find("FirstTurnImage").GetComponent<Animator>();
 
         if(turnRnd == 0)
@@ -1105,8 +1130,7 @@ public class GameSceneDirector : MonoBehaviour
             turnOrder.SetTrigger("First");
 
         }
-
-        //yield return new WaitForSeconds(1.5f);
+        
         
         nextMode = MODE.TURN_CHANGE;
 
@@ -1133,5 +1157,10 @@ public class GameSceneDirector : MonoBehaviour
     public void TrnEnd()
     {
         if(moved == true) {nextMode = MODE.STATUS_UPDATE; moved = false;}
+    }
+
+    //呼び出し用のinvalidTile反転メソッド
+    public void tileBoolInversion() {
+        invalidTile = !invalidTile;
     }
 }
