@@ -7,6 +7,7 @@ public class ItemController : MonoBehaviour
     GameSceneDirector GSD;
     UnitController unitCon;
     CharacterStatus status;
+    EffectController eff;
     GameObject[] player;
     [SerializeField]
     private GameObject[] chara;
@@ -24,6 +25,7 @@ public class ItemController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        eff = GameObject.Find("SceneDirector").GetComponent<EffectController>();
         GSD = GameObject.Find("SceneDirector").GetComponent<GameSceneDirector>();
         canItem1_1P = true;
         canItem1_2P = true;
@@ -56,6 +58,11 @@ public class ItemController : MonoBehaviour
     //回復する
     public IEnumerator Kaihuku()
     {
+
+        eff.setEff(2);
+
+        yield return new WaitForSeconds(0.4f);
+
         //nowPlayerが0の時は自分の番
         if(GSD.nowPlayer == 0)
         {
@@ -104,8 +111,12 @@ public class ItemController : MonoBehaviour
     //攻撃力を二倍にする
     public IEnumerator DamageItem()
     {
+        eff.setEff(2);
+
+        yield return new WaitForSeconds(0.4f);
+
         //自分の番に使った時damageflagを1増やす
-        if(GSD.nowPlayer == 0)
+        if (GSD.nowPlayer == 0)
         {
             GSD.damageFlag += 1;
             Debug.Log("1Pa");
@@ -122,6 +133,10 @@ public class ItemController : MonoBehaviour
 
     public IEnumerator SpItem()
     {
+        eff.setEff(2);
+
+        yield return new WaitForSeconds(0.4f);
+
         //nowPlayerが0の時は自分の番
         if (GSD.nowPlayer == 0)
         {
@@ -142,6 +157,10 @@ public class ItemController : MonoBehaviour
 
     public IEnumerator Twice()
     {
+        eff.setEff(2);
+
+        yield return new WaitForSeconds(0.4f);
+
         //nowPlayerが0の時は自分の番
         if (GSD.nowPlayer == 0)
         {
