@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class GameSceneDirector : MonoBehaviour
+public class GameSceneDirector : MonoBehaviour 
 {
     public bool debug = true;
     float debtimer;
@@ -65,17 +65,18 @@ public class GameSceneDirector : MonoBehaviour
     [SerializeField] private Text hpText; //HPのテキスト
     [SerializeField] private Slider hpSlider;
 
+
     //コントローラーのため
     [SerializeField] EventSystem eventSystem;
     GameObject selectedObj;
-    [SerializeField] Button B_43;[SerializeField] Button B_42;[SerializeField] Button B_41;[SerializeField] Button B_40;[SerializeField] Button B_4_1;[SerializeField] Button B_4_2;[SerializeField] Button B_4_3;[SerializeField] Button B_4_4;
-    [SerializeField] Button B_33;[SerializeField] Button B_32;[SerializeField] Button B_31;[SerializeField] Button B_30;[SerializeField] Button B_3_1;[SerializeField] Button B_3_2;[SerializeField] Button B_3_3;[SerializeField] Button B_3_4;
-    [SerializeField] Button B_23;[SerializeField] Button B_22;[SerializeField] Button B_21;[SerializeField] Button B_20;[SerializeField] Button B_2_1;[SerializeField] Button B_2_2;[SerializeField] Button B_2_3;[SerializeField] Button B_2_4;
-    [SerializeField] Button B_13;[SerializeField] Button B_12;[SerializeField] Button B_11;[SerializeField] Button B_10;[SerializeField] Button B_1_1;[SerializeField] Button B_1_2;[SerializeField] Button B_1_3;[SerializeField] Button B_1_4;
-    [SerializeField] Button B03;[SerializeField] Button B02;[SerializeField] Button B01;[SerializeField] Button B00;[SerializeField] Button B0_1;[SerializeField] Button B0_2;[SerializeField] Button B0_3;[SerializeField] Button B0_4;
-    [SerializeField] Button B13;[SerializeField] Button B12;[SerializeField] Button B11;[SerializeField] Button B10;[SerializeField] Button B1_1;[SerializeField] Button B1_2;[SerializeField] Button B1_3;[SerializeField] Button B1_4;
-    [SerializeField] Button B23;[SerializeField] Button B22;[SerializeField] Button B21;[SerializeField] Button B20;[SerializeField] Button B2_1;[SerializeField] Button B2_2;[SerializeField] Button B2_3;[SerializeField] Button B2_4;
-    [SerializeField] Button B33;[SerializeField] Button B32;[SerializeField] Button B31;[SerializeField] Button B30;[SerializeField] Button B3_1;[SerializeField] Button B3_2;[SerializeField] Button B3_3;[SerializeField] Button B3_4;
+    private float controlTimer = 0.0f;
+    [SerializeField] private float DelayTime = 0.15f;
+    [SerializeField] private Button player1Button;
+    [SerializeField] private Button player2Button;
+    [SerializeField] private Button item1Button;
+    [SerializeField] private Button item2Button;
+    [SerializeField] private Button endButton;
+    [SerializeField] private GameObject mainCursor;
 
     // 選択ユニット
     UnitController selectUnit;
@@ -415,75 +416,43 @@ public class GameSceneDirector : MonoBehaviour
         // 座標を取得
         Vector3 pos = myTransform.position;
 
-        if (selectedObj)
-        {
-            if ("B_43" == selectedObj.name) { pos.x = -4; pos.z = 3; myTransform.position = pos; }
-            if ("B_42" == selectedObj.name) { pos.x = -4; pos.z = 2; myTransform.position = pos; }
-            if ("B_41" == selectedObj.name) { pos.x = -4; pos.z = 1; myTransform.position = pos; }
-            if ("B_40" == selectedObj.name) { pos.x = -4; pos.z = 0; myTransform.position = pos; }
-            if ("B_4_1" == selectedObj.name) { pos.x = -4; pos.z = -1; myTransform.position = pos; }
-            if ("B_4_2" == selectedObj.name) { pos.x = -4; pos.z = -2; myTransform.position = pos; }
-            if ("B_4_3" == selectedObj.name) { pos.x = -4; pos.z = -3; myTransform.position = pos; }
-            if ("B_4_4" == selectedObj.name) { pos.x = -4; pos.z = -4; myTransform.position = pos; }
-            if ("B_33" == selectedObj.name) { pos.x = -3; pos.z = 3; myTransform.position = pos; }
-            if ("B_32" == selectedObj.name) { pos.x = -3; pos.z = 2; myTransform.position = pos; }
-            if ("B_31" == selectedObj.name) { pos.x = -3; pos.z = 1; myTransform.position = pos; }
-            if ("B_30" == selectedObj.name) { pos.x = -3; pos.z = 0; myTransform.position = pos; }
-            if ("B_3_1" == selectedObj.name) { pos.x = -3; pos.z = -1; myTransform.position = pos; }
-            if ("B_3_2" == selectedObj.name) { pos.x = -3; pos.z = -2; myTransform.position = pos; }
-            if ("B_3_3" == selectedObj.name) { pos.x = -3; pos.z = -3; myTransform.position = pos; }
-            if ("B_3_4" == selectedObj.name) { pos.x = -3; pos.z = -4; myTransform.position = pos; }
-            if ("B_23" == selectedObj.name) { pos.x = -2; pos.z = 3; myTransform.position = pos; }
-            if ("B_22" == selectedObj.name) { pos.x = -2; pos.z = 2; myTransform.position = pos; }
-            if ("B_21" == selectedObj.name) { pos.x = -2; pos.z = 1; myTransform.position = pos; }
-            if ("B_20" == selectedObj.name) { pos.x = -2; pos.z = 0; myTransform.position = pos; }
-            if ("B_2_1" == selectedObj.name) { pos.x = -2; pos.z = -1; myTransform.position = pos; }
-            if ("B_2_2" == selectedObj.name) { pos.x = -2; pos.z = -2; myTransform.position = pos; }
-            if ("B_2_3" == selectedObj.name) { pos.x = -2; pos.z = -3; myTransform.position = pos; }
-            if ("B_2_4" == selectedObj.name) { pos.x = -2; pos.z = -4; myTransform.position = pos; }
-            if ("B_13" == selectedObj.name) { pos.x = -1; pos.z = 3; myTransform.position = pos; }
-            if ("B_12" == selectedObj.name) { pos.x = -1; pos.z = 2; myTransform.position = pos; }
-            if ("B_11" == selectedObj.name) { pos.x = -1; pos.z = 1; myTransform.position = pos; }
-            if ("B_10" == selectedObj.name) { pos.x = -1; pos.z = 0; myTransform.position = pos; }
-            if ("B_1_1" == selectedObj.name) { pos.x = -1; pos.z = -1; myTransform.position = pos; }
-            if ("B_1_2" == selectedObj.name) { pos.x = -1; pos.z = -2; myTransform.position = pos; }
-            if ("B_1_3" == selectedObj.name) { pos.x = -1; pos.z = -3; myTransform.position = pos; }
-            if ("B_1_4" == selectedObj.name) { pos.x = -1; pos.z = -4; myTransform.position = pos; }
-            if ("B03" == selectedObj.name) { pos.x = 0; pos.z = 3; myTransform.position = pos; }
-            if ("B02" == selectedObj.name) { pos.x = 0; pos.z = 2; myTransform.position = pos; }
-            if ("B01" == selectedObj.name) { pos.x = 0; pos.z = 1; myTransform.position = pos; }
-            if ("B00" == selectedObj.name) { pos.x = 0; pos.z = 0; myTransform.position = pos; }
-            if ("B0_1" == selectedObj.name) { pos.x = 0; pos.z = -1; myTransform.position = pos; }
-            if ("B0_2" == selectedObj.name) { pos.x = 0; pos.z = -2; myTransform.position = pos; }
-            if ("B0_3" == selectedObj.name) { pos.x = 0; pos.z = -3; myTransform.position = pos; }
-            if ("B0_4" == selectedObj.name) { pos.x = 0; pos.z = -4; myTransform.position = pos; }
-            if ("B13" == selectedObj.name) { pos.x = 1; pos.z = 3; myTransform.position = pos; }
-            if ("B12" == selectedObj.name) { pos.x = 1; pos.z = 2; myTransform.position = pos; }
-            if ("B11" == selectedObj.name) { pos.x = 1; pos.z = 1; myTransform.position = pos; }
-            if ("B10" == selectedObj.name) { pos.x = 1; pos.z = 0; myTransform.position = pos; }
-            if ("B1_1" == selectedObj.name) { pos.x = 1; pos.z = -1; myTransform.position = pos; }
-            if ("B1_2" == selectedObj.name) { pos.x = 1; pos.z = -2; myTransform.position = pos; }
-            if ("B1_3" == selectedObj.name) { pos.x = 1; pos.z = -3; myTransform.position = pos; }
-            if ("B1_4" == selectedObj.name) { pos.x = 1; pos.z = -4; myTransform.position = pos; }
-            if ("B23" == selectedObj.name) { pos.x = 2; pos.z = 3; myTransform.position = pos; }
-            if ("B22" == selectedObj.name) { pos.x = 2; pos.z = 2; myTransform.position = pos; }
-            if ("B21" == selectedObj.name) { pos.x = 2; pos.z = 1; myTransform.position = pos; }
-            if ("B20" == selectedObj.name) { pos.x = 2; pos.z = 0; myTransform.position = pos; }
-            if ("B2_1" == selectedObj.name) { pos.x = 2; pos.z = -1; myTransform.position = pos; }
-            if ("B2_2" == selectedObj.name) { pos.x = 2; pos.z = -2; myTransform.position = pos; }
-            if ("B2_3" == selectedObj.name) { pos.x = 2; pos.z = -3; myTransform.position = pos; }
-            if ("B2_4" == selectedObj.name) { pos.x = 2; pos.z = -4; myTransform.position = pos; }
-            if ("B33" == selectedObj.name) { pos.x = 3; pos.z = 3; myTransform.position = pos; }
-            if ("B32" == selectedObj.name) { pos.x = 3; pos.z = 2; myTransform.position = pos; }
-            if ("B31" == selectedObj.name) { pos.x = 3; pos.z = 1; myTransform.position = pos; }
-            if ("B30" == selectedObj.name) { pos.x = 3; pos.z = 0; myTransform.position = pos; }
-            if ("B3_1" == selectedObj.name) { pos.x = 3; pos.z = -1; myTransform.position = pos; }
-            if ("B3_2" == selectedObj.name) { pos.x = 3; pos.z = -2; myTransform.position = pos; }
-            if ("B3_3" == selectedObj.name) { pos.x = 3; pos.z = -3; myTransform.position = pos; }
-            if ("B3_4" == selectedObj.name) { pos.x = 3; pos.z = -4; myTransform.position = pos; }
-        }
-        else { /*Debug.Log("No game object called wibble found");*/}
+        float lsh = Input.GetAxis("L_Stick_H");
+        float lsv = Input.GetAxis("L_Stick_V");
 
+        if (controlTimer < Time.time){
+            if (lsh < 0) {
+                if (pos.x > -4){//左に移動
+                    pos.x -= 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
+                    EventSystem.current.SetSelectedGameObject(null);
+                    mainCursor.SetActive(true);
+                }      
+            }
+            if (lsh > 0){
+                if (pos.x < 3){//右に移動
+                    pos.x += 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
+                }
+                else{
+                    endButton.Select();
+                    mainCursor.SetActive(false);
+                }
+            } 
+        }
+        if (controlTimer < Time.time){
+            if (lsv < 0) { 
+                if(pos.z < 3){//上に移動
+                        pos.z += 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
+                }
+                else
+                {
+                    
+                }
+            }
+            if (lsv > 0) { 
+                if(pos.z > -4){//下に移動
+                    pos.z -= 1; myTransform.position = pos; controlTimer = Time.time + DelayTime; 
+                }
+            }
+        }
 
         if (Input.GetKeyDown("joystick 1 button 0") || Input.GetKeyDown("joystick 2 button 0") || Input.GetKey(KeyCode.Space))
         {
