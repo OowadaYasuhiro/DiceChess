@@ -75,6 +75,8 @@ public class GameSceneDirector : MonoBehaviour
     [SerializeField] private Button player2Button;
     [SerializeField] private Button item1Button;
     [SerializeField] private Button item2Button;
+    [SerializeField] private GameObject itemText1Panel;
+    [SerializeField] private GameObject itemText2Panel;
     [SerializeField] private Button endButton;
     [SerializeField] private GameObject mainCursor;
 
@@ -169,6 +171,10 @@ public class GameSceneDirector : MonoBehaviour
         //プレイヤー1取得
         player1Chara = GameObject.Find("Player1Chara").GetComponent<CharacterStatus>();
         player2Chara = GameObject.Find("Player2Chara").GetComponent<CharacterStatus>();
+
+        //コントロールについての初期化
+        itemText1Panel.SetActive(false);
+        itemText2Panel.SetActive(false);
 
         // リザルト関連は非表示
         btnApply.SetActive(false);
@@ -425,11 +431,17 @@ public class GameSceneDirector : MonoBehaviour
                     pos.x -= 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
                     EventSystem.current.SetSelectedGameObject(null);
                     mainCursor.SetActive(true);
-                }      
+                }
+                else{
+                    player1Button.Select();
+                    mainCursor.SetActive(false);
+                }
             }
             if (lsh > 0){
                 if (pos.x < 3){//右に移動
                     pos.x += 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
+                    EventSystem.current.SetSelectedGameObject(null);
+                    mainCursor.SetActive(true);
                 }
                 else{
                     endButton.Select();
@@ -440,16 +452,26 @@ public class GameSceneDirector : MonoBehaviour
         if (controlTimer < Time.time){
             if (lsv < 0) { 
                 if(pos.z < 3){//上に移動
-                        pos.z += 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
-                }
-                else
-                {
-                    
+                    pos.z += 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
+                    EventSystem.current.SetSelectedGameObject(null);
+                    itemText1Panel.SetActive(false);
+                    itemText2Panel.SetActive(false);
+                    mainCursor.SetActive(true);
                 }
             }
             if (lsv > 0) { 
                 if(pos.z > -4){//下に移動
                     pos.z -= 1; myTransform.position = pos; controlTimer = Time.time + DelayTime; 
+                }
+                else if(pos.z < -3 && pos.x < 0){
+                    item1Button.Select();
+                    itemText1Panel.SetActive(true);
+                    mainCursor.SetActive(false);
+                }
+                else if(pos.z < -3 && pos.x >= 0){
+                    item2Button.Select();
+                    itemText2Panel.SetActive(true);
+                    mainCursor.SetActive(false);
                 }
             }
         }
