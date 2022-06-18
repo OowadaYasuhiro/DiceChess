@@ -12,11 +12,11 @@ EditorBuildSettings:
     path: Assets/Ozaki/Scenes/Tutorial.unity
     guid: 06556342331d2f642b1aef3654f08133
   - enabled: 1
+    path: Assets/Ozaki/Scenes/SelectScene.unity
+    guid: e226a2860291f3248b7079dbe48e8bbb
+  - enabled: 1
     path: Assets/Ozaki/Scenes/Chess 1.unity
     guid: 1f9de92fcb1d74542a459f8e4c954393
-  - enabled: 0
-    path: Assets/Oowada/OowadaTest.unity
-    guid: c53c3a29580976b4980c2f34e8f21fd5
   - enabled: 1
     path: Assets/watanabe/Scenes/Result.unity
     guid: a11ecb471c5b9b44289251f04c94dbbc
