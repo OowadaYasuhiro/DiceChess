@@ -283,14 +283,6 @@ public class GameSceneDirector : MonoBehaviour
             nextMode = MODE.NONE;
         }
 
-        //キングのHPが0になった時の処理
-        //まずキングを取得して１ｐと２ｐ
-        UnitController sinu1 = getUnit(0, UnitController.TYPE.KING);
-        UnitController sinu2 = getUnit(1, UnitController.TYPE.KING);
-        Text info = txtResultInfo.GetComponent<Text>();
-        if (sinu1.GetHP() < 1) { info.text = "2Pの勝ち！！"; Invoke("Result", 3.0f);Debug.Log("通った"); }
-        if (sinu2.GetHP() < 1) { info.text = "1Pの勝ち！！"; Invoke("Result", 3.0f); Debug.Log("通ったよ"); }
-        //ここでキングのＨＰが0なら勝者を３秒表示してリザルトに
     }
 
     // チェックメイトモード
@@ -907,6 +899,15 @@ public class GameSceneDirector : MonoBehaviour
                 yield return new WaitForSeconds(0.3f);
 
                 effCon.enemyPositionEff(4, units[tilepos.x, tilepos.y].unitVec());
+
+                //キングのHPが0になった時の処理
+                //まずキングを取得して１ｐと２ｐ
+                UnitController sinu1 = getUnit(0, UnitController.TYPE.KING);
+                UnitController sinu2 = getUnit(1, UnitController.TYPE.KING);
+                Text info = txtResultInfo.GetComponent<Text>();
+                if (sinu1.GetHP() <= 0) { info.text = "2Pの勝ち！！"; Invoke("Result", 3.0f); Debug.Log(sinu1.GetHP() + "通った"); }
+                if (sinu2.GetHP() <= 0) { info.text = "1Pの勝ち！！"; Invoke("Result", 3.0f); Debug.Log(sinu2.GetHP() + "通ったよ"); }
+                //ここでキングのＨＰが0なら勝者を３秒表示してリザルトに
 
                 yield return new WaitForSeconds(0.2f);
 
