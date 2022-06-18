@@ -12,7 +12,7 @@ public class GameStart : MonoBehaviour
     }
     public void ClickStartButton()
     {
-        SceneManager.LoadScene("Chess 1");
+        SceneManager.LoadScene("SelectScene");
     }
     public void EndGame()
     {
