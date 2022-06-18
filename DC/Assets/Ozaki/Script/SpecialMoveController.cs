@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SpecialMoveController : MonoBehaviour
 {
@@ -18,6 +20,8 @@ public class SpecialMoveController : MonoBehaviour
     GameObject[] player;
     Vector3 enemyVec;
     Animator fadeAnim;
+    GameObject txtResultInfo;
+
 
     //キャラタイプ。これで必殺技内容を変える。 1=ティカ　2=リアン　3=ヴィオラ　4=ララ＆リリ＆ロロ
     public enum TYPE
@@ -37,6 +41,7 @@ public class SpecialMoveController : MonoBehaviour
         sceneDirector = GameObject.Find("SceneDirector").GetComponent<GameSceneDirector>();
         effCon = GameObject.Find("SceneDirector").GetComponent<EffectController>();
         fadeAnim = GameObject.Find("AttackBackPanel").GetComponent<Animator>();
+        txtResultInfo = GameObject.Find("TextResultInfo");
     }
 
     // Update is called once per frame
@@ -86,6 +91,18 @@ public class SpecialMoveController : MonoBehaviour
                 unitCon.SetHP(hp);
                 Debug.Log(unit.name);
 
+                if(unitCon.GetTYPE() == 1)
+                {
+                    if (unitCon.GetHP() <= 0)
+                    {
+                        effCon.enemyPositionEff(4, enemyVec);
+                        Text info = txtResultInfo.GetComponent<Text>();
+                        //ちゃんとした勝利エフェクトを作れ
+                        info.text = "1Pの勝ち！！";
+                        Invoke("Result", 3.0f);
+                        Destroy(unit);
+                    }
+                }
                 if(unitCon.GetHP() <= 0) {
                     effCon.enemyPositionEff(4, enemyVec);
                     Destroy(unit);
@@ -126,7 +143,19 @@ public class SpecialMoveController : MonoBehaviour
                 unitCon.SetHP(hp);
                 Debug.Log(unit.name);
 
-                if(unitCon.GetHP() <= 0) {
+                if (unitCon.GetTYPE() == 1)
+                {
+                    if (unitCon.GetHP() <= 0)
+                    {
+                        effCon.enemyPositionEff(4, enemyVec);
+                        Text info = txtResultInfo.GetComponent<Text>();
+                        //ちゃんとした勝利エフェクトを作れ
+                        info.text = "2Pの勝ち！！";
+                        Invoke("Result", 3.0f);
+                        Destroy(unit);
+                    }
+                }
+                if (unitCon.GetHP() <= 0) {
                     effCon.enemyPositionEff(4, enemyVec);
                     Destroy(unit);
                 }
@@ -173,6 +202,11 @@ public class SpecialMoveController : MonoBehaviour
 
     public void getSpMove() {
         StartCoroutine("specialMove1");
+    }
+
+    public void Result()
+    {
+        SceneManager.LoadScene("Result");
     }
 
     /*必殺技使用方法

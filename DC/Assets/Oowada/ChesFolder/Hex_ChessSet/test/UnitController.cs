@@ -10,7 +10,7 @@ public class UnitController : MonoBehaviour
     public TYPE Type;
     //ユニットの体力
     [SerializeField]
-    private int hp;
+    private int hp = 1;
     [SerializeField]
     private int maxHp;
     //ユニットのポイント
@@ -590,7 +590,7 @@ public class UnitController : MonoBehaviour
     }
     public int GetTYPE()
     {
-        if(TYPE.PAWN == Type){return 1;}
+        if(TYPE.KING == Type){return 1;}
         else {return 0;}
     }
     public void returnTwice()
