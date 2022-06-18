@@ -282,6 +282,15 @@ public class GameSceneDirector : MonoBehaviour
             nowMode = nextMode;
             nextMode = MODE.NONE;
         }
+
+        //キングのHPが0になった時の処理
+        //まずキングを取得して１ｐと２ｐ
+        UnitController sinu1 = getUnit(0, UnitController.TYPE.KING);
+        UnitController sinu2 = getUnit(1, UnitController.TYPE.KING);
+        Text info = txtResultInfo.GetComponent<Text>();
+        if (sinu1.GetHP() < 1) { info.text = "2Pの勝ち！！"; Invoke("Result", 3.0f); }
+        if (sinu2.GetHP() < 1) { info.text = "1Pの勝ち！！"; Invoke("Result", 3.0f); }
+        //ここでキングのＨＰが0なら勝者を３秒表示してリザルトに
     }
 
     // チェックメイトモード
@@ -1151,7 +1160,12 @@ public class GameSceneDirector : MonoBehaviour
         SceneManager.LoadScene("TitleScene");
     }
 
-     public int daise()
+    public void Result()
+    {
+        SceneManager.LoadScene("Result");
+    }
+
+    public int daise()
     {
         return 1;
     }
