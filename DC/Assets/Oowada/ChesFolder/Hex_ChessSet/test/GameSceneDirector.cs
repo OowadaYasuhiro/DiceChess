@@ -288,8 +288,8 @@ public class GameSceneDirector : MonoBehaviour
         UnitController sinu1 = getUnit(0, UnitController.TYPE.KING);
         UnitController sinu2 = getUnit(1, UnitController.TYPE.KING);
         Text info = txtResultInfo.GetComponent<Text>();
-        if (sinu1.GetHP() < 1) { info.text = "2Pの勝ち！！"; Invoke("Result", 3.0f); }
-        if (sinu2.GetHP() < 1) { info.text = "1Pの勝ち！！"; Invoke("Result", 3.0f); }
+        if (sinu1.GetHP() < 1) { info.text = "2Pの勝ち！！"; Invoke("Result", 3.0f);Debug.Log("通った"); }
+        if (sinu2.GetHP() < 1) { info.text = "1Pの勝ち！！"; Invoke("Result", 3.0f); Debug.Log("通ったよ"); }
         //ここでキングのＨＰが0なら勝者を３秒表示してリザルトに
     }
 
