@@ -66,6 +66,7 @@ public class Result : MonoBehaviour
         bishopText .text = score.ToString();
         queenText .text = score.ToString();
         kingText .text = score.ToString();
+        totalScoreText .text = score.ToString();
     }
 
     
