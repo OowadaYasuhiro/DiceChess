@@ -64,6 +64,7 @@ public class GameSceneDirector : MonoBehaviour
     CharacterStatus player2Chara; //同じく変わるかも
     [SerializeField] private Text hpText; //HPのテキスト
     [SerializeField] private Slider hpSlider;
+    GameObject turnEndCursor;
 
 
     //コントローラーのため
@@ -79,6 +80,7 @@ public class GameSceneDirector : MonoBehaviour
     [SerializeField] private GameObject itemText2Panel;
     [SerializeField] private Button endButton;
     [SerializeField] private GameObject mainCursor;
+    [SerializeField] private Button aButton;
 
     // 選択ユニット
     UnitController selectUnit;
@@ -157,6 +159,7 @@ public class GameSceneDirector : MonoBehaviour
         txtResultInfo = GameObject.Find("TextResultInfo");
         btnApply = GameObject.Find("ButtonApply");
         btnCancel = GameObject.Find("ButtonCancel");
+        turnEndCursor = GameObject.Find("ImageCanvas_Player1/TurnEndButton/TurnEndCursor");
 
         // 戦闘開始UIオブジェクト取得
         panelAnim = GameObject.Find("AttackBackPanel").GetComponent<Animator>();
@@ -175,6 +178,7 @@ public class GameSceneDirector : MonoBehaviour
         //コントロールについての初期化
         itemText1Panel.SetActive(false);
         itemText2Panel.SetActive(false);
+        turnEndCursor.SetActive(false);
 
         // リザルト関連は非表示
         btnApply.SetActive(false);
@@ -443,10 +447,12 @@ public class GameSceneDirector : MonoBehaviour
                     pos.x += 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
                     EventSystem.current.SetSelectedGameObject(null);
                     mainCursor.SetActive(true);
+                    turnEndCursor.SetActive(false);
                 }
                 else{
                     endButton.Select();
                     mainCursor.SetActive(false);
+                    turnEndCursor.SetActive(true);
                 }
             } 
         }
@@ -1027,6 +1033,7 @@ public class GameSceneDirector : MonoBehaviour
     //ダイス回すボタンクリック
     public void pushATKButton() {
         pushAButton = true;
+        endButton.Select();
         Debug.Log("ボタン押した");
     }
 
