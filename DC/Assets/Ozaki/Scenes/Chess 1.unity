@@ -361,7 +361,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 2012.0184
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -1018,6 +1018,107 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 221528311}
   m_CullTransparentMesh: 0
+
+--- !u!1 &265318504
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 265318505}
+  - component: {fileID: 265318507}
+  - component: {fileID: 265318506}
+  - component: {fileID: 265318508}
+  m_Layer: 5
+  m_Name: PaseImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &265318505
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265318504}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1498281620}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -114, y: -28.77}
+  m_SizeDelta: {x: 168, y: 245}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &265318506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265318504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: eb17310250f6f884d87380ce672becff, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &265318507
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265318504}
+  m_CullTransparentMesh: 0
+--- !u!114 &265318508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265318504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55e293cfd10c70041893f313f5f06da3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paseImage: {fileID: 265318506}
+  PawnWhite: {fileID: 21300000, guid: 6f72bffdbf9f65c488390f337c5c9343, type: 3}
+  PawnBlock: {fileID: 21300000, guid: 1915c3cc6bf849547910344f75a87dae, type: 3}
+  RookWhite: {fileID: 21300000, guid: b3fd0242f2acb2541a6eb2521cfdec95, type: 3}
+  RookBlock: {fileID: 21300000, guid: e5faa34abfe7aee4e89a8df4e0d9d640, type: 3}
+  KnightWhite: {fileID: 21300000, guid: c7fdf569d2e249c458f12a1a20e550a3, type: 3}
+  KnightBlock: {fileID: 21300000, guid: ba92237648b4f5a44832321edc366fcc, type: 3}
+  BishopWhite: {fileID: 21300000, guid: dd364a30dea55e24db7f47fe05c613c9, type: 3}
+  BishopBlock: {fileID: 21300000, guid: 185af6983197129478f1fe24e4958d56, type: 3}
+  QueenWhite: {fileID: 21300000, guid: 7029578697e6f9c4ab80fbc359edd9a4, type: 3}
+  QueenBlock: {fileID: 21300000, guid: 888c6e906c775c34f8dea14b8cb17ebc, type: 3}
+  KingWhite: {fileID: 21300000, guid: eb17310250f6f884d87380ce672becff, type: 3}
+  KingBlock: {fileID: 21300000, guid: 9ab883c9452c2fa4aa2e8017235e0604, type: 3}
 --- !u!1 &281775201
 GameObject:
   m_ObjectHideFlags: 0
@@ -6656,6 +6757,7 @@ MonoBehaviour:
   - {fileID: 7297026580602183812, guid: 78bb34228078a874793bf30d89216711, type: 3}
   hpText: {fileID: 1314942838}
   hpSlider: {fileID: 2021373829}
+  paseImage: {fileID: 265318506}
   eventSystem: {fileID: 2088663570}
   DelayTime: 0.15
   player1Button: {fileID: 554779761}

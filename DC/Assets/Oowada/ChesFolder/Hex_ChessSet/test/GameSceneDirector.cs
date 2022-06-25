@@ -65,7 +65,6 @@ public class GameSceneDirector : MonoBehaviour
     [SerializeField] private Text hpText; //HPのテキスト
     [SerializeField] private Slider hpSlider;
     [SerializeField] private Image paseImage;
-    private Sprite sprite;
     GameObject turnEndCursor;
     GameObject charaTextPanel;
 
@@ -127,6 +126,7 @@ public class GameSceneDirector : MonoBehaviour
     Animator panelAnim;
     Animator textAnim;
     GameObject AttackButton;
+    [SerializeField]private Button attackDiceButton;
     GameObject ATKText;
     GameObject eneUnit;
     Text aText;
@@ -490,7 +490,6 @@ public class GameSceneDirector : MonoBehaviour
 
         if (Input.GetKeyDown("joystick 1 button 0") || Input.GetKeyDown("joystick 2 button 0") || Input.GetKey(KeyCode.Space))
         {
-            Debug.Log("a");
             // ユニットにも当たり判定があるのでヒットした全てのオブジェクト情報を取得
             foreach (RaycastHit hit in Physics.RaycastAll(transform.position, new Vector3(myTransform.position.x, -6, myTransform.position.y)))
             {
@@ -546,12 +545,39 @@ public class GameSceneDirector : MonoBehaviour
         {
             hpText.text = (unit.GetHP() + "/" + unit.GetMaxHp());
             hpSlider.value = (float)unit.GetHP() / unit.GetMaxHp();
+            PaseImageController pI;
+            pI = paseImage.GetComponent<PaseImageController>();
+            if (unit.GetTYPE() == 1)//ポーンのとき
+            {
+                if(unit.GetPlayer() == 0){ pI.PaceCanChanger(1, 0); }
+                if(unit.GetPlayer() == 1){ pI.PaceCanChanger(1, 1); }
+            }
+            else if (unit.GetTYPE() == 2)//ルークのとき
+            {
+                if (unit.GetPlayer() == 0) { pI.PaceCanChanger(2, 0); }
+                if (unit.GetPlayer() == 1) { pI.PaceCanChanger(2, 1); }
+            }
+            if (unit.GetTYPE() == 3)//ナイトのとき
+            {
+                if (unit.GetPlayer() == 0) { pI.PaceCanChanger(3, 0); }
+                if (unit.GetPlayer() == 1) { pI.PaceCanChanger(3, 1); }
+            }
+            if (unit.GetTYPE() == 4)//ビショップのとき
+            {
+                if (unit.GetPlayer() == 0) { pI.PaceCanChanger(4, 0); }
+                if (unit.GetPlayer() == 1) { pI.PaceCanChanger(4, 1); }
+            }
+            if (unit.GetTYPE() == 5)//クイーンのとき
+            {
+                if (unit.GetPlayer() == 0) { pI.PaceCanChanger(5, 0); }
+                if (unit.GetPlayer() == 1) { pI.PaceCanChanger(5, 1); }
+            }
+            if (unit.GetTYPE() == 6)//キングのとき
+            {
+                if (unit.GetPlayer() == 0) { pI.PaceCanChanger(6, 0); }
+                if (unit.GetPlayer() == 1) { pI.PaceCanChanger(6, 1); }
+            }
         }
-
-        //ここにユニットのイメージをかえるやつ
-        sprite = Resources.Load<Sprite>("bag2");
-        paseImage = this.GetComponent<Image>();
-        paseImage.sprite = sprite;
 
         // ユニット選択
         if (null != unit
@@ -575,9 +601,7 @@ public class GameSceneDirector : MonoBehaviour
             if(canMoveCounter == true)
             {
                 StartCoroutine(moveUnit(selectUnit, tilepos));
-                
             }
-            
             //nextMode = MODE.STATUS_UPDATE;
         }
         // 移動範囲だけ見られる
@@ -861,6 +885,8 @@ public class GameSceneDirector : MonoBehaviour
 
         //移動したかどうかのフラグ
         moved = true;
+        //動けないようにする
+        canMoveCounter = false;
 
         //moveSoundを流す
         SE sePlayer = SeObject.GetComponent<SE>();
@@ -916,16 +942,29 @@ public class GameSceneDirector : MonoBehaviour
 
                 effCon.enemyPositionEff(4, units[tilepos.x, tilepos.y].unitVec());
 
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 1 && nowPlayer == 0) { DontDestroySingleObject.p1TakePawn++; }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 1 && nowPlayer == 1) { DontDestroySingleObject.p2TakePawn++; }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 2 && nowPlayer == 0) { DontDestroySingleObject.p1TakeRook++; }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 2 && nowPlayer == 1) { DontDestroySingleObject.p2TakeRook++; }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 3 && nowPlayer == 0) { DontDestroySingleObject.p1TakeKnight++; }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 3 && nowPlayer == 1) { DontDestroySingleObject.p2TakeKnight++; }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 4 && nowPlayer == 0) { DontDestroySingleObject.p1TakeBishop++; }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 4 && nowPlayer == 1) { DontDestroySingleObject.p2TakeBishop++; }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 5 && nowPlayer == 0) { DontDestroySingleObject.p1TakeQueen++; }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 5 && nowPlayer == 1) { DontDestroySingleObject.p2TakeQueen++; }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 6 && nowPlayer == 0) { DontDestroySingleObject.p1TakeKing++; }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 6 && nowPlayer == 1) { DontDestroySingleObject.p2TakeKing++; }
                 //キングのHPが0になった時の処理
                 //まずキングを取得して１ｐと２ｐ
                 UnitController sinu1 = getUnit(0, UnitController.TYPE.KING);
                 UnitController sinu2 = getUnit(1, UnitController.TYPE.KING);
                 Text info = txtResultInfo.GetComponent<Text>();
-                if (sinu1.GetHP() <= 0) { info.text = "2Pの勝ち！！"; Invoke("Result", 3.0f); Debug.Log(sinu1.GetHP() + "通った"); }
-                if (sinu2.GetHP() <= 0) { info.text = "1Pの勝ち！！"; Invoke("Result", 3.0f); Debug.Log(sinu2.GetHP() + "通ったよ"); }
+                if (sinu1.GetHP() <= 0) { info.text = "2Pの勝ち！！"; Invoke("Result", 3.0f); Debug.Log(sinu1.GetHP() + "通った"); DontDestroySingleObject.winner = 1; }
+                if (sinu2.GetHP() <= 0) { info.text = "1Pの勝ち！！"; Invoke("Result", 3.0f); Debug.Log(sinu2.GetHP() + "通ったよ"); DontDestroySingleObject.winner = 0; }
                 //ここでキングのＨＰが0なら勝者を３秒表示してリザルトに
 
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.1f);
+
 
                 Destroy(units[tilepos.x, tilepos.y].gameObject);//敵の駒のHPをUnitControllerのGetHPからとりif文で分岐
                 prevDestroyTurn = 0;
@@ -952,9 +991,6 @@ public class GameSceneDirector : MonoBehaviour
 
                 // 内部データ更新（新しい場所）
                 units[tilepos.x, tilepos.y] = unit;
-
-                //動けないようにする
-                canMoveCounter = false;
 
                 yield break;
 
@@ -1006,9 +1042,6 @@ public class GameSceneDirector : MonoBehaviour
                 // 内部データ更新（新しい場所）
                 units[tilepos.x, tilepos.y] = unit;
 
-                //動けないようにする
-                canMoveCounter = false;
-
                 yield break;
             }
         }
@@ -1025,9 +1058,6 @@ public class GameSceneDirector : MonoBehaviour
             // 内部データ更新（新しい場所）
             units[tilepos.x, tilepos.y] = unit;
 
-            //動けないようにする
-            canMoveCounter = false;
-
             yield break;
         }
     }
@@ -1038,13 +1068,18 @@ public class GameSceneDirector : MonoBehaviour
         GameObject Dice = GameObject.Find("1PDice");
         Transform DiceTrn = Dice.transform;
         DiceTrn.Translate(0, -98, 0);//画面に映る値
+        Invoke("AttackDiceButton",0.1f);
+    }
+
+    public void AttackDiceButton()
+    {
+        attackDiceButton.Select();
     }
 
     //ダイス回すボタンクリック
     public void pushATKButton() {
         pushAButton = true;
         endButton.Select();
-        Debug.Log("ボタン押した");
     }
 
 
@@ -1053,9 +1088,7 @@ public class GameSceneDirector : MonoBehaviour
     public int diceTime()
     {
         GameObject d6 = GameObject.Find("1PDice/d6 2");
-        Debug.Log("ダイスON");
         rnd = d6.GetComponent<nanika>().GetNumber();
-        Debug.Log("じっす鵜"+rnd);
         //rnd = Random.Range(1, 7);
 
         if(nowPlayer == 0)

@@ -607,4 +607,8 @@ public class UnitController : MonoBehaviour
 
         return this.transform.position;
     }
+    public int GetPlayer()
+    {
+        return this.Player;
+    }
 }
