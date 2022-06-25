@@ -885,6 +885,8 @@ public class GameSceneDirector : MonoBehaviour
 
         //移動したかどうかのフラグ
         moved = true;
+        //動けないようにする
+        canMoveCounter = false;
 
         //moveSoundを流す
         SE sePlayer = SeObject.GetComponent<SE>();
@@ -963,6 +965,7 @@ public class GameSceneDirector : MonoBehaviour
 
                 yield return new WaitForSeconds(0.1f);
 
+
                 Destroy(units[tilepos.x, tilepos.y].gameObject);//敵の駒のHPをUnitControllerのGetHPからとりif文で分岐
                 prevDestroyTurn = 0;
 
@@ -988,9 +991,6 @@ public class GameSceneDirector : MonoBehaviour
 
                 // 内部データ更新（新しい場所）
                 units[tilepos.x, tilepos.y] = unit;
-
-                //動けないようにする
-                canMoveCounter = false;
 
                 yield break;
 
@@ -1042,9 +1042,6 @@ public class GameSceneDirector : MonoBehaviour
                 // 内部データ更新（新しい場所）
                 units[tilepos.x, tilepos.y] = unit;
 
-                //動けないようにする
-                canMoveCounter = false;
-
                 yield break;
             }
         }
@@ -1060,9 +1057,6 @@ public class GameSceneDirector : MonoBehaviour
 
             // 内部データ更新（新しい場所）
             units[tilepos.x, tilepos.y] = unit;
-
-            //動けないようにする
-            canMoveCounter = false;
 
             yield break;
         }

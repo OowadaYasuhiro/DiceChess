@@ -17,7 +17,7 @@ public class BaloonController : MonoBehaviour
 
     void Update()
     {
-        //RT.anchoredPosition = new Vector2(0 , StartPos + 240 + Mathf.PingPong(Time.time * 30f, MovingDistance));
-        transform.localPosition = new Vector3(transform.position.x, StartPos + Mathf.PingPong(Time.time * 4f, MovingDistance), transform.position.z);
+        RT.anchoredPosition = new Vector2(0 , StartPos + 240 + Mathf.PingPong(Time.time * 30f, MovingDistance));
+        //transform.localPosition = new Vector3(transform.position.x, StartPos + Mathf.PingPong(Time.time * 4f, MovingDistance), transform.position.z);
     }
 }
