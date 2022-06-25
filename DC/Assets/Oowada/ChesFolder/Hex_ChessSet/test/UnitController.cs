@@ -590,7 +590,12 @@ public class UnitController : MonoBehaviour
     }
     public int GetTYPE()
     {
-        if(TYPE.KING == Type){return 1;}
+        if (TYPE.PAWN == Type) { return 1;}
+        else if (TYPE.ROOK == Type) { return 2;}
+        else if (TYPE.KNIGHT == Type) { return 3;}
+        else if (TYPE.BISHOP == Type) { return 4;}
+        else if (TYPE.QUEEN == Type) { return 5;}
+        else if (TYPE.KING == Type) { return 6; }
         else {return 0;}
     }
     public void returnTwice()
