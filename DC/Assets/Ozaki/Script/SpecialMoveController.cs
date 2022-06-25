@@ -90,13 +90,26 @@ public class SpecialMoveController : MonoBehaviour
                 unitCon.SetHP(hp);
                 Debug.Log(unit.name);
 
-                if(unitCon.GetTYPE() == 6)
+                if (unitCon.GetTYPE() == 1 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakePawn++; }
+                if (unitCon.GetTYPE() == 1 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakePawn++; }
+                if (unitCon.GetTYPE() == 2 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeRook++; }
+                if (unitCon.GetTYPE() == 2 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeRook++; }
+                if (unitCon.GetTYPE() == 3 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeKnight++; }
+                if (unitCon.GetTYPE() == 3 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeKnight++; }
+                if (unitCon.GetTYPE() == 4 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeBishop++; }
+                if (unitCon.GetTYPE() == 4 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeBishop++; }
+                if (unitCon.GetTYPE() == 5 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeQueen++; }
+                if (unitCon.GetTYPE() == 5 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeQueen++; }
+                if (unitCon.GetTYPE() == 6 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeKing++; }
+                if (unitCon.GetTYPE() == 6 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeKing++; }
+                if (unitCon.GetTYPE() == 6)
                 {
                     if(unitCon.GetHP() <= 0)
                     {
                         effCon.enemyPositionEff(4, enemyVec);
                         Text info = txtResultInfo.GetComponent<Text>();
                         //ちゃんとした勝利エフェクトを作れ
+                        DontDestroySingleObject.winner = 0;
                         info.text = "1Pの勝ち";
                         Invoke("goResult", 3.0f);
                         Destroy(unit);
@@ -143,12 +156,25 @@ public class SpecialMoveController : MonoBehaviour
                 unitCon.SetHP(hp);
                 Debug.Log(unit.name);
 
+                if (unitCon.GetTYPE() == 1 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakePawn++; DontDestroySingleObject.p1Point += unitCon.GetPOINT();}
+                if (unitCon.GetTYPE() == 1 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakePawn++; }
+                if (unitCon.GetTYPE() == 2 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeRook++; }
+                if (unitCon.GetTYPE() == 2 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeRook++; }
+                if (unitCon.GetTYPE() == 3 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeKnight++; }
+                if (unitCon.GetTYPE() == 3 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeKnight++; }
+                if (unitCon.GetTYPE() == 4 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeBishop++; }
+                if (unitCon.GetTYPE() == 4 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeBishop++; }
+                if (unitCon.GetTYPE() == 5 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeQueen++; }
+                if (unitCon.GetTYPE() == 5 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeQueen++; }
+                if (unitCon.GetTYPE() == 6 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeKing++; }
+                if (unitCon.GetTYPE() == 6 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeKing++; }
                 if (unitCon.GetTYPE() == 6)
                 {
                     if (unitCon.GetHP() <= 0)
                     {
                         effCon.enemyPositionEff(4, enemyVec);
                         Text info = txtResultInfo.GetComponent<Text>();
+                        DontDestroySingleObject.winner = 1;
                         //ちゃんとした勝利エフェクトを作れ
                         info.text = "2Pの勝ち";
                         Invoke("goResult", 3.0f);
