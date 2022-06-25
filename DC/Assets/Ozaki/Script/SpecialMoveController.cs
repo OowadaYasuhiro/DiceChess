@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class SpecialMoveController : MonoBehaviour
 {
@@ -20,7 +18,6 @@ public class SpecialMoveController : MonoBehaviour
     GameObject[] player;
     Vector3 enemyVec;
     Animator fadeAnim;
-    GameObject txtResultInfo;
 
     //キャラタイプ。これで必殺技内容を変える。 1=ティカ　2=リアン　3=ヴィオラ　4=ララ＆リリ＆ロロ
     public enum TYPE
@@ -40,7 +37,6 @@ public class SpecialMoveController : MonoBehaviour
         sceneDirector = GameObject.Find("SceneDirector").GetComponent<GameSceneDirector>();
         effCon = GameObject.Find("SceneDirector").GetComponent<EffectController>();
         fadeAnim = GameObject.Find("AttackBackPanel").GetComponent<Animator>();
-        txtResultInfo = GameObject.Find("TextResultInfo");
     }
 
     // Update is called once per frame
@@ -156,6 +152,7 @@ public class SpecialMoveController : MonoBehaviour
                 unitCon.SetHP(hp);
                 Debug.Log(unit.name);
 
+
                 if (unitCon.GetTYPE() == 1 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakePawn++; DontDestroySingleObject.p1Point += unitCon.GetPOINT();}
                 if (unitCon.GetTYPE() == 1 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakePawn++; }
                 if (unitCon.GetTYPE() == 2 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeRook++; }
@@ -230,11 +227,6 @@ public class SpecialMoveController : MonoBehaviour
 
     public void getSpMove() {
         StartCoroutine("specialMove1");
-    }
-
-    public void goResult()
-    {
-        SceneManager.LoadScene("Result");
     }
 
     /*必殺技使用方法

@@ -108,13 +108,13 @@ public class CursorController : MonoBehaviour
         }
         
 
-        /* //cursor1の時に使う
+         //cursor1の時に使う
         if(selectController.cursorSame) {
             cursorSameOn();
         } else {
             cursorSameOff();
         }
-        */
+        
     }
 
     //カーソル選択処理
