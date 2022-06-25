@@ -64,8 +64,10 @@ public class GameSceneDirector : MonoBehaviour
     CharacterStatus player2Chara; //同じく変わるかも
     [SerializeField] private Text hpText; //HPのテキスト
     [SerializeField] private Slider hpSlider;
+    [SerializeField] private Image paseImage;
+    private Sprite sprite;
     GameObject turnEndCursor;
-
+    GameObject charaTextPanel;
 
     //コントローラーのため
     [SerializeField] EventSystem eventSystem;
@@ -80,7 +82,6 @@ public class GameSceneDirector : MonoBehaviour
     [SerializeField] private GameObject itemText2Panel;
     [SerializeField] private Button endButton;
     [SerializeField] private GameObject mainCursor;
-    [SerializeField] private Button aButton;
 
     // 選択ユニット
     UnitController selectUnit;
@@ -160,6 +161,7 @@ public class GameSceneDirector : MonoBehaviour
         btnApply = GameObject.Find("ButtonApply");
         btnCancel = GameObject.Find("ButtonCancel");
         turnEndCursor = GameObject.Find("ImageCanvas_Player1/TurnEndButton/TurnEndCursor");
+        charaTextPanel = GameObject.Find("ImageCanvas_Player1/CharaImage1P/CharaTextPanel");
 
         // 戦闘開始UIオブジェクト取得
         panelAnim = GameObject.Find("AttackBackPanel").GetComponent<Animator>();
@@ -179,6 +181,7 @@ public class GameSceneDirector : MonoBehaviour
         itemText1Panel.SetActive(false);
         itemText2Panel.SetActive(false);
         turnEndCursor.SetActive(false);
+        charaTextPanel.SetActive(false);
 
         // リザルト関連は非表示
         btnApply.SetActive(false);
@@ -436,10 +439,12 @@ public class GameSceneDirector : MonoBehaviour
                     pos.x -= 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
                     EventSystem.current.SetSelectedGameObject(null);
                     mainCursor.SetActive(true);
+                    turnEndCursor.SetActive(false);
                 }
                 else{
                     player1Button.Select();
                     mainCursor.SetActive(false);
+                    charaTextPanel.SetActive(true);
                 }
             }
             if (lsh > 0){
@@ -447,7 +452,7 @@ public class GameSceneDirector : MonoBehaviour
                     pos.x += 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
                     EventSystem.current.SetSelectedGameObject(null);
                     mainCursor.SetActive(true);
-                    turnEndCursor.SetActive(false);
+                    charaTextPanel.SetActive(false);
                 }
                 else{
                     endButton.Select();
@@ -542,6 +547,11 @@ public class GameSceneDirector : MonoBehaviour
             hpText.text = (unit.GetHP() + "/" + unit.GetMaxHp());
             hpSlider.value = (float)unit.GetHP() / unit.GetMaxHp();
         }
+
+        //ここにユニットのイメージをかえるやつ
+        sprite = Resources.Load<Sprite>("bag2");
+        paseImage = this.GetComponent<Image>();
+        paseImage.sprite = sprite;
 
         // ユニット選択
         if (null != unit

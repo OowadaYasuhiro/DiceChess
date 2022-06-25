@@ -90,7 +90,7 @@ public class SpecialMoveController : MonoBehaviour
                 unitCon.SetHP(hp);
                 Debug.Log(unit.name);
 
-                if(unitCon.GetTYPE() == 1)
+                if(unitCon.GetTYPE() == 6)
                 {
                     if(unitCon.GetHP() <= 0)
                     {
@@ -143,7 +143,7 @@ public class SpecialMoveController : MonoBehaviour
                 unitCon.SetHP(hp);
                 Debug.Log(unit.name);
 
-                if (unitCon.GetTYPE() == 1)
+                if (unitCon.GetTYPE() == 6)
                 {
                     if (unitCon.GetHP() <= 0)
                     {
