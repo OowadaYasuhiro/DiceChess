@@ -28,8 +28,8 @@ public class CharacterStatus : MonoBehaviour
     public void setSP(int i) {
         _sp += i;
         //必殺技ゲージが100以上になったら余分なポイントを減らす
-        if(100 < _sp) {
-            _sp -= _sp - 100;
+        if(50 < _sp) {
+            _sp -= _sp - 50;
         }
         if(0 > _sp) {
             _sp = 0;
@@ -41,11 +41,11 @@ public class CharacterStatus : MonoBehaviour
     }
 
     public void setPlayer1SpBar() {
-        _spPlayer1Image.fillAmount = _sp / 100f;
+        _spPlayer1Image.fillAmount = _sp / 50f;
     }
 
     public void setPlayer2SpBar() {
-        _spPlayer2Image.fillAmount = _sp / 100f;
+        _spPlayer2Image.fillAmount = _sp / 50f;
     }
    
 }
