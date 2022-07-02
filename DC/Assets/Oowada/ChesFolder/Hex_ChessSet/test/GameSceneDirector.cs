@@ -440,6 +440,8 @@ public class GameSceneDirector : MonoBehaviour
                     EventSystem.current.SetSelectedGameObject(null);
                     mainCursor.SetActive(true);
                     turnEndCursor.SetActive(false);
+                    itemText1Panel.SetActive(false);
+                    itemText2Panel.SetActive(false);
                 }
                 else{
                     player1Button.Select();
@@ -453,6 +455,8 @@ public class GameSceneDirector : MonoBehaviour
                     EventSystem.current.SetSelectedGameObject(null);
                     mainCursor.SetActive(true);
                     charaTextPanel.SetActive(false);
+                    itemText1Panel.SetActive(false);
+                    itemText2Panel.SetActive(false);
                 }
                 else{
                     endButton.Select();
@@ -1213,7 +1217,7 @@ public class GameSceneDirector : MonoBehaviour
 
     public void Result()
     {
-        SceneManager.LoadScene("Result");
+        SceneManager.LoadScene("Result3");
     }
 
     public int daise()
