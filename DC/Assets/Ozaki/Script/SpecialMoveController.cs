@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SpecialMoveController : MonoBehaviour
 {
@@ -230,6 +231,10 @@ public class SpecialMoveController : MonoBehaviour
 
     public void getSpMove() {
         StartCoroutine("specialMove1");
+    }
+
+    public void goResult(){
+        SceneManager.LoadScene("Result3");
     }
 
     /*必殺技使用方法
