@@ -8,6 +8,7 @@ public class UnitController : MonoBehaviour
     public int Player;
     // ユニットの種類
     public TYPE Type;
+    private string TrueType;
     //ユニットの体力
     [SerializeField]
     private int hp = 1;
@@ -37,7 +38,6 @@ public class UnitController : MonoBehaviour
         BISHOP,
         QUEEN,
         KING,
-        TRUEKING,
     }
 
     public enum STATUS
@@ -52,13 +52,12 @@ public class UnitController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (TYPE.PAWN == Type) {hp = 6 ; maxHp = 6; point = 10;}
-        if (TYPE.ROOK == Type) {hp = 8; maxHp = 8; point = 30;}
-        if (TYPE.KNIGHT == Type) {hp = 12; maxHp = 12; point = 20;}
-        if (TYPE.BISHOP == Type) {hp = 8; maxHp = 8; point = 30;}
-        if (TYPE.QUEEN == Type) {hp = 17; maxHp = 17; point = 60;}
-        if (TYPE.KING == Type) {hp = 20; maxHp = 20; point = 0;}
-        if (TYPE.TRUEKING == Type) { hp = 20; maxHp = 20; point = 0; }
+        if (TYPE.PAWN == Type) {hp = 6 ; maxHp = 6; point = 10; TrueType="PAWN";}
+        if (TYPE.ROOK == Type) {hp = 8; maxHp = 8; point = 30; TrueType = "ROOK"; }
+        if (TYPE.KNIGHT == Type) {hp = 12; maxHp = 12; point = 20; TrueType = "KNIGHT";}
+        if (TYPE.BISHOP == Type) {hp = 8; maxHp = 8; point = 30; TrueType = "BISHOP";}
+        if (TYPE.QUEEN == Type) {hp = 17; maxHp = 17; point = 60; TrueType = "QUEEN";}
+        if (TYPE.KING == Type) {hp = 20; maxHp = 20; point = 0; TrueType = "KING"; }
         GS = GameObject.Find("SceneDirector").GetComponent<GameSceneDirector>();
     }
 
@@ -162,32 +161,6 @@ public class UnitController : MonoBehaviour
                     continue;
                 }
 
-                ret.Add(checkpos);
-            }
-        }
-        else if (TYPE.TRUEKING == Type)
-        {
-            List<Vector2Int> vec = new List<Vector2Int>()
-            {
-                new Vector2Int(-1 * moveTwice, 1 * moveTwice),
-                new Vector2Int( 0 * moveTwice, 1 * moveTwice),
-                new Vector2Int( 1 * moveTwice, 1 * moveTwice),
-                new Vector2Int( 1 * moveTwice, 0 * moveTwice),
-                new Vector2Int( 1 * moveTwice,-1 * moveTwice),
-                new Vector2Int( 0 * moveTwice,-1 * moveTwice),
-                new Vector2Int(-1 * moveTwice,-1 * moveTwice),
-                new Vector2Int(-1 * moveTwice, 0 * moveTwice),
-            };
-            foreach (var v in vec)
-            {
-                Vector2Int checkpos = Pos + v;
-                if (!isCheckable(units, checkpos)) continue;
-                // 同じプレイヤーの場所へは行けない
-                if (null != units[checkpos.x, checkpos.y]
-                    && Player == units[checkpos.x, checkpos.y].Player)
-                {
-                    continue;
-                }
                 ret.Add(checkpos);
             }
         }
@@ -590,13 +563,22 @@ public class UnitController : MonoBehaviour
     }
     public int GetTYPE()
     {
-        if (TYPE.PAWN == Type) { return 1;}
-        else if (TYPE.ROOK == Type) { return 2;}
-        else if (TYPE.KNIGHT == Type) { return 3;}
-        else if (TYPE.BISHOP == Type) { return 4;}
-        else if (TYPE.QUEEN == Type) { return 5;}
-        else if (TYPE.KING == Type) { return 6; }
+        if (TrueType == "PAWN") { return 1;}
+        else if (TrueType == "ROOK") { return 2;}
+        else if (TrueType == "KNIGHT") { return 3;}
+        else if (TrueType == "BISHOP") { return 4;}
+        else if (TrueType == "QUEEN") { return 5;}
+        else if (TrueType == "KING") { return 6; }
         else {return 0;}
+    }
+    public void SetTYPE(int i)
+    {
+        if (i == 1) { Type = TYPE.PAWN;}
+        if (i == 2) { Type = TYPE.ROOK;}
+        if (i == 3) { Type = TYPE.KNIGHT;}
+        if (i == 4) { Type = TYPE.BISHOP;}
+        if (i == 5) { Type = TYPE.QUEEN;}
+        if (i == 6) { Type = TYPE.KING;}
     }
     public void returnTwice()
     {
@@ -610,5 +592,9 @@ public class UnitController : MonoBehaviour
     public int GetPlayer()
     {
         return this.Player;
+    }
+    public string GetTrueType()
+    {
+        return this.TrueType;
     }
 }
