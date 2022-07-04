@@ -41,14 +41,14 @@ public class GameSceneDirector : MonoBehaviour
     // 1 = ポーン 2 = ルーク 3 = ナイト 4 = ビショップ 5 = クイーン 6 = キング
     public int[,] unitType =
     {
-        { 2, 1, 0, 0, 0, 0, 11, 12 },
-        { 3, 1, 0, 0, 0, 0, 11, 13 },
-        { 4, 1, 0, 0, 0, 0, 11, 14 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 4, 3, 0, 0, 0, 0, 13, 14 },
         { 5, 1, 0, 0, 0, 0, 11, 15 },
         { 6, 1, 0, 0, 0, 0, 11, 16 },
-        { 4, 1, 0, 0, 0, 0, 11, 14 },
-        { 3, 1, 0, 0, 0, 0, 11, 13 },
-        { 2, 1, 0, 0, 0, 0, 11, 12 },
+        { 2, 3, 0, 0, 0, 0, 13, 12 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
     };
 
     // UI関連
@@ -770,7 +770,6 @@ public class GameSceneDirector : MonoBehaviour
             if (player != v.Player) continue;
             if(type == v.Type ) return v;
         }
-
         return null;
     }
 
@@ -793,7 +792,6 @@ public class GameSceneDirector : MonoBehaviour
             }
 
         }
-
         return ret;
     }
 
