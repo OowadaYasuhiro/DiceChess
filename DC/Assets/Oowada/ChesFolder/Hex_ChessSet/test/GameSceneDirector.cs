@@ -137,6 +137,8 @@ public class GameSceneDirector : MonoBehaviour
     GameObject eneUnit;
     Text aText;
 
+    //移動ダイスのチェック用   
+    public bool pushDPButton = false;
     //攻撃ダイスを振ったかどうかのチェック    
     public bool diceCheck = false;
     public bool pushAButton = false;
@@ -167,6 +169,7 @@ public class GameSceneDirector : MonoBehaviour
         btnCancel = GameObject.Find("ButtonCancel");
         turnEndCursor = GameObject.Find("ImageCanvas_Player1/TurnEndButton/TurnEndCursor");
         charaTextPanel = GameObject.Find("ImageCanvas_Player1/CharaImage1P/CharaTextPanel");
+        dicePicePanel = GameObject.Find("InstructionCanvas/DicePicePanel");
 
         // 戦闘開始UIオブジェクト取得
         panelAnim = GameObject.Find("AttackBackPanel").GetComponent<Animator>();
@@ -192,6 +195,7 @@ public class GameSceneDirector : MonoBehaviour
         btnApply.SetActive(false);
         btnCancel.SetActive(false);
 
+        dicePicePanel.SetActive(false);
         AttackButton.SetActive(false);
         ATKText.SetActive(false);
 
@@ -399,10 +403,17 @@ public class GameSceneDirector : MonoBehaviour
         prevUnits.Add(copyunits);
 
         //ここでダイスをふり行動を決める
+        int hoge = pieceDice();
+        //今のプレイヤーのユニットのタイプをすべてhogeに帰る
+        foreach (var v in getUnits(nowPlayer))
+        {
+            v.SetTYPE(hoge);
+        }
+        dicePiceSetMode();
 
 
         // 次のモードの準備
-        if(MODE.RESULT == nextMode)
+        if (MODE.RESULT == nextMode)
         {
             btnApply.SetActive(true);
             btnCancel.SetActive(true);
@@ -1138,8 +1149,6 @@ public class GameSceneDirector : MonoBehaviour
 
         diceCheck = true;
         return rnd;
-
-
     }
 
     // ユニットのプレハブを取得
@@ -1209,23 +1218,34 @@ public class GameSceneDirector : MonoBehaviour
         yield break;
     }
 
-    //ここでボタンを押させる今回のダイスの目を見て
+    //ここでボタンを押させる今回のダイスの目を見て//atodekannseisaseru
+    public int pieceDice()
+    {
+        //ダイスを獲得してrndに値を入れる
+        GameObject d6 = GameObject.Find("PieceDiceObj/d6 3");
+        rnd = d6.GetComponent<nanika>().GetNumber();
+        return rnd;
+    }
     public IEnumerator dicePiece()
     {
         //ダイスをまわすボタンを少し遅らせて表示させる
         Invoke("battleSetMode", 1f);
-
         //pushAButtonがtrueになるまでここで待機
-        yield return new WaitUntil(() => pushAButton == true);
+        yield return new WaitUntil(() => pushDPButton == true);
     }
     //UIの表示
     public void dicePiceSetMode()
     {
         dicePicePanel.SetActive(true);
+        Invoke("dicePiceSelect", 0.1f);
     }
     public void dicePiceSelect()
     {
         dicePiceButton.Select();
+    }
+    public void DPButton()
+    {
+        pushDPButton=true;
     }
     public void Retry()
     {
