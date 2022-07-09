@@ -402,15 +402,19 @@ public class GameSceneDirector : MonoBehaviour
         UnitController[,] copyunits = GetCopyArray(units);
         prevUnits.Add(copyunits);
 
+        /*
         //ここでダイスをふり行動を決める
+        dicePiceSetMode();
+
+        UnitController PieceDice;
         int hoge = pieceDice();
         //今のプレイヤーのユニットのタイプをすべてhogeに帰る
         foreach (var v in getUnits(nowPlayer))
         {
-            v.SetTYPE(hoge);
+            PieceDice = v;
+            PieceDice.SetTYPE(hoge);
         }
-        dicePiceSetMode();
-
+        */
 
         // 次のモードの準備
         if (MODE.RESULT == nextMode)
@@ -1230,8 +1234,17 @@ public class GameSceneDirector : MonoBehaviour
     {
         //ダイスをまわすボタンを少し遅らせて表示させる
         Invoke("battleSetMode", 1f);
+        GameObject Dice = GameObject.Find("1PDice");
+        Transform DiceTrn = Dice.transform;
+        DiceTrn.Translate(0, -101, 0);//画面に映る値
         //pushAButtonがtrueになるまでここで待機
         yield return new WaitUntil(() => pushDPButton == true);
+
+        DiceTrn.Translate(0, +101, 0);//画面に映る値
+        dicePicePanel.SetActive(false);
+        pushDPButton = false;
+
+        yield break;
     }
     //UIの表示
     public void dicePiceSetMode()
@@ -1247,6 +1260,7 @@ public class GameSceneDirector : MonoBehaviour
     {
         pushDPButton=true;
     }
+
     public void Retry()
     {
         SceneManager.LoadScene("SampleScene");
