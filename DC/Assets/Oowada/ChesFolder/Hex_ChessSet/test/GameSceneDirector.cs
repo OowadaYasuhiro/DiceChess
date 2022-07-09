@@ -123,10 +123,9 @@ public class GameSceneDirector : MonoBehaviour
     List<UnitController[,]> prevUnits;
 
     //駒の動きをきめるダイス
-    GameObject dicePicePanel;
+    [SerializeField] private GameObject dicePicePanel;
     [SerializeField] private Button dicePiceButton;
-    
-
+    int DiceCount = 0;
 
     //戦闘開始合図のアニメ(仮)
     Animator panelAnim;
@@ -169,7 +168,6 @@ public class GameSceneDirector : MonoBehaviour
         btnCancel = GameObject.Find("ButtonCancel");
         turnEndCursor = GameObject.Find("ImageCanvas_Player1/TurnEndButton/TurnEndCursor");
         charaTextPanel = GameObject.Find("ImageCanvas_Player1/CharaImage1P/CharaTextPanel");
-        dicePicePanel = GameObject.Find("InstructionCanvas/DicePicePanel");
 
         // 戦闘開始UIオブジェクト取得
         panelAnim = GameObject.Find("AttackBackPanel").GetComponent<Animator>();
@@ -308,120 +306,6 @@ public class GameSceneDirector : MonoBehaviour
         nextMode = MODE.NORMAL;
         Text info = txtResultInfo.GetComponent<Text>();
         info.text = "";
-
-        // --------------------
-        // ドローのチェック（簡易版）
-        // --------------------
-
-        // 1 vs 1になったら引き分け
-        if ( 3 > getUnits().Count)
-        {
-            info.text = "チェックメイトできないので\n引き分け";
-            nextMode = MODE.RESULT;
-        }
-
-        // 50ターンの誰も削除されなければドロー
-        if( 50 < prevDestroyTurn)
-        {
-            info.text = "50ターンルールで\n引き分け";
-            nextMode = MODE.RESULT;
-        }
-
-        // 3回同じ盤面になったらドロー
-        int prevcount = 0;
-
-        foreach (var v in prevUnits)
-        {
-            bool check = true;
-
-            for (int i = 0; i < v.GetLength(0); i++)
-            {
-                for (int j = 0; j < v.GetLength(1); j++)
-                {
-                    if (v[i, j] != units[i, j]) check = false;
-
-                }
-            }
-
-            if (check) prevcount++;
-        }
-
-        // 3回続いたか
-        if( 20 < prevcount)
-        {
-            info.text = "同じ盤面が続いたので\n引き分け";
-            nextMode = MODE.RESULT;
-        }
-
-        // --------------------
-        // チェックのチェック
-        // --------------------
-        // 今回のプレイヤーのキング
-        UnitController target = getUnit(nowPlayer, UnitController.TYPE.KING);
-        // チェックしているユニット
-        List<UnitController> checkunits = GetCheckUnits(units, nowPlayer);
-        // チェック状態セット
-        bool ischeck = (0 < checkunits.Count) ? true : false;
-
-        if( null != target)
-        {
-            target.SetCheckStatus(ischeck);
-        }
-
-        // ゲームが続くならチェックと表示
-        if( ischeck && MODE.RESULT != nextMode)
-        {
-            info.text = "チェック！！";
-        }
-
-        // --------------------
-        // 移動可能範囲を調べる
-        // --------------------
-        int tilecount = 0;
-
-        // 移動可能範囲をカウント
-        foreach(var v in getUnits(nowPlayer))
-        {
-            tilecount += getMovableTiles(v).Count;
-        }
-
-        // 動かせない
-        if( 1 > tilecount )
-        {
-            info.text = "ステイルメイト\n" + "引き分け";
-
-            if (ischeck)
-            {
-                info.text = "チェックメイト\n" + (getNextPlayer() + 1) + "Pの勝ち！！";
-            }
-
-            nextMode = MODE.RESULT;
-        }
-
-        // 今回の盤面をコピー
-        UnitController[,] copyunits = GetCopyArray(units);
-        prevUnits.Add(copyunits);
-
-        /*
-        //ここでダイスをふり行動を決める
-        dicePiceSetMode();
-
-        UnitController PieceDice;
-        int hoge = pieceDice();
-        //今のプレイヤーのユニットのタイプをすべてhogeに帰る
-        foreach (var v in getUnits(nowPlayer))
-        {
-            PieceDice = v;
-            PieceDice.SetTYPE(hoge);
-        }
-        */
-
-        // 次のモードの準備
-        if (MODE.RESULT == nextMode)
-        {
-            btnApply.SetActive(true);
-            btnCancel.SetActive(true);
-        }
     }
 
     // ノーマルモード
@@ -430,7 +314,23 @@ public class GameSceneDirector : MonoBehaviour
         GameObject tile = null;
         UnitController unit = null;
 
-        if(invalidTile == true) {
+        if (DiceCount < 1)
+        {
+            //ここでダイスをふり行動を決める
+            StartCoroutine(dicePiece());
+
+            UnitController PieceDice;
+            int hoge = pieceDice();
+            //今のプレイヤーのユニットのタイプをすべてhogeに帰る
+            foreach (var v in getUnits(nowPlayer))
+            {
+                PieceDice = v;
+                PieceDice.SetTYPE(hoge);
+            }
+            DiceCount++;
+        }
+
+        if (invalidTile == true) {
             // プレイヤーの処理
             if(Input.GetMouseButtonUp(0)) {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -444,7 +344,6 @@ public class GameSceneDirector : MonoBehaviour
                 }
             }
         }
-
 
         //コントローラーでのプレイヤー処理
         selectedObj = EventSystem.current.currentSelectedGameObject;
@@ -527,7 +426,6 @@ public class GameSceneDirector : MonoBehaviour
                 }
             }
         }
-
         // CPUの処理
         /*while( TitleSceneDirector.PlayerCount <= nowPlayer
                 && (null == selectUnit || null == tile ) )
@@ -584,22 +482,22 @@ public class GameSceneDirector : MonoBehaviour
                 if (unit.GetPlayer() == 0) { pI.PaceCanChanger(2, 0); }
                 if (unit.GetPlayer() == 1) { pI.PaceCanChanger(2, 1); }
             }
-            if (unit.GetTYPE() == 3)//ナイトのとき
+            else if (unit.GetTYPE() == 3)//ナイトのとき
             {
                 if (unit.GetPlayer() == 0) { pI.PaceCanChanger(3, 0); }
                 if (unit.GetPlayer() == 1) { pI.PaceCanChanger(3, 1); }
             }
-            if (unit.GetTYPE() == 4)//ビショップのとき
+            else if (unit.GetTYPE() == 4)//ビショップのとき
             {
                 if (unit.GetPlayer() == 0) { pI.PaceCanChanger(4, 0); }
                 if (unit.GetPlayer() == 1) { pI.PaceCanChanger(4, 1); }
             }
-            if (unit.GetTYPE() == 5)//クイーンのとき
+            else if (unit.GetTYPE() == 5)//クイーンのとき
             {
                 if (unit.GetPlayer() == 0) { pI.PaceCanChanger(5, 0); }
                 if (unit.GetPlayer() == 1) { pI.PaceCanChanger(5, 1); }
             }
-            if (unit.GetTYPE() == 6)//キングのとき
+            else if (unit.GetTYPE() == 6)//キングのとき
             {
                 if (unit.GetPlayer() == 0) { pI.PaceCanChanger(6, 0); }
                 if (unit.GetPlayer() == 1) { pI.PaceCanChanger(6, 1); }
@@ -611,7 +509,6 @@ public class GameSceneDirector : MonoBehaviour
             && selectUnit != unit
             && nowPlayer == unit.Player )
         {
-
             // 移動可能範囲を取得
             List<Vector2Int> tiles = getMovableTiles(unit);
 
@@ -620,7 +517,6 @@ public class GameSceneDirector : MonoBehaviour
 
             movableTiles = tiles;
             setSelectCursors(unit);
-            
         }
         // 移動
         else if (null != selectUnit && movableTiles.Contains(tilepos))
@@ -643,7 +539,6 @@ public class GameSceneDirector : MonoBehaviour
         }
     }
 
-
     //戦闘処理
     void battleMode()
     {
@@ -651,61 +546,11 @@ public class GameSceneDirector : MonoBehaviour
         if(battleEnd == true) {
             nextMode = MODE.STATUS_UPDATE;
         }
-
     }
 
     // 移動後の処理
     void statusUpdateMode()
     {
-        /*// キャスリング
-        if(selectUnit.Status.Contains(UnitController.STATUS.QSIDE_CASTLING) )
-        {
-            // 左端のルーク
-            UnitController unit = units[0, selectUnit.Pos.y];
-            Vector2Int tile = new Vector2Int(selectUnit.Pos.x + 1, selectUnit.Pos.y);
-
-            moveUnit(unit, tile);
-        }
-        else if (selectUnit.Status.Contains(UnitController.STATUS.KSIDE_CASTLING))
-        {
-            // 右端のルーク
-            UnitController unit = units[TILE_X-1, selectUnit.Pos.y];
-            Vector2Int tile = new Vector2Int(selectUnit.Pos.x - 1, selectUnit.Pos.y);
-
-            moveUnit(unit, tile);
-        }
-
-        // アンパッサンとプロモーション
-        if (UnitController.TYPE.PAWN == selectUnit.Type)
-        {
-            foreach (var v in getUnits(getNextPlayer()))
-            {
-                if (!v.Status.Contains(UnitController.STATUS.EN_PASSANT)) continue;
-
-                // 置いた場所がアンパッサン対象か
-                if(selectUnit.Pos == v.OldPos)
-                {
-                    Destroy(v.gameObject);
-                }
-            }
-
-            // プロモーション
-            int py = TILE_Y - 1;
-            if (selectUnit.Player == 1) py = 0;
-
-            // 端に到達
-            if( py == selectUnit.Pos.y )
-            {
-                // クイーン固定
-                GameObject prefab = getPrefabUnit(nowPlayer, (int)UnitController.TYPE.QUEEN);
-                UnitController unit = Instantiate(prefab).GetComponent<UnitController>();
-                GameObject tile = tiles[selectUnit.Pos.x, selectUnit.Pos.y];
-
-                unit.SetUnit(selectUnit.Player, UnitController.TYPE.QUEEN, tile);
-                moveUnit(unit, new Vector2Int(selectUnit.Pos.x, selectUnit.Pos.y));
-            }
-        }*/
-
         // ターン経過
         foreach (var v in getUnits(nowPlayer))
         {
@@ -716,9 +561,7 @@ public class GameSceneDirector : MonoBehaviour
 
         // カーソル
         setSelectCursors();
-
         battleEnd = false;
-
         nextMode = MODE.TURN_CHANGE;
     }
 
@@ -752,9 +595,6 @@ public class GameSceneDirector : MonoBehaviour
             turnNum++;
         }
         turnText.text = turnNum.ToString();
-        
-        
-
         nextMode = MODE.CHECK_MATE;
     }
 
@@ -762,7 +602,6 @@ public class GameSceneDirector : MonoBehaviour
     {
         int next = nowPlayer + 1;
         if (PLAYER_MAX <= next) next = 0;
-
         return next;
     }
 
@@ -773,11 +612,10 @@ public class GameSceneDirector : MonoBehaviour
         invalidTile = false;
         if(nowPlayer == 1) {
             turnAnim.SetTrigger("EnemyOn");
-            
-        } else if(nowPlayer == 0) {
+        } 
+        else if(nowPlayer == 0) {
             turnAnim.SetTrigger("YourOn");
         }
-
         yield return new WaitForSeconds(2.5f);
 
         invalidTile = true;
@@ -804,7 +642,6 @@ public class GameSceneDirector : MonoBehaviour
         foreach (var v in units)
         {
             if (null == v) continue;
-
             if(player == v.Player)
             {
                 ret.Add(v);
@@ -813,7 +650,6 @@ public class GameSceneDirector : MonoBehaviour
             {
                 ret.Add(v);
             }
-
         }
         return ret;
     }
@@ -857,10 +693,8 @@ public class GameSceneDirector : MonoBehaviour
 
                 if (1 > checkcount) ret.Add(v);
             }
-
             return ret;
         }
-
         // 通常移動可能範囲を返す
         return unit.GetMovableTiles(units);
     }
@@ -1056,8 +890,6 @@ public class GameSceneDirector : MonoBehaviour
 
                 }
 
-                
-
                 // 新しい場所へ移動
                 unit.MoveUnit(tiles[tilepos.x, tilepos.y]);
 
@@ -1198,48 +1030,46 @@ public class GameSceneDirector : MonoBehaviour
     //先攻後攻をきめる
     public IEnumerator firstTurn()
     {
-        
-
         Animator turnOrder = GameObject.Find("FirstTurnImage").GetComponent<Animator>();
-
         if(turnRnd == 0)
         {
             nowPlayer = 0;
             turnOrder.SetTrigger("Second");
-
         }
         else if(turnRnd == 1)
         {
             nowPlayer = 1;
-            
             turnOrder.SetTrigger("First");
-
         }
-        
-        
         nextMode = MODE.TURN_CHANGE;
-
         yield break;
     }
 
     //ここでボタンを押させる今回のダイスの目を見て//atodekannseisaseru
+    int rndP;
     public int pieceDice()
     {
         //ダイスを獲得してrndに値を入れる
         GameObject d6 = GameObject.Find("PieceDiceObj/d6 3");
-        rnd = d6.GetComponent<nanika>().GetNumber();
-        return rnd;
+        rndP = d6.GetComponent<nanika>().GetNumber();
+        Debug.Log(rndP);
+        return rndP;
+        Debug.Log("PieceDice");
     }
     public IEnumerator dicePiece()
     {
         //ダイスをまわすボタンを少し遅らせて表示させる
-        Invoke("battleSetMode", 1f);
-        GameObject Dice = GameObject.Find("1PDice");
+        yield return new WaitForSeconds(0.2f);
+        battleSetMode();
+        //Invoke("battleSetMode", 0.2f);
+        GameObject Dice = GameObject.Find("PieceDiceObj/d6 3");
         Transform DiceTrn = Dice.transform;
         DiceTrn.Translate(0, -101, 0);//画面に映る値
+        Debug.Log("DicePiece");
         //pushAButtonがtrueになるまでここで待機
         yield return new WaitUntil(() => pushDPButton == true);
 
+        Debug.Log("DicePiece2");
         DiceTrn.Translate(0, +101, 0);//画面に映る値
         dicePicePanel.SetActive(false);
         pushDPButton = false;
@@ -1249,15 +1079,18 @@ public class GameSceneDirector : MonoBehaviour
     //UIの表示
     public void dicePiceSetMode()
     {
+        Debug.Log("DicePieceSetMode");
         dicePicePanel.SetActive(true);
         Invoke("dicePiceSelect", 0.1f);
     }
     public void dicePiceSelect()
     {
+        Debug.Log("DicePieceSelect");
         dicePiceButton.Select();
     }
     public void DPButton()
     {
+        Debug.Log("DPBUTTON");
         pushDPButton=true;
     }
 
@@ -1265,25 +1098,21 @@ public class GameSceneDirector : MonoBehaviour
     {
         SceneManager.LoadScene("SampleScene");
     }
-
     public void Title()
     {
         SceneManager.LoadScene("TitleScene");
     }
-
     public void Result()
     {
         SceneManager.LoadScene("Result3");
     }
-
     public int daise()
     {
         return 1;
     }
-
     public void TrnEnd()
     {
-        if(moved == true) {nextMode = MODE.STATUS_UPDATE; moved = false;}
+        if(moved == true) {nextMode = MODE.STATUS_UPDATE; moved = false; DiceCount=0;}
     }
 
     //呼び出し用のinvalidTile反転メソッド
