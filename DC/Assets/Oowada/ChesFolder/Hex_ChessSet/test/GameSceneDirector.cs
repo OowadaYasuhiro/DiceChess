@@ -122,6 +122,12 @@ public class GameSceneDirector : MonoBehaviour
     // 前回の盤面
     List<UnitController[,]> prevUnits;
 
+    //駒の動きをきめるダイス
+    GameObject dicePicePanel;
+    [SerializeField] private Button dicePiceButton;
+    
+
+
     //戦闘開始合図のアニメ(仮)
     Animator panelAnim;
     Animator textAnim;
@@ -130,7 +136,6 @@ public class GameSceneDirector : MonoBehaviour
     GameObject ATKText;
     GameObject eneUnit;
     Text aText;
-
 
     //攻撃ダイスを振ったかどうかのチェック    
     public bool diceCheck = false;
@@ -392,6 +397,9 @@ public class GameSceneDirector : MonoBehaviour
         // 今回の盤面をコピー
         UnitController[,] copyunits = GetCopyArray(units);
         prevUnits.Add(copyunits);
+
+        //ここでダイスをふり行動を決める
+
 
         // 次のモードの準備
         if(MODE.RESULT == nextMode)
@@ -1201,8 +1209,24 @@ public class GameSceneDirector : MonoBehaviour
         yield break;
     }
 
-   
+    //ここでボタンを押させる今回のダイスの目を見て
+    public IEnumerator dicePiece()
+    {
+        //ダイスをまわすボタンを少し遅らせて表示させる
+        Invoke("battleSetMode", 1f);
 
+        //pushAButtonがtrueになるまでここで待機
+        yield return new WaitUntil(() => pushAButton == true);
+    }
+    //UIの表示
+    public void dicePiceSetMode()
+    {
+        dicePicePanel.SetActive(true);
+    }
+    public void dicePiceSelect()
+    {
+        dicePiceButton.Select();
+    }
     public void Retry()
     {
         SceneManager.LoadScene("SampleScene");

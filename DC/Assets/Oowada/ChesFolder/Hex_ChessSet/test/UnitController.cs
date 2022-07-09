@@ -28,7 +28,7 @@ public class UnitController : MonoBehaviour
 
     GameSceneDirector GS;
 
-    // 1 = ポーン 2 = ルーク 3 = ナイト 4 = ビショップ 5 = クイーン 6 = キング 7 = 真のキング
+    // 1 = ポーン 2 = ルーク 3 = ナイト 4 = ビショップ 5 = クイーン 6 = キング 
     public enum TYPE
     {
         NONE = -1,
