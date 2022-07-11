@@ -8454,6 +8454,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: d6 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7707190669517410563, guid: 8d5f1e41565576b4d86945d1e0b711d5,
+        type: 3}
+      propertyPath: dice
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d5f1e41565576b4d86945d1e0b711d5, type: 3}
 --- !u!4 &1636297150 stripped

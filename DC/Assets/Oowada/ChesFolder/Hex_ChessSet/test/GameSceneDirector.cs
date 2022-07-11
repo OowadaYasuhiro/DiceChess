@@ -43,10 +43,10 @@ public class GameSceneDirector : MonoBehaviour
     {
         { 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 4, 3, 0, 0, 0, 0, 13, 14 },
-        { 5, 1, 0, 0, 0, 0, 11, 15 },
-        { 6, 1, 0, 0, 0, 0, 11, 16 },
-        { 2, 3, 0, 0, 0, 0, 13, 12 },
+        { 0, 2, 3, 0, 0, 13, 12, 0 },
+        { 0, 5, 1, 0, 0, 11, 15, 0 },
+        { 0, 6, 1, 0, 0, 11, 16, 0 },
+        { 0, 4, 3, 0, 0, 13, 14, 0 },
         { 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0, 0, 0, 0 },
     };
@@ -318,15 +318,6 @@ public class GameSceneDirector : MonoBehaviour
         {
             //ここでダイスをふり行動を決める
             StartCoroutine(dicePiece());
-
-            UnitController PieceDice;
-            int hoge = pieceDice();
-            //今のプレイヤーのユニットのタイプをすべてhogeに帰る
-            foreach (var v in getUnits(nowPlayer))
-            {
-                PieceDice = v;
-                PieceDice.SetTYPE(hoge);
-            }
             DiceCount++;
         }
 
@@ -472,36 +463,9 @@ public class GameSceneDirector : MonoBehaviour
             hpSlider.value = (float)unit.GetHP() / unit.GetMaxHp();
             PaseImageController pI;
             pI = paseImage.GetComponent<PaseImageController>();
-            if (unit.GetTYPE() == 1)//ポーンのとき
-            {
-                if(unit.GetPlayer() == 0){ pI.PaceCanChanger(1, 0); }
-                if(unit.GetPlayer() == 1){ pI.PaceCanChanger(1, 1); }
-            }
-            else if (unit.GetTYPE() == 2)//ルークのとき
-            {
-                if (unit.GetPlayer() == 0) { pI.PaceCanChanger(2, 0); }
-                if (unit.GetPlayer() == 1) { pI.PaceCanChanger(2, 1); }
-            }
-            else if (unit.GetTYPE() == 3)//ナイトのとき
-            {
-                if (unit.GetPlayer() == 0) { pI.PaceCanChanger(3, 0); }
-                if (unit.GetPlayer() == 1) { pI.PaceCanChanger(3, 1); }
-            }
-            else if (unit.GetTYPE() == 4)//ビショップのとき
-            {
-                if (unit.GetPlayer() == 0) { pI.PaceCanChanger(4, 0); }
-                if (unit.GetPlayer() == 1) { pI.PaceCanChanger(4, 1); }
-            }
-            else if (unit.GetTYPE() == 5)//クイーンのとき
-            {
-                if (unit.GetPlayer() == 0) { pI.PaceCanChanger(5, 0); }
-                if (unit.GetPlayer() == 1) { pI.PaceCanChanger(5, 1); }
-            }
-            else if (unit.GetTYPE() == 6)//キングのとき
-            {
-                if (unit.GetPlayer() == 0) { pI.PaceCanChanger(6, 0); }
-                if (unit.GetPlayer() == 1) { pI.PaceCanChanger(6, 1); }
-            }
+
+            //駒のイメージを変える
+            pI.PaceCanChanger(unit.GetTYPE(), unit.GetPlayer());
         }
 
         // ユニット選択
@@ -1060,9 +1024,8 @@ public class GameSceneDirector : MonoBehaviour
     {
         //ダイスをまわすボタンを少し遅らせて表示させる
         yield return new WaitForSeconds(0.2f);
-        battleSetMode();
-        //Invoke("battleSetMode", 0.2f);
         GameObject Dice = GameObject.Find("PieceDiceObj/d6 3");
+        dicePiceSetMode();
         Transform DiceTrn = Dice.transform;
         DiceTrn.Translate(0, -101, 0);//画面に映る値
         Debug.Log("DicePiece");
@@ -1070,7 +1033,15 @@ public class GameSceneDirector : MonoBehaviour
         yield return new WaitUntil(() => pushDPButton == true);
 
         Debug.Log("DicePiece2");
-        DiceTrn.Translate(0, +101, 0);//画面に映る値
+        DiceTrn.Translate(0, +101, 0);//画面から出る
+        UnitController PieceDice;
+        int hoge = pieceDice();
+        //今のプレイヤーのユニットのタイプをすべてhogeに帰る
+        foreach (var v in getUnits(nowPlayer))
+        {
+            PieceDice = v;
+            PieceDice.SetTYPE(hoge);
+        }
         dicePicePanel.SetActive(false);
         pushDPButton = false;
 
