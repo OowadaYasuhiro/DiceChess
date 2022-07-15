@@ -7630,6 +7630,7 @@ MonoBehaviour:
   nowPlayer: 0
   damageFlag: 0
   moved: 0
+  dicePicePanel: {fileID: 465387571}
   dicePiceButton: {fileID: 1847160391}
   attackDiceButton: {fileID: 577074590}
   pushDPButton: 0
@@ -9927,6 +9928,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: d6 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7707190669517410563, guid: 8d5f1e41565576b4d86945d1e0b711d5,
+        type: 3}
+      propertyPath: dice
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d5f1e41565576b4d86945d1e0b711d5, type: 3}
 --- !u!1 &1847160389
@@ -9942,7 +9948,7 @@ GameObject:
   - component: {fileID: 1847160392}
   - component: {fileID: 1847160391}
   m_Layer: 5
-  m_Name: Button
+  m_Name: DicePiceButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -348,7 +348,7 @@ public class GameSceneDirector : MonoBehaviour
 
         if (controlTimer < Time.time){
             if (lsh < 0) {
-                if (pos.x > -4){//左に移動
+                if (pos.x > -5){//左に移動
                     pos.x -= 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
                     EventSystem.current.SetSelectedGameObject(null);
                     mainCursor.SetActive(true);
@@ -363,7 +363,7 @@ public class GameSceneDirector : MonoBehaviour
                 }
             }
             if (lsh > 0){
-                if (pos.x < 3){//右に移動
+                if (pos.x < 4){//右に移動
                     pos.x += 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
                     EventSystem.current.SetSelectedGameObject(null);
                     mainCursor.SetActive(true);
@@ -389,7 +389,7 @@ public class GameSceneDirector : MonoBehaviour
                 }
             }
             if (lsv > 0) { 
-                if(pos.z > -4){//下に移動
+                if(pos.z > -5){//下に移動
                     pos.z -= 1; myTransform.position = pos; controlTimer = Time.time + DelayTime; 
                 }
                 else if(pos.z < -3 && pos.x < 0){
@@ -546,7 +546,10 @@ public class GameSceneDirector : MonoBehaviour
         nowPlayer = getNextPlayer();
 
         // Infoの更新
-        txtTurnInfo.GetComponent<Text>().text = "" + (nowPlayer + 1) + "Pの番です";
+        string nowColor = "";
+        if (nowPlayer == 0) { nowColor = "白";}
+        else if(nowPlayer == 1) { nowColor = "黒";}
+        txtTurnInfo.GetComponent<Text>().text = "" + nowColor + "の番です";
 
         // 経過ターン（１P側にきたら+1）
         if( 0 == nowPlayer)
@@ -900,7 +903,6 @@ public class GameSceneDirector : MonoBehaviour
     //ダイス回すボタンクリック
     public void pushATKButton() {
         pushAButton = true;
-        endButton.Select();
     }
 
 
