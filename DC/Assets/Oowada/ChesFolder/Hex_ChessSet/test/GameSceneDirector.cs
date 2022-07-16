@@ -67,6 +67,8 @@ public class GameSceneDirector : MonoBehaviour
     [SerializeField] private Image paseImage;
     GameObject turnEndCursor;
     GameObject charaTextPanel;
+    GameObject charaTextPanel2;
+
 
     //コントローラーのため
     [SerializeField] EventSystem eventSystem;
@@ -170,6 +172,7 @@ public class GameSceneDirector : MonoBehaviour
         btnCancel = GameObject.Find("ButtonCancel");
         turnEndCursor = GameObject.Find("ImageCanvas_Player1/TurnEndButton/TurnEndCursor");
         charaTextPanel = GameObject.Find("ImageCanvas_Player1/CharaImage1P/CharaTextPanel");
+        charaTextPanel2 = GameObject.Find("ImageCanvas_Player1/CharaImage2P/CharaTextPanel2");
 
         // 戦闘開始UIオブジェクト取得
         panelAnim = GameObject.Find("AttackBackPanel").GetComponent<Animator>();
@@ -190,6 +193,8 @@ public class GameSceneDirector : MonoBehaviour
         itemText2Panel.SetActive(false);
         turnEndCursor.SetActive(false);
         charaTextPanel.SetActive(false);
+        charaTextPanel2.SetActive(false);
+
 
         // リザルト関連は非表示
         btnApply.SetActive(false);
@@ -362,8 +367,9 @@ public class GameSceneDirector : MonoBehaviour
                         turnEndCursor.SetActive(false);
                         itemText1Panel.SetActive(false);
                         itemText2Panel.SetActive(false);
+                        charaTextPanel2.SetActive(false);
                     }
-                    else
+                    if(pos.x == -5)
                     {
                         player1Button.Select();
                         mainCursor.SetActive(false);
@@ -381,11 +387,20 @@ public class GameSceneDirector : MonoBehaviour
                         itemText1Panel.SetActive(false);
                         itemText2Panel.SetActive(false);
                     }
-                    else
+                    if(pos.x == 4)
                     {
-                        endButton.Select();
-                        mainCursor.SetActive(false);
-                        turnEndCursor.SetActive(true);
+                        if (pos.z < 0)
+                        {
+                            endButton.Select();
+                            mainCursor.SetActive(false);
+                            turnEndCursor.SetActive(true);
+                        }
+                        else if (pos.z >= 0)
+                        {
+                            player2Button.Select();
+                            mainCursor.SetActive(false);
+                            charaTextPanel2.SetActive(true);
+                        }
                     }
                 }
             }
@@ -408,13 +423,13 @@ public class GameSceneDirector : MonoBehaviour
                     {//下に移動
                         pos.z -= 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
                     }
-                    else if (pos.z < -3 && pos.x < 0)
+                    if (pos.z == -5 && pos.x < 0)
                     {
                         item1Button.Select();
                         itemText1Panel.SetActive(true);
                         mainCursor.SetActive(false);
                     }
-                    else if (pos.z < -3 && pos.x >= 0)
+                    if (pos.z == -5 && pos.x >= 0)
                     {
                         item2Button.Select();
                         itemText2Panel.SetActive(true);
@@ -476,13 +491,12 @@ public class GameSceneDirector : MonoBehaviour
 
         // ユニット
         unit = units[tilepos.x, tilepos.y];
-        if(unit != null)
+        if(unit != null && selectUnit != unit)
         {
             hpText.text = (unit.GetHP() + "/" + unit.GetMaxHp());
             hpSlider.value = (float)unit.GetHP() / unit.GetMaxHp();
             PaseImageController pI;
             pI = paseImage.GetComponent<PaseImageController>();
-
             //駒のイメージを変える
             pI.PaceCanChanger(unit.GetTYPE(), unit.GetPlayer());
         }
@@ -708,7 +722,7 @@ public class GameSceneDirector : MonoBehaviour
         foreach(var v in getMovableTiles(unit))
         {
             Vector3 pos = tiles[v.x, v.y].transform.position;
-            pos.y += 0.51f;
+            pos.y += 0.495f;
 
             GameObject obj = Instantiate(prefabCursor, pos, Quaternion.identity);
             cursors.Add(obj);
@@ -787,6 +801,7 @@ public class GameSceneDirector : MonoBehaviour
 
                 effCon.enemyPositionEff(4, units[tilepos.x, tilepos.y].unitVec());
 
+                Text info = txtResultInfo.GetComponent<Text>();
                 if (units[tilepos.x, tilepos.y].GetTYPE() == 1 && nowPlayer == 0) { DontDestroySingleObject.p1TakePawn++; }
                 if (units[tilepos.x, tilepos.y].GetTYPE() == 1 && nowPlayer == 1) { DontDestroySingleObject.p2TakePawn++; }
                 if (units[tilepos.x, tilepos.y].GetTYPE() == 2 && nowPlayer == 0) { DontDestroySingleObject.p1TakeRook++; }
@@ -797,19 +812,11 @@ public class GameSceneDirector : MonoBehaviour
                 if (units[tilepos.x, tilepos.y].GetTYPE() == 4 && nowPlayer == 1) { DontDestroySingleObject.p2TakeBishop++; }
                 if (units[tilepos.x, tilepos.y].GetTYPE() == 5 && nowPlayer == 0) { DontDestroySingleObject.p1TakeQueen++; }
                 if (units[tilepos.x, tilepos.y].GetTYPE() == 5 && nowPlayer == 1) { DontDestroySingleObject.p2TakeQueen++; }
-                if (units[tilepos.x, tilepos.y].GetTYPE() == 6 && nowPlayer == 0) { DontDestroySingleObject.p1TakeKing++; }
-                if (units[tilepos.x, tilepos.y].GetTYPE() == 6 && nowPlayer == 1) { DontDestroySingleObject.p2TakeKing++; }
-                //キングのHPが0になった時の処理
-                //まずキングを取得して１ｐと２ｐ
-                UnitController sinu1 = getUnit(0, UnitController.TYPE.KING);
-                UnitController sinu2 = getUnit(1, UnitController.TYPE.KING);
-                Text info = txtResultInfo.GetComponent<Text>();
-                if (sinu1.GetHP() <= 0) { info.text = "2Pの勝ち！！"; Invoke("Result", 3.0f); Debug.Log(sinu1.GetHP() + "通った"); DontDestroySingleObject.winner = 1; }
-                if (sinu2.GetHP() <= 0) { info.text = "1Pの勝ち！！"; Invoke("Result", 3.0f); Debug.Log(sinu2.GetHP() + "通ったよ"); DontDestroySingleObject.winner = 0; }
-                //ここでキングのＨＰが0なら勝者を３秒表示してリザルトに
-
+                //キングのHPが0になった時の処理 ここでキングのＨＰが0なら勝者を３秒表示してリザルトに
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 6 && nowPlayer == 0) { DontDestroySingleObject.p1TakeKing++; info.text = "2Pの勝ち！！"; Invoke("Result", 3.0f); DontDestroySingleObject.winner = 1; }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 6 && nowPlayer == 1) { DontDestroySingleObject.p2TakeKing++; info.text = "1Pの勝ち！！"; Invoke("Result", 3.0f); DontDestroySingleObject.winner = 0; }
+                
                 yield return new WaitForSeconds(0.1f);
-
 
                 Destroy(units[tilepos.x, tilepos.y].gameObject);//敵の駒のHPをUnitControllerのGetHPからとりif文で分岐
                 prevDestroyTurn = 0;
@@ -826,7 +833,14 @@ public class GameSceneDirector : MonoBehaviour
                     player2Chara.setPlayer2SpBar();
                 }
 
-                
+                //ダイスを振って動いていいかの判定
+                usingDice = false;
+                //HPの表示を変える
+                /*hpText.text = (units[unitpos.x, unitpos.y].GetHP() + "/" + units[unitpos.x, unitpos.y].GetMaxHp());
+                hpSlider.value = (float)units[unitpos.x, unitpos.y].GetHP() / units[unitpos.x, unitpos.y].GetMaxHp();
+                PaseImageController pI;
+                pI = paseImage.GetComponent<PaseImageController>();
+                pI.PaceCanChanger(units[unitpos.x, unitpos.y].GetTYPE(), units[unitpos.x, unitpos.y].GetPlayer());*/
 
                 // 新しい場所へ移動
                 unit.MoveUnit(tiles[tilepos.x, tilepos.y]);
@@ -876,6 +890,15 @@ public class GameSceneDirector : MonoBehaviour
 
                 }
 
+                //ダイスを振って動いていいかの判定
+                usingDice = false;
+                //HPの表示を変える
+                /*hpText.text = (units[unitpos.x, unitpos.y].GetHP() + "/" + units[unitpos.x, unitpos.y].GetMaxHp());
+                hpSlider.value = (float)units[unitpos.x, unitpos.y].GetHP() / units[unitpos.x, unitpos.y].GetMaxHp();
+                PaseImageController pI;
+                pI = paseImage.GetComponent<PaseImageController>();
+                pI.PaceCanChanger(units[unitpos.x, unitpos.y].GetTYPE(), units[unitpos.x, unitpos.y].GetPlayer());*/
+
                 // 新しい場所へ移動
                 unit.MoveUnit(tiles[tilepos.x, tilepos.y]);
 
@@ -923,7 +946,6 @@ public class GameSceneDirector : MonoBehaviour
     //ダイス回すボタンクリック
     public void pushATKButton() {
         pushAButton = true;
-        usingDice = false;
     }
 
 
