@@ -361,6 +361,7 @@ public class GameSceneDirector : MonoBehaviour
                 {
                     if (pos.x > -5)
                     {//左に移動
+                        if(pos.z == -5) { pos.z = -4;}
                         pos.x -= 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
                         EventSystem.current.SetSelectedGameObject(null);
                         mainCursor.SetActive(true);
@@ -380,6 +381,7 @@ public class GameSceneDirector : MonoBehaviour
                 {
                     if (pos.x < 4)
                     {//右に移動
+                        if (pos.z == -5) { pos.z = -4; }
                         pos.x += 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
                         EventSystem.current.SetSelectedGameObject(null);
                         mainCursor.SetActive(true);
@@ -410,6 +412,8 @@ public class GameSceneDirector : MonoBehaviour
                 {
                     if (pos.z < 3)
                     {//上に移動
+                        if (pos.x == 4) { pos.x = 3; EventSystem.current.SetSelectedGameObject(null);mainCursor.SetActive(true);charaTextPanel2.SetActive(false); turnEndCursor.SetActive(false); }
+                        if (pos.x == -5) { pos.x = -4; EventSystem.current.SetSelectedGameObject(null); mainCursor.SetActive(true); charaTextPanel.SetActive(false);}
                         pos.z += 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
                         EventSystem.current.SetSelectedGameObject(null);
                         itemText1Panel.SetActive(false);
@@ -421,6 +425,8 @@ public class GameSceneDirector : MonoBehaviour
                 {
                     if (pos.z > -5)
                     {//下に移動
+                        if (pos.x == 4) { pos.x = 3; EventSystem.current.SetSelectedGameObject(null); mainCursor.SetActive(true); charaTextPanel2.SetActive(false); turnEndCursor.SetActive(false); }
+                        if (pos.x == -5) { pos.x = -4; EventSystem.current.SetSelectedGameObject(null); mainCursor.SetActive(true); charaTextPanel.SetActive(false); }
                         pos.z -= 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
                     }
                     if (pos.z == -5 && pos.x < 0)
@@ -757,8 +763,7 @@ public class GameSceneDirector : MonoBehaviour
             //選択したタイルのコマのスクリプトを読み取り、GetHP()をHpにいれる
             Hp = units[tilepos.x, tilepos.y].GetHP();
             int maxHP;
-            int unitsType;
-            int unitsPlayer;
+
             maxHP = units[tilepos.x, tilepos.y].GetMaxHp();
 
             //タイルをクリックできなくする　※モード移行を追加したのでいらないかも
@@ -875,8 +880,8 @@ public class GameSceneDirector : MonoBehaviour
                     tilepos.y = selectUnit.Pos.y;
                 }
                 //自分の攻撃したコマが上のコマ以外だったら相手の駒の目の前でとどまる
-                else if(unit.Type == UnitController.TYPE.BISHOP || unit.Type == UnitController.TYPE.QUEEN || unit.Type == UnitController.TYPE.ROOK) {
-
+                else //if(unit.Type == UnitController.TYPE.BISHOP || unit.Type == UnitController.TYPE.QUEEN || unit.Type == UnitController.TYPE.ROOK) 
+                {
                     //右に移動
                     if(tilepos.x < selectUnit.Pos.x) {
                         tilepos.x = tilepos.x + 1;
@@ -945,15 +950,12 @@ public class GameSceneDirector : MonoBehaviour
         pushAButton = true;
     }
 
-
     //試しダイス
     int rnd;
     public int diceTime()
     {
         GameObject d6 = GameObject.Find("1PDice/d6 2");
         rnd = d6.GetComponent<nanika>().GetNumber();
-        //rnd = Random.Range(1, 7);
-
         if(nowPlayer == 0)
         {
             if (damageFlag == 1)
@@ -985,7 +987,6 @@ public class GameSceneDirector : MonoBehaviour
                 damageFlag -= 2;
             }
         }
-
         ATKText.SetActive(true);
         aText.text = rnd.ToString();
 
