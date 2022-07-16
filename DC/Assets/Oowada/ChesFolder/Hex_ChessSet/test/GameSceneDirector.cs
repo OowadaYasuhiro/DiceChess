@@ -756,6 +756,10 @@ public class GameSceneDirector : MonoBehaviour
         {
             //選択したタイルのコマのスクリプトを読み取り、GetHP()をHpにいれる
             Hp = units[tilepos.x, tilepos.y].GetHP();
+            int maxHP;
+            int unitsType;
+            int unitsPlayer;
+            maxHP = units[tilepos.x, tilepos.y].GetMaxHp();
 
             //タイルをクリックできなくする　※モード移行を追加したのでいらないかも
             invalidTile = false;
@@ -773,6 +777,7 @@ public class GameSceneDirector : MonoBehaviour
             //pushAButtonがtrueになるまでここで待機
             yield return new WaitUntil(() => pushAButton == true);
             sePlayer.moveSound2();//ダイスを振る音
+            AttackButton.SetActive(false);
 
             //ダイスで出た数値をPUに入れる→Hp
             PU = diceTime();
@@ -780,6 +785,10 @@ public class GameSceneDirector : MonoBehaviour
 
             //SetHpを行う(相手コマに体力を保存させる)
             units[tilepos.x, tilepos.y].SetHP(Hp);
+
+            //HPの表示を変える
+            hpText.text = (Hp + "/" + maxHP);
+            hpSlider.value = (float)Hp / maxHP;
 
             //少し待つ
             yield return new WaitForSeconds(1f);
@@ -835,13 +844,7 @@ public class GameSceneDirector : MonoBehaviour
 
                 //ダイスを振って動いていいかの判定
                 usingDice = false;
-                //HPの表示を変える
-                /*hpText.text = (units[unitpos.x, unitpos.y].GetHP() + "/" + units[unitpos.x, unitpos.y].GetMaxHp());
-                hpSlider.value = (float)units[unitpos.x, unitpos.y].GetHP() / units[unitpos.x, unitpos.y].GetMaxHp();
-                PaseImageController pI;
-                pI = paseImage.GetComponent<PaseImageController>();
-                pI.PaceCanChanger(units[unitpos.x, unitpos.y].GetTYPE(), units[unitpos.x, unitpos.y].GetPlayer());*/
-
+          
                 // 新しい場所へ移動
                 unit.MoveUnit(tiles[tilepos.x, tilepos.y]);
 
@@ -867,7 +870,7 @@ public class GameSceneDirector : MonoBehaviour
                 yield return new WaitForSeconds(1.0f);
 
                 //自分の攻撃したコマが「ポーン、ナイト、キング」だったら移動しないでその場にとどまる
-                if(unit.Type == UnitController.TYPE.PAWN || unit.Type == UnitController.TYPE.KNIGHT || unit.Type == UnitController.TYPE.KING) {
+                if (unit.Type == UnitController.TYPE.PAWN || unit.Type == UnitController.TYPE.KNIGHT || unit.Type == UnitController.TYPE.KING) {
                     tilepos.x = selectUnit.Pos.x;
                     tilepos.y = selectUnit.Pos.y;
                 }
@@ -892,12 +895,6 @@ public class GameSceneDirector : MonoBehaviour
 
                 //ダイスを振って動いていいかの判定
                 usingDice = false;
-                //HPの表示を変える
-                /*hpText.text = (units[unitpos.x, unitpos.y].GetHP() + "/" + units[unitpos.x, unitpos.y].GetMaxHp());
-                hpSlider.value = (float)units[unitpos.x, unitpos.y].GetHP() / units[unitpos.x, unitpos.y].GetMaxHp();
-                PaseImageController pI;
-                pI = paseImage.GetComponent<PaseImageController>();
-                pI.PaceCanChanger(units[unitpos.x, unitpos.y].GetTYPE(), units[unitpos.x, unitpos.y].GetPlayer());*/
 
                 // 新しい場所へ移動
                 unit.MoveUnit(tiles[tilepos.x, tilepos.y]);
@@ -1061,7 +1058,6 @@ public class GameSceneDirector : MonoBehaviour
         //ダイスを獲得してrndに値を入れる
         GameObject d6 = GameObject.Find("PieceDiceObj/d6 3");
         rndP = d6.GetComponent<nanika>().GetNumber();
-        Debug.Log(rndP);
         return rndP;
     }
     public IEnumerator dicePiece()
