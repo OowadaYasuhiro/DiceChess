@@ -154,6 +154,8 @@ public class GameSceneDirector : MonoBehaviour
     //turnChangeを最初に行わないためのbool
     bool firstTurnFlag;
 
+    bool usingDice = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -346,61 +348,78 @@ public class GameSceneDirector : MonoBehaviour
         float lsh = Input.GetAxis("L_Stick_H");
         float lsv = Input.GetAxis("L_Stick_V");
 
-        if (controlTimer < Time.time){
-            if (lsh < 0) {
-                if (pos.x > -5){//左に移動
-                    pos.x -= 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
-                    EventSystem.current.SetSelectedGameObject(null);
-                    mainCursor.SetActive(true);
-                    turnEndCursor.SetActive(false);
-                    itemText1Panel.SetActive(false);
-                    itemText2Panel.SetActive(false);
+        if (usingDice == false)
+        {
+            if (controlTimer < Time.time)
+            {
+                if (lsh < 0)
+                {
+                    if (pos.x > -5)
+                    {//左に移動
+                        pos.x -= 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
+                        EventSystem.current.SetSelectedGameObject(null);
+                        mainCursor.SetActive(true);
+                        turnEndCursor.SetActive(false);
+                        itemText1Panel.SetActive(false);
+                        itemText2Panel.SetActive(false);
+                    }
+                    else
+                    {
+                        player1Button.Select();
+                        mainCursor.SetActive(false);
+                        charaTextPanel.SetActive(true);
+                    }
                 }
-                else{
-                    player1Button.Select();
-                    mainCursor.SetActive(false);
-                    charaTextPanel.SetActive(true);
+                if (lsh > 0)
+                {
+                    if (pos.x < 4)
+                    {//右に移動
+                        pos.x += 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
+                        EventSystem.current.SetSelectedGameObject(null);
+                        mainCursor.SetActive(true);
+                        charaTextPanel.SetActive(false);
+                        itemText1Panel.SetActive(false);
+                        itemText2Panel.SetActive(false);
+                    }
+                    else
+                    {
+                        endButton.Select();
+                        mainCursor.SetActive(false);
+                        turnEndCursor.SetActive(true);
+                    }
                 }
             }
-            if (lsh > 0){
-                if (pos.x < 4){//右に移動
-                    pos.x += 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
-                    EventSystem.current.SetSelectedGameObject(null);
-                    mainCursor.SetActive(true);
-                    charaTextPanel.SetActive(false);
-                    itemText1Panel.SetActive(false);
-                    itemText2Panel.SetActive(false);
+            if (controlTimer < Time.time)
+            {
+                if (lsv < 0)
+                {
+                    if (pos.z < 3)
+                    {//上に移動
+                        pos.z += 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
+                        EventSystem.current.SetSelectedGameObject(null);
+                        itemText1Panel.SetActive(false);
+                        itemText2Panel.SetActive(false);
+                        mainCursor.SetActive(true);
+                    }
                 }
-                else{
-                    endButton.Select();
-                    mainCursor.SetActive(false);
-                    turnEndCursor.SetActive(true);
-                }
-            } 
-        }
-        if (controlTimer < Time.time){
-            if (lsv < 0) { 
-                if(pos.z < 3){//上に移動
-                    pos.z += 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
-                    EventSystem.current.SetSelectedGameObject(null);
-                    itemText1Panel.SetActive(false);
-                    itemText2Panel.SetActive(false);
-                    mainCursor.SetActive(true);
-                }
-            }
-            if (lsv > 0) { 
-                if(pos.z > -5){//下に移動
-                    pos.z -= 1; myTransform.position = pos; controlTimer = Time.time + DelayTime; 
-                }
-                else if(pos.z < -3 && pos.x < 0){
-                    item1Button.Select();
-                    itemText1Panel.SetActive(true);
-                    mainCursor.SetActive(false);
-                }
-                else if(pos.z < -3 && pos.x >= 0){
-                    item2Button.Select();
-                    itemText2Panel.SetActive(true);
-                    mainCursor.SetActive(false);
+                if (lsv > 0)
+                {
+                    if (pos.z > -5)
+                    {//下に移動
+                        pos.z -= 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
+                    }
+                    else if (pos.z < -3 && pos.x < 0)
+                    {
+                        item1Button.Select();
+                        itemText1Panel.SetActive(true);
+                        mainCursor.SetActive(false);
+                    }
+                    else if (pos.z < -3 && pos.x >= 0)
+                    {
+                        item2Button.Select();
+                        itemText2Panel.SetActive(true);
+                        mainCursor.SetActive(false);
+                    }
                 }
             }
         }
@@ -888,6 +907,7 @@ public class GameSceneDirector : MonoBehaviour
 
     //ボタン表示
     public void battleSetMode() {
+        usingDice = true;
         AttackButton.SetActive(true);
         GameObject Dice = GameObject.Find("1PDice");
         Transform DiceTrn = Dice.transform;
@@ -903,6 +923,7 @@ public class GameSceneDirector : MonoBehaviour
     //ダイス回すボタンクリック
     public void pushATKButton() {
         pushAButton = true;
+        usingDice = false;
     }
 
 
@@ -1020,10 +1041,10 @@ public class GameSceneDirector : MonoBehaviour
         rndP = d6.GetComponent<nanika>().GetNumber();
         Debug.Log(rndP);
         return rndP;
-        Debug.Log("PieceDice");
     }
     public IEnumerator dicePiece()
     {
+        usingDice = true;
         //ダイスをまわすボタンを少し遅らせて表示させる
         yield return new WaitForSeconds(0.2f);
         GameObject Dice = GameObject.Find("PieceDiceObj/d6 3");
@@ -1052,19 +1073,17 @@ public class GameSceneDirector : MonoBehaviour
     //UIの表示
     public void dicePiceSetMode()
     {
-        Debug.Log("DicePieceSetMode");
         dicePicePanel.SetActive(true);
         Invoke("dicePiceSelect", 0.1f);
     }
     public void dicePiceSelect()
     {
-        Debug.Log("DicePieceSelect");
         dicePiceButton.Select();
     }
     public void DPButton()
     {
-        Debug.Log("DPBUTTON");
         pushDPButton=true;
+        usingDice = false;
     }
 
     public void Retry()
