@@ -14,6 +14,10 @@ public class GameStart : MonoBehaviour
     {
         SceneManager.LoadScene("SelectScene");
     }
+    public void Chess()
+    {
+        SceneManager.LoadScene("Chess 1");
+    }
     public void EndGame()
     {
         UnityEditor.EditorApplication.isPlaying = false;//ゲームプレイ終了

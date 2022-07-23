@@ -3,7 +3,25 @@ guid: 12423d5ed69370040b21246027642c77
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - point0: {fileID: 21300000, guid: 096719d82940715469a9174b28444e5a, type: 3}
+  - point1: {fileID: 21300000, guid: 3e26c47ae86110e47856d58b6ba3b1d8, type: 3}
+  - point2: {fileID: 21300000, guid: ec4bef9e6d082c748b27a55362a04413, type: 3}
+  - point3: {fileID: 21300000, guid: ae02619d2d4a10748b04e29c484263e5, type: 3}
+  - point4: {fileID: 21300000, guid: eca344a93ec1d8b4a8d8477069eef59a, type: 3}
+  - point5: {fileID: 21300000, guid: 4e4040949be9c2a43a27282359001280, type: 3}
+  - point6: {fileID: 21300000, guid: b549791ed4004924d8d89a1cbd7f6436, type: 3}
+  - point7: {fileID: 21300000, guid: 1c05dd4beb02b834ea3d899e7bf9025a, type: 3}
+  - point8: {fileID: 21300000, guid: 17e89db6e45b76c4789c6575c955c561, type: 3}
+  - point9: {fileID: 21300000, guid: 757d5eddb7cef4e41b2e05617fa1d649, type: 3}
+  - pawnPointImage: {instanceID: 0}
+  - rookPointImage: {instanceID: 0}
+  - knightPointImage: {instanceID: 0}
+  - bishopPointImage: {instanceID: 0}
+  - queenPointImage: {instanceID: 0}
+  - kingPointImage: {instanceID: 0}
+  - totalScoreImage10: {instanceID: 0}
+  - totalScoreImage100: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
