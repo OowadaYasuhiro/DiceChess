@@ -66,6 +66,7 @@ public class GameSceneDirector : MonoBehaviour
     [SerializeField] private Slider hpSlider;
     [SerializeField] private Image paseImage;
     GameObject turnEndCursor;
+    GameObject player1BackFrontFrame;
     GameObject charaTextPanel;
     GameObject charaTextPanel2;
 
@@ -172,6 +173,7 @@ public class GameSceneDirector : MonoBehaviour
         btnCancel = GameObject.Find("ButtonCancel");
         turnEndCursor = GameObject.Find("ImageCanvas_Player1/TurnEndButton/TurnEndCursor");
         charaTextPanel = GameObject.Find("ImageCanvas_Player1/CharaImage1P/CharaTextPanel");
+        player1BackFrontFrame = GameObject.Find("ImageCanvas_Player1/CharaImage1P/Player1BackFrontFrame");
         charaTextPanel2 = GameObject.Find("ImageCanvas_Player1/CharaImage2P/CharaTextPanel2");
 
         // 戦闘開始UIオブジェクト取得
@@ -192,6 +194,7 @@ public class GameSceneDirector : MonoBehaviour
         itemText1Panel.SetActive(false);
         itemText2Panel.SetActive(false);
         turnEndCursor.SetActive(false);
+        player1BackFrontFrame.SetActive(false);
         charaTextPanel.SetActive(false);
         charaTextPanel2.SetActive(false);
 
@@ -375,6 +378,7 @@ public class GameSceneDirector : MonoBehaviour
                         player1Button.Select();
                         mainCursor.SetActive(false);
                         charaTextPanel.SetActive(true);
+                        player1BackFrontFrame.SetActive(true);
                     }
                 }
                 if (lsh > 0)
@@ -386,6 +390,7 @@ public class GameSceneDirector : MonoBehaviour
                         EventSystem.current.SetSelectedGameObject(null);
                         mainCursor.SetActive(true);
                         charaTextPanel.SetActive(false);
+                        player1BackFrontFrame.SetActive(false);
                         itemText1Panel.SetActive(false);
                         itemText2Panel.SetActive(false);
                     }
