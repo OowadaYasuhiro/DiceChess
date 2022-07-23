@@ -847,16 +847,16 @@ public class GameSceneDirector : MonoBehaviour
                 effCon.enemyPositionEff(4, units[tilepos.x, tilepos.y].unitVec());
 
                 Text info = txtResultInfo.GetComponent<Text>();
-                if (units[tilepos.x, tilepos.y].GetTYPE() == 1 && nowPlayer == 0) { DontDestroySingleObject.p1TakePawn++; }
-                if (units[tilepos.x, tilepos.y].GetTYPE() == 1 && nowPlayer == 1) { DontDestroySingleObject.p2TakePawn++; }
-                if (units[tilepos.x, tilepos.y].GetTYPE() == 2 && nowPlayer == 0) { DontDestroySingleObject.p1TakeRook++; }
-                if (units[tilepos.x, tilepos.y].GetTYPE() == 2 && nowPlayer == 1) { DontDestroySingleObject.p2TakeRook++; }
-                if (units[tilepos.x, tilepos.y].GetTYPE() == 3 && nowPlayer == 0) { DontDestroySingleObject.p1TakeKnight++; }
-                if (units[tilepos.x, tilepos.y].GetTYPE() == 3 && nowPlayer == 1) { DontDestroySingleObject.p2TakeKnight++; }
-                if (units[tilepos.x, tilepos.y].GetTYPE() == 4 && nowPlayer == 0) { DontDestroySingleObject.p1TakeBishop++; }
-                if (units[tilepos.x, tilepos.y].GetTYPE() == 4 && nowPlayer == 1) { DontDestroySingleObject.p2TakeBishop++; }
-                if (units[tilepos.x, tilepos.y].GetTYPE() == 5 && nowPlayer == 0) { DontDestroySingleObject.p1TakeQueen++; }
-                if (units[tilepos.x, tilepos.y].GetTYPE() == 5 && nowPlayer == 1) { DontDestroySingleObject.p2TakeQueen++; }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 1 && nowPlayer == 0) { DontDestroySingleObject.p1TakePawn++; DontDestroySingleObject.p1Point+= units[tilepos.x, tilepos.y].GetPOINT(); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 1 && nowPlayer == 1) { DontDestroySingleObject.p2TakePawn++; DontDestroySingleObject.p2Point += units[tilepos.x, tilepos.y].GetPOINT(); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 2 && nowPlayer == 0) { DontDestroySingleObject.p1TakeRook++; DontDestroySingleObject.p1Point += units[tilepos.x, tilepos.y].GetPOINT(); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 2 && nowPlayer == 1) { DontDestroySingleObject.p2TakeRook++; DontDestroySingleObject.p2Point += units[tilepos.x, tilepos.y].GetPOINT(); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 3 && nowPlayer == 0) { DontDestroySingleObject.p1TakeKnight++; DontDestroySingleObject.p1Point += units[tilepos.x, tilepos.y].GetPOINT(); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 3 && nowPlayer == 1) { DontDestroySingleObject.p2TakeKnight++; DontDestroySingleObject.p2Point += units[tilepos.x, tilepos.y].GetPOINT(); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 4 && nowPlayer == 0) { DontDestroySingleObject.p1TakeBishop++; DontDestroySingleObject.p1Point += units[tilepos.x, tilepos.y].GetPOINT(); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 4 && nowPlayer == 1) { DontDestroySingleObject.p2TakeBishop++; DontDestroySingleObject.p2Point += units[tilepos.x, tilepos.y].GetPOINT(); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 5 && nowPlayer == 0) { DontDestroySingleObject.p1TakeQueen++; DontDestroySingleObject.p1Point += units[tilepos.x, tilepos.y].GetPOINT(); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 5 && nowPlayer == 1) { DontDestroySingleObject.p2TakeQueen++; DontDestroySingleObject.p2Point += units[tilepos.x, tilepos.y].GetPOINT(); }
                 //キングのHPが0になった時の処理 ここでキングのＨＰが0なら勝者を３秒表示してリザルトに
                 if (units[tilepos.x, tilepos.y].GetTYPE() == 6 && nowPlayer == 0) { DontDestroySingleObject.p1TakeKing++; info.text = "2Pの勝ち！！"; Invoke("Result", 3.0f); DontDestroySingleObject.winner = 1; }
                 if (units[tilepos.x, tilepos.y].GetTYPE() == 6 && nowPlayer == 1) { DontDestroySingleObject.p2TakeKing++; info.text = "1Pの勝ち！！"; Invoke("Result", 3.0f); DontDestroySingleObject.winner = 0; }
@@ -920,13 +920,20 @@ public class GameSceneDirector : MonoBehaviour
                     else if(tilepos.x > selectUnit.Pos.x) {
                         tilepos.x = tilepos.x - 1;
                     }//上に移動
+                    else
+                    {
+
+                    }
                     if(tilepos.y > selectUnit.Pos.y) {
                         tilepos.y = tilepos.y - 1;
                     }//下に移動
                     else if(tilepos.y < selectUnit.Pos.y) {
                         tilepos.y = tilepos.y + 1;
                     }
+                    else
+                    {
 
+                    }
                 }
 
                 //ダイスを振って動いていいかの判定

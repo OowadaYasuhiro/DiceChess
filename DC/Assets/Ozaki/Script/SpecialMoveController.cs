@@ -158,17 +158,17 @@ public class SpecialMoveController : MonoBehaviour
 
 
                 if (unitCon.GetTYPE() == 1 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakePawn++; DontDestroySingleObject.p1Point += unitCon.GetPOINT();}
-                if (unitCon.GetTYPE() == 1 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakePawn++; }
-                if (unitCon.GetTYPE() == 2 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeRook++; }
-                if (unitCon.GetTYPE() == 2 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeRook++; }
-                if (unitCon.GetTYPE() == 3 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeKnight++; }
-                if (unitCon.GetTYPE() == 3 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeKnight++; }
-                if (unitCon.GetTYPE() == 4 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeBishop++; }
-                if (unitCon.GetTYPE() == 4 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeBishop++; }
-                if (unitCon.GetTYPE() == 5 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeQueen++; }
-                if (unitCon.GetTYPE() == 5 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeQueen++; }
-                if (unitCon.GetTYPE() == 6 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeKing++; }
-                if (unitCon.GetTYPE() == 6 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeKing++; }
+                if (unitCon.GetTYPE() == 1 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakePawn++; DontDestroySingleObject.p2Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 2 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeRook++; DontDestroySingleObject.p1Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 2 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeRook++; DontDestroySingleObject.p2Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 3 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeKnight++; DontDestroySingleObject.p1Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 3 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeKnight++; DontDestroySingleObject.p2Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 4 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeBishop++; DontDestroySingleObject.p1Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 4 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeBishop++; DontDestroySingleObject.p2Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 5 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeQueen++; DontDestroySingleObject.p1Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 5 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeQueen++; DontDestroySingleObject.p2Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 6 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeKing++; DontDestroySingleObject.p1Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 6 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeKing++; DontDestroySingleObject.p2Point += unitCon.GetPOINT(); }
                 if (unitCon.GetTYPE() == 6)
                 {
                     if (unitCon.GetHP() <= 0)

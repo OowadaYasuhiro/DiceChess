@@ -52,12 +52,12 @@ public class UnitController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (TYPE.PAWN == Type) {hp = 6 ; maxHp = 6; point = 10; TrueType="PAWN";}
-        if (TYPE.ROOK == Type) {hp = 8; maxHp = 8; point = 30; TrueType = "ROOK"; }
-        if (TYPE.KNIGHT == Type) {hp = 12; maxHp = 12; point = 20; TrueType = "KNIGHT";}
-        if (TYPE.BISHOP == Type) {hp = 8; maxHp = 8; point = 30; TrueType = "BISHOP";}
-        if (TYPE.QUEEN == Type) {hp = 17; maxHp = 17; point = 60; TrueType = "QUEEN";}
-        if (TYPE.KING == Type) {hp = 20; maxHp = 20; point = 0; TrueType = "KING"; }
+        if (TYPE.PAWN == Type) {hp = 4; maxHp = 4; point = 10; TrueType="PAWN";}
+        if (TYPE.ROOK == Type) {hp = 6; maxHp = 6; point = 30; TrueType = "ROOK"; }
+        if (TYPE.KNIGHT == Type) {hp = 10; maxHp = 10; point = 20; TrueType = "KNIGHT";}
+        if (TYPE.BISHOP == Type) {hp = 6; maxHp = 6; point = 30; TrueType = "BISHOP";}
+        if (TYPE.QUEEN == Type) {hp = 15; maxHp = 15; point = 60; TrueType = "QUEEN";}
+        if (TYPE.KING == Type) {hp = 18; maxHp = 18; point = 0; TrueType = "KING"; }
         GS = GameObject.Find("SceneDirector").GetComponent<GameSceneDirector>();
     }
 
