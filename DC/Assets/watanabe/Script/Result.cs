@@ -2,26 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Result : MonoBehaviour
-{
+{   
     //Pawnスコアを表示するUIの取得
-    public Text pawnText;
+    public Text PawnImage9;
 
     //Rookスコアを表示するUIの取得
-    public Text rookText;
+    public Text RookImage10;
 
     //Knightスコアを表示するUIの取得
-    public Text knightText;
+    public Text KnightImage11;
 
     //Bishopスコアを表示するUIの取得
-    public Text bishopText;
+    public Text BishopImage12;
 
     //Queenスコアを表示するUIの取得
-    public Text queenText;
+    public Text QueenImage13;
 
     //Kingスコアを表示するUIの取得
-    public Text kingText;
+    public Text KingImage14;
 
     //合計スコアを表示するUIの取得
     public Text totalScoreText;
@@ -60,16 +61,20 @@ public class Result : MonoBehaviour
     private void DisplayScore()
     {
         //現在のスコアを画面に表示する
-        pawnText .text = score.ToString();
-        rookText .text = score.ToString();
-        knightText .text = score.ToString();
-        bishopText .text = score.ToString();
-        queenText .text = score.ToString();
-        kingText .text = score.ToString();
+        PawnImage9 .text = score.ToString();
+        RookImage10 .text = score.ToString();
+        KnightImage11 .text = score.ToString();
+        BishopImage12 .text = score.ToString();
+        QueenImage13 .text = score.ToString();
+        KingImage14 .text = score.ToString();
         totalScoreText .text = score.ToString();
     }
 
-    
+    //Aボタンでタイトルに戻る
+    public void ClickStartButton()
+    {
+        SceneManager.LoadScene("Title");
+    }
     
 
 }
