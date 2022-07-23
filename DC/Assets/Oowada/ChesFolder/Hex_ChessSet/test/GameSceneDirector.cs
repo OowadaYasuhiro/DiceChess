@@ -66,9 +66,13 @@ public class GameSceneDirector : MonoBehaviour
     [SerializeField] private Slider hpSlider;
     [SerializeField] private Image paseImage;
     GameObject turnEndCursor;
-    GameObject player1BackFrontFrame;
+    GameObject player1FrontFrameBack;
+    GameObject player2FrontFrameBack;
     GameObject charaTextPanel;
     GameObject charaTextPanel2;
+    GameObject itemBackImageBack1;
+    GameObject itemBackImageBack2;
+    GameObject turnEndButtonBack;
 
 
     //コントローラーのため
@@ -173,8 +177,13 @@ public class GameSceneDirector : MonoBehaviour
         btnCancel = GameObject.Find("ButtonCancel");
         turnEndCursor = GameObject.Find("ImageCanvas_Player1/TurnEndButton/TurnEndCursor");
         charaTextPanel = GameObject.Find("ImageCanvas_Player1/CharaImage1P/CharaTextPanel");
-        player1BackFrontFrame = GameObject.Find("ImageCanvas_Player1/CharaImage1P/Player1BackFrontFrame");
+        player1FrontFrameBack = GameObject.Find("ImageCanvas_Player1/CharaImage1P/Player1FrontFrameBack");
+        player2FrontFrameBack = GameObject.Find("ImageCanvas_Player1/CharaImage2P/Player2FrontFrameBack");
         charaTextPanel2 = GameObject.Find("ImageCanvas_Player1/CharaImage2P/CharaTextPanel2");
+        turnEndButtonBack = GameObject.Find("ImageCanvas_Player1/TurnEndButtonBack");
+        itemBackImageBack1 = GameObject.Find("ImageCanvas_Player1/ItemBoxPanel/Item1Panel/ItemBackImageBack");
+        itemBackImageBack2 = GameObject.Find("ImageCanvas_Player1/ItemBoxPanel/Item2Panel/ItemBackImageBack");
+
 
         // 戦闘開始UIオブジェクト取得
         panelAnim = GameObject.Find("AttackBackPanel").GetComponent<Animator>();
@@ -192,11 +201,16 @@ public class GameSceneDirector : MonoBehaviour
 
         //コントロールについての初期化
         itemText1Panel.SetActive(false);
+        itemBackImageBack1.SetActive(false);
         itemText2Panel.SetActive(false);
+        itemBackImageBack2.SetActive(false);
         turnEndCursor.SetActive(false);
-        player1BackFrontFrame.SetActive(false);
+        turnEndButtonBack.SetActive(false);
+        player1FrontFrameBack.SetActive(false);
+        player2FrontFrameBack.SetActive(false);
         charaTextPanel.SetActive(false);
         charaTextPanel2.SetActive(false);
+
 
 
         // リザルト関連は非表示
@@ -369,16 +383,20 @@ public class GameSceneDirector : MonoBehaviour
                         EventSystem.current.SetSelectedGameObject(null);
                         mainCursor.SetActive(true);
                         turnEndCursor.SetActive(false);
+                        turnEndButtonBack.SetActive(false);
                         itemText1Panel.SetActive(false);
+                        itemBackImageBack1.SetActive(false);
                         itemText2Panel.SetActive(false);
+                        itemBackImageBack2.SetActive(false);
                         charaTextPanel2.SetActive(false);
+                        player2FrontFrameBack.SetActive(false);
                     }
                     if(pos.x == -5)
                     {
                         player1Button.Select();
                         mainCursor.SetActive(false);
                         charaTextPanel.SetActive(true);
-                        player1BackFrontFrame.SetActive(true);
+                        player1FrontFrameBack.SetActive(true);
                     }
                 }
                 if (lsh > 0)
@@ -390,9 +408,11 @@ public class GameSceneDirector : MonoBehaviour
                         EventSystem.current.SetSelectedGameObject(null);
                         mainCursor.SetActive(true);
                         charaTextPanel.SetActive(false);
-                        player1BackFrontFrame.SetActive(false);
+                        player1FrontFrameBack.SetActive(false);
                         itemText1Panel.SetActive(false);
+                        itemBackImageBack1.SetActive(false);
                         itemText2Panel.SetActive(false);
+                        itemBackImageBack2.SetActive(false);
                     }
                     if(pos.x == 4)
                     {
@@ -401,12 +421,14 @@ public class GameSceneDirector : MonoBehaviour
                             endButton.Select();
                             mainCursor.SetActive(false);
                             turnEndCursor.SetActive(true);
+                            turnEndButtonBack.SetActive(true);
                         }
                         else if (pos.z >= 0)
                         {
                             player2Button.Select();
                             mainCursor.SetActive(false);
                             charaTextPanel2.SetActive(true);
+                            player2FrontFrameBack.SetActive(true);
                         }
                     }
                 }
@@ -417,12 +439,14 @@ public class GameSceneDirector : MonoBehaviour
                 {
                     if (pos.z < 3)
                     {//上に移動
-                        if (pos.x == 4) { pos.x = 3; EventSystem.current.SetSelectedGameObject(null);mainCursor.SetActive(true);charaTextPanel2.SetActive(false); turnEndCursor.SetActive(false); }
+                        if (pos.x == 4) { pos.x = 3; EventSystem.current.SetSelectedGameObject(null);mainCursor.SetActive(true);charaTextPanel2.SetActive(false); player2FrontFrameBack.SetActive(false); turnEndCursor.SetActive(false); turnEndButtonBack.SetActive(false); }
                         if (pos.x == -5) { pos.x = -4; EventSystem.current.SetSelectedGameObject(null); mainCursor.SetActive(true); charaTextPanel.SetActive(false);}
                         pos.z += 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
                         EventSystem.current.SetSelectedGameObject(null);
                         itemText1Panel.SetActive(false);
+                        itemBackImageBack1.SetActive(false);
                         itemText2Panel.SetActive(false);
+                        itemBackImageBack2.SetActive(false);
                         mainCursor.SetActive(true);
                     }
                 }
@@ -430,7 +454,7 @@ public class GameSceneDirector : MonoBehaviour
                 {
                     if (pos.z > -5)
                     {//下に移動
-                        if (pos.x == 4) { pos.x = 3; EventSystem.current.SetSelectedGameObject(null); mainCursor.SetActive(true); charaTextPanel2.SetActive(false); turnEndCursor.SetActive(false); }
+                        if (pos.x == 4) { pos.x = 3; EventSystem.current.SetSelectedGameObject(null); mainCursor.SetActive(true); charaTextPanel2.SetActive(false); player2FrontFrameBack.SetActive(false); turnEndCursor.SetActive(false); turnEndButtonBack.SetActive(false); }
                         if (pos.x == -5) { pos.x = -4; EventSystem.current.SetSelectedGameObject(null); mainCursor.SetActive(true); charaTextPanel.SetActive(false); }
                         pos.z -= 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
                     }
@@ -438,12 +462,14 @@ public class GameSceneDirector : MonoBehaviour
                     {
                         item1Button.Select();
                         itemText1Panel.SetActive(true);
+                        itemBackImageBack1.SetActive(true);
                         mainCursor.SetActive(false);
                     }
                     if (pos.z == -5 && pos.x >= 0)
                     {
                         item2Button.Select();
                         itemText2Panel.SetActive(true);
+                        itemBackImageBack2.SetActive(true);
                         mainCursor.SetActive(false);
                     }
                 }
