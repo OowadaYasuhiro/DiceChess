@@ -73,6 +73,8 @@ public class GameSceneDirector : MonoBehaviour
     GameObject itemBackImageBack1;
     GameObject itemBackImageBack2;
     GameObject turnEndButtonBack;
+    [SerializeField] private Sprite endButtonASprite;
+    [SerializeField] private Sprite endButtonBSprite;
 
 
     //コントローラーのため
@@ -476,6 +478,10 @@ public class GameSceneDirector : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown("joystick 1 button 2"))
+        {
+            TrnEnd();
+        }
         if (Input.GetKeyDown("joystick 1 button 0") || Input.GetKeyDown("joystick 2 button 0") || Input.GetKey(KeyCode.Space))
         {
             // ユニットにも当たり判定があるのでヒットした全てのオブジェクト情報を取得
@@ -818,6 +824,7 @@ public class GameSceneDirector : MonoBehaviour
             //ダイスで出た数値をPUに入れる→Hp
             PU = diceTime();
             Hp = Hp - PU;
+            if (Hp < 0) { Hp = 0; }
 
             //SetHpを行う(相手コマに体力を保存させる)
             units[tilepos.x, tilepos.y].SetHP(Hp);
@@ -1143,6 +1150,9 @@ public class GameSceneDirector : MonoBehaviour
         usingDice = false;
     }
 
+
+
+
     public void Retry()
     {
         SceneManager.LoadScene("SampleScene");
@@ -1160,8 +1170,28 @@ public class GameSceneDirector : MonoBehaviour
         return 1;
     }
     public void TrnEnd()
-    {
-        if(moved == true) {nextMode = MODE.STATUS_UPDATE; moved = false; DiceCount=0;}
+    { 
+        Image trnendImg;
+        trnendImg = endButton.GetComponent<Image>();
+        if(moved == true) {
+            nextMode = MODE.STATUS_UPDATE;
+            moved = false;
+            DiceCount=0;
+            SE sePlayer = SeObject.GetComponent<SE>();
+            sePlayer.moveSound12();
+            trnendImg.sprite = endButtonBSprite;
+            Invoke("TrnEndNext",1.5f);
+        }
+        else
+        {
+            SE sePlayer = SeObject.GetComponent<SE>();
+            sePlayer.moveSound6();
+        }
+    }
+    private void TrnEndNext() {
+        Image trnendImg;
+        trnendImg = endButton.GetComponent<Image>();
+        trnendImg.sprite = endButtonASprite;
     }
 
     //呼び出し用のinvalidTile反転メソッド
