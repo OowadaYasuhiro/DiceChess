@@ -102,16 +102,6 @@ public class Result : MonoBehaviour
 
     private void Update()
     {
-
-        //現在のスコアを画面に表示する
-        PawnImage9 .text = score.ToString();
-        RookImage10 .text = score.ToString();
-        KnightImage11 .text = score.ToString();
-        BishopImage12 .text = score.ToString();
-        QueenImage13 .text = score.ToString();
-        KingImage14 .text = score.ToString();
-        totalScoreImage .text = score.ToString();
-
         if (Input.GetKeyDown("joystick 1 button 0"))
         {
             ClickStartButton();

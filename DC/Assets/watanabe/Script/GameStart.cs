@@ -20,7 +20,7 @@ public class GameStart : MonoBehaviour
     }
     public void EndGame()
     {
-        UnityEditor.EditorApplication.isPlaying = false;//ゲームプレイ終了
+        //UnityEditor.EditorApplication.isPlaying = false;//ゲームプレイ終了
         Application.Quit();//ゲームプレイ終了
     }
 }

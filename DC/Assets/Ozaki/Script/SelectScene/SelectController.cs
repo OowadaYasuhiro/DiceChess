@@ -64,7 +64,8 @@ public class SelectController : MonoBehaviour
             
             if (cursorManager.ItemSelectCount == 4)
             {
-                ItemNextMode();
+                cursorManager.getI();
+                Invoke("ItemNextMode",1f);
             }
             else
             {
@@ -73,7 +74,7 @@ public class SelectController : MonoBehaviour
         }
         else if(_nowMode == MODE.NextScene)
         {
-            SceneManager.LoadScene("Chess 1");
+            SceneManager.LoadScene("LoadScene");
         }
     }
 
@@ -143,7 +144,7 @@ public class SelectController : MonoBehaviour
     //5
     public void NextScene(string name)
     {
-        cursorManager.getI();
+        
         SceneManager.LoadScene(name);
     }
 

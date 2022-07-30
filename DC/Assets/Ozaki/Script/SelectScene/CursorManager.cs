@@ -121,11 +121,11 @@ public class CursorManager : MonoBehaviour
     public void getI()
     {
         DontDestroySingleObject.p1Character = _chara1Num;
-        DontDestroySingleObject.p1Character = _chara2Num;
-        DontDestroySingleObject.p1Character = _item1_1Num;
-        DontDestroySingleObject.p1Character = _item1_2Num;
-        DontDestroySingleObject.p1Character = _item2_1Num;
-        DontDestroySingleObject.p1Character = _item2_2Num;
+        DontDestroySingleObject.p2Character = _chara2Num;
+        DontDestroySingleObject.p1item1 = _item1_1Num;
+        DontDestroySingleObject.p1item2 = _item1_2Num;
+        DontDestroySingleObject.p2item1 = _item2_1Num;
+        DontDestroySingleObject.p2item2 = _item2_2Num;
     }
 
     public int CharaSelectCount {
