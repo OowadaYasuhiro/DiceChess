@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemController : MonoBehaviour
 {
@@ -24,6 +25,29 @@ public class ItemController : MonoBehaviour
 
     [SerializeField] private GameObject SeObject;//SE
 
+    [SerializeField] private Sprite item1;
+    [SerializeField] private Sprite item2;
+    [SerializeField] private Sprite item3;
+    [SerializeField] private Sprite item4;
+
+    //アイテム背景改編のため
+    [SerializeField] private Image item1Box;
+    [SerializeField] private Image item2Box;
+    [SerializeField] private Image item1Image;
+    [SerializeField] private Image item2Image;
+
+    [SerializeField] private Text item1text;
+    [SerializeField] private Text item2text;
+
+    [SerializeField] private Sprite chara1;
+    [SerializeField] private Sprite chara2;
+    [SerializeField] private Sprite chara3;
+    [SerializeField] private Sprite chara4;
+    [SerializeField] private Image chara1Image;
+    [SerializeField] private Image chara2Image;
+    [SerializeField] private Text chara1text;
+    [SerializeField] private Text chara2text;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +57,14 @@ public class ItemController : MonoBehaviour
         canItem1_2P = true;
         canItem2_1P = true;
         canItem2_2P = true;
+        if (DontDestroySingleObject.p1Character == 0) { chara1Image.sprite = chara1; chara1text.text = "相手の駒すべてに3ダメージ与える。"; }
+        if (DontDestroySingleObject.p1Character == 1) { chara1Image.sprite = chara2; chara1text.text = "相手の駒すべてに3ダメージ与える。"; }
+        if (DontDestroySingleObject.p1Character == 2) { chara1Image.sprite = chara3; chara1text.text = "相手の必殺技ゲージを－30％する。"; }
+        if (DontDestroySingleObject.p1Character == 3) { chara1Image.sprite = chara4; chara1text.text = "相手の必殺技ゲージを－30％する。"; }
+        if (DontDestroySingleObject.p2Character == 0) { chara2Image.sprite = chara1; chara2text.text = "相手の駒すべてに3ダメージ与える。"; }
+        if (DontDestroySingleObject.p2Character == 1) { chara2Image.sprite = chara2; chara2text.text = "相手の駒すべてに3ダメージ与える。"; }
+        if (DontDestroySingleObject.p2Character == 2) { chara2Image.sprite = chara3; chara2text.text = "相手の必殺技ゲージを－30％する。"; }
+        if (DontDestroySingleObject.p2Character == 3) { chara2Image.sprite = chara4; chara2text.text = "相手の必殺技ゲージを－30％する。"; }
     }
 
     // Update is called once per frame
@@ -55,6 +87,116 @@ public class ItemController : MonoBehaviour
         {
             StartCoroutine(Twice());
         }
+
+
+        if (GSD.nowPlayer == 0){
+            if (DontDestroySingleObject.p1item1 == 0){
+                item1Box.sprite = item1;
+                item1text.text = "全自駒のHPを3回復"; 
+            }
+            if (DontDestroySingleObject.p1item1 == 1){
+                item1Box.sprite = item2;
+                item1text.text = "次の攻撃力2倍";
+            }
+            if (DontDestroySingleObject.p1item1 == 2){
+                item1Box.sprite = item3;
+                item1text.text = "必殺技ゲージ30％増加";
+            }
+            if (DontDestroySingleObject.p1item1 == 3){
+                item1Box.sprite = item4;
+                item1text.text = "移動距離2倍";
+            }
+            if (DontDestroySingleObject.p1item2 == 0){
+                item2Box.sprite = item1;
+                item2text.text = "全自駒のHPを3回復";
+            }
+            if (DontDestroySingleObject.p1item2 == 1){
+                item2Box.sprite = item2;
+                item2text.text = "次の攻撃力2倍";
+            }
+            if (DontDestroySingleObject.p1item2 == 2){
+                item2Box.sprite = item3;
+                item2text.text = "必殺技ゲージ30％増加";
+            }
+            if (DontDestroySingleObject.p1item2 == 3){
+                item2Box.sprite = item4;
+                item2text.text = "移動距離2倍";
+            }
+            if (canItem1_1P == false){
+                item1Box.color = new Color32(105, 105, 105, 255);
+                item1Image.color = new Color32(105, 105, 105, 255);
+            }
+            else{
+                item1Box.color = new Color32(255, 255, 255, 255);
+                item1Image.color = new Color32(255, 255, 255, 255);
+            }
+        }
+        if (GSD.nowPlayer == 1){
+            if (DontDestroySingleObject.p2item1 == 0){
+                item1Box.sprite = item1;
+                item1text.text = "全自駒のHPを3回復";
+            }
+            if (DontDestroySingleObject.p2item1 == 1){
+                item1Box.sprite = item2;
+                item1text.text = "次の攻撃力2倍";
+            }
+            if (DontDestroySingleObject.p2item1 == 2){
+                item1Box.sprite = item3;
+                item1text.text = "必殺技ゲージ30％増加";
+            }
+            if (DontDestroySingleObject.p2item1 == 3){
+                item1Box.sprite = item4;
+                item1text.text = "移動距離2倍";
+            }
+            if (DontDestroySingleObject.p2item2 == 0){
+                item2Box.sprite = item1;
+                item2text.text = "全自駒のHPを3回復";
+            }
+            if (DontDestroySingleObject.p2item2 == 1){
+                item2Box.sprite = item2;
+                item2text.text = "次の攻撃力2倍";
+            }
+            if (DontDestroySingleObject.p2item2 == 2){
+                item2Box.sprite = item3;
+                item2text.text = "必殺技ゲージ30％増加";
+            }
+            if (DontDestroySingleObject.p2item2 == 3){
+                item2Box.sprite = item4;
+                item2text.text = "移動距離2倍";
+            }
+            if (canItem1_2P == false){
+                item1Box.color = new Color32(105, 105, 105, 255);
+                item1Image.color = new Color32(105, 105, 105, 255);
+            }
+            else
+            {
+                item1Box.color = new Color32(255, 255, 255, 255);
+                item1Image.color = new Color32(255, 255, 255, 255);
+            }
+        }
+        if (GSD.nowPlayer == 0){
+            if (canItem2_1P == false){
+                item2Box.color = new Color32(105, 105, 105, 255);
+                item2Image.color = new Color32(105, 105, 105, 255);
+            }
+            else
+            {
+                item2Box.color = new Color32(255, 255, 255, 255);
+                item2Image.color = new Color32(255, 255, 255, 255);
+            }
+        }
+        if (GSD.nowPlayer == 1){
+            if (canItem2_2P == false){
+                item2Box.color = new Color32(105, 105, 105, 255);
+                item2Image.color = new Color32(105, 105, 105, 255);
+            }
+            else
+            {
+                item2Box.color = new Color32(255, 255, 255, 255);
+                item2Image.color = new Color32(255, 255, 255, 255);
+            }
+        }
+
     }
 
     //回復する
@@ -203,9 +345,17 @@ public class ItemController : MonoBehaviour
         {
             if (canItem1_1P)
             {
-                Debug.Log("アイテム開始");
-                StartCoroutine("Kaihuku");
-                Debug.Log("アイテム仕様");
+                if (DontDestroySingleObject.p1item1 == 0){
+                    StartCoroutine("Kaihuku");
+                }else if(DontDestroySingleObject.p1item1 == 1){
+                    StartCoroutine("DamageItem");
+                }
+                else if (DontDestroySingleObject.p1item1 == 2){
+                    StartCoroutine("SpItem");
+                }
+                else if (DontDestroySingleObject.p1item1 == 3){
+                    StartCoroutine("Twice");
+                }
                 canItem1_1P = false;
             }
         }
@@ -213,9 +363,18 @@ public class ItemController : MonoBehaviour
         {
             if (canItem1_2P)
             {
-                Debug.Log("アイテム開始");
-                StartCoroutine("Kaihuku");
-                Debug.Log("アイテム仕様");
+                if (DontDestroySingleObject.p2item1 == 0){
+                    StartCoroutine("Kaihuku");
+                }
+                else if (DontDestroySingleObject.p2item1 == 1){
+                    StartCoroutine("DamageItem");
+                }
+                else if (DontDestroySingleObject.p2item1 == 2){
+                    StartCoroutine("SpItem");
+                }
+                else if (DontDestroySingleObject.p2item1 == 3){
+                    StartCoroutine("Twice");
+                }
                 canItem1_2P = false;
             }
         }
@@ -226,8 +385,18 @@ public class ItemController : MonoBehaviour
         {
             if (canItem2_1P)
             {
-                Debug.Log("アイテム2仕様");
-                StartCoroutine("DamageItem");
+                if (DontDestroySingleObject.p1item2 == 0){
+                    StartCoroutine("Kaihuku");
+                }
+                else if (DontDestroySingleObject.p1item2 == 1){
+                    StartCoroutine("DamageItem");
+                }
+                else if (DontDestroySingleObject.p1item2 == 2){
+                    StartCoroutine("SpItem");
+                }
+                else if (DontDestroySingleObject.p1item2 == 3){
+                    StartCoroutine("Twice");
+                }
                 canItem2_1P = false;
             }
         }
@@ -235,8 +404,18 @@ public class ItemController : MonoBehaviour
         {
             if (canItem2_2P)
             {
-                Debug.Log("アイテム2仕様");
-                StartCoroutine("DamageItem");
+                if (DontDestroySingleObject.p2item2 == 0){
+                    StartCoroutine("Kaihuku");
+                }
+                else if (DontDestroySingleObject.p2item2 == 1){
+                    StartCoroutine("DamageItem");
+                }
+                else if (DontDestroySingleObject.p2item2 == 2){
+                    StartCoroutine("SpItem");
+                }
+                else if (DontDestroySingleObject.p2item2 == 3){
+                    StartCoroutine("Twice");
+                }
                 canItem2_2P = false;
             }
         }
