@@ -22,6 +22,8 @@ public class ItemController : MonoBehaviour
     private bool canItem2_1P;
     private bool canItem2_2P;
 
+    [SerializeField] private GameObject SeObject;//SE
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,6 +62,8 @@ public class ItemController : MonoBehaviour
     {
 
         eff.setEff(2);
+        SE sePlayer = SeObject.GetComponent<SE>();
+        sePlayer.moveSound9();
 
         yield return new WaitForSeconds(0.4f);
 
@@ -112,7 +116,8 @@ public class ItemController : MonoBehaviour
     public IEnumerator DamageItem()
     {
         eff.setEff(2);
-
+        SE sePlayer = SeObject.GetComponent<SE>();
+        sePlayer.moveSound9();
         yield return new WaitForSeconds(0.4f);
 
         //自分の番に使った時damageflagを1増やす
@@ -134,7 +139,8 @@ public class ItemController : MonoBehaviour
     public IEnumerator SpItem()
     {
         eff.setEff(2);
-
+        SE sePlayer = SeObject.GetComponent<SE>();
+        sePlayer.moveSound9();
         yield return new WaitForSeconds(0.4f);
 
         //nowPlayerが0の時は自分の番
@@ -158,7 +164,8 @@ public class ItemController : MonoBehaviour
     public IEnumerator Twice()
     {
         eff.setEff(2);
-
+        SE sePlayer = SeObject.GetComponent<SE>();
+        sePlayer.moveSound9();
         yield return new WaitForSeconds(0.4f);
 
         //nowPlayerが0の時は自分の番
