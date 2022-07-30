@@ -41,14 +41,14 @@ public class GameSceneDirector : MonoBehaviour
     // 1 = ポーン 2 = ルーク 3 = ナイト 4 = ビショップ 5 = クイーン 6 = キング
     public int[,] unitType =
     {
-        { 2, 1, 0, 0, 0, 0, 11, 12 },
-        { 3, 1, 0, 0, 0, 0, 11, 13 },
-        { 4, 1, 0, 0, 0, 0, 11, 14 },
-        { 5, 1, 0, 0, 0, 0, 11, 15 },
-        { 6, 1, 0, 0, 0, 0, 11, 16 },
-        { 4, 1, 0, 0, 0, 0, 11, 14 },
-        { 3, 1, 0, 0, 0, 0, 11, 13 },
-        { 2, 1, 0, 0, 0, 0, 11, 12 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 2, 3, 0, 0, 13, 12, 0 },
+        { 0, 5, 1, 0, 0, 11, 15, 0 },
+        { 0, 6, 1, 0, 0, 11, 16, 0 },
+        { 0, 4, 3, 0, 0, 13, 14, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0 },
     };
 
     // UI関連
@@ -64,6 +64,17 @@ public class GameSceneDirector : MonoBehaviour
     CharacterStatus player2Chara; //同じく変わるかも
     [SerializeField] private Text hpText; //HPのテキスト
     [SerializeField] private Slider hpSlider;
+    [SerializeField] private Image paseImage;
+    GameObject turnEndCursor;
+    GameObject player1FrontFrameBack;
+    GameObject player2FrontFrameBack;
+    GameObject charaTextPanel;
+    GameObject charaTextPanel2;
+    GameObject itemBackImageBack1;
+    GameObject itemBackImageBack2;
+    GameObject turnEndButtonBack;
+    [SerializeField] private Sprite endButtonASprite;
+    [SerializeField] private Sprite endButtonBSprite;
 
 
     //コントローラーのため
@@ -120,30 +131,39 @@ public class GameSceneDirector : MonoBehaviour
     // 前回の盤面
     List<UnitController[,]> prevUnits;
 
+    //駒の動きをきめるダイス
+    [SerializeField] private GameObject dicePicePanel;
+    [SerializeField] private Button dicePiceButton;
+    private int DiceCount = 0;
+
     //戦闘開始合図のアニメ(仮)
     Animator panelAnim;
     Animator textAnim;
     GameObject AttackButton;
+    [SerializeField]private Button attackDiceButton;
     GameObject ATKText;
     GameObject eneUnit;
     Text aText;
 
-
+    //移動ダイスのチェック用   
+    public bool pushDPButton = false;
     //攻撃ダイスを振ったかどうかのチェック    
     public bool diceCheck = false;
     public bool pushAButton = false;
-    int Hp = 0;
+    private int Hp = 0;
     //タイルを触れるようにするためのbool
-    bool invalidTile = true;
+    private bool invalidTile = true;
 
-    int turnNum = 0;
-    int turnCount = 0;
+    private int turnNum = 0;
+    private int turnCount = 0;
     Text turnText;
 
     //先攻後攻に使うランダム
     int turnRnd;
     //turnChangeを最初に行わないためのbool
-    bool firstTurnFlag;
+    private bool firstTurnFlag;
+
+    private bool usingDice = false;
 
     // Start is called before the first frame update
     void Start()
@@ -157,6 +177,15 @@ public class GameSceneDirector : MonoBehaviour
         txtResultInfo = GameObject.Find("TextResultInfo");
         btnApply = GameObject.Find("ButtonApply");
         btnCancel = GameObject.Find("ButtonCancel");
+        turnEndCursor = GameObject.Find("ImageCanvas_Player1/TurnEndButton/TurnEndCursor");
+        charaTextPanel = GameObject.Find("ImageCanvas_Player1/CharaImage1P/CharaTextPanel");
+        player1FrontFrameBack = GameObject.Find("ImageCanvas_Player1/CharaImage1P/Player1FrontFrameBack");
+        player2FrontFrameBack = GameObject.Find("ImageCanvas_Player1/CharaImage2P/Player2FrontFrameBack");
+        charaTextPanel2 = GameObject.Find("ImageCanvas_Player1/CharaImage2P/CharaTextPanel2");
+        turnEndButtonBack = GameObject.Find("ImageCanvas_Player1/TurnEndButtonBack");
+        itemBackImageBack1 = GameObject.Find("ImageCanvas_Player1/ItemBoxPanel/Item1Panel/ItemBackImageBack");
+        itemBackImageBack2 = GameObject.Find("ImageCanvas_Player1/ItemBoxPanel/Item2Panel/ItemBackImageBack");
+
 
         // 戦闘開始UIオブジェクト取得
         panelAnim = GameObject.Find("AttackBackPanel").GetComponent<Animator>();
@@ -174,12 +203,23 @@ public class GameSceneDirector : MonoBehaviour
 
         //コントロールについての初期化
         itemText1Panel.SetActive(false);
+        itemBackImageBack1.SetActive(false);
         itemText2Panel.SetActive(false);
+        itemBackImageBack2.SetActive(false);
+        turnEndCursor.SetActive(false);
+        turnEndButtonBack.SetActive(false);
+        player1FrontFrameBack.SetActive(false);
+        player2FrontFrameBack.SetActive(false);
+        charaTextPanel.SetActive(false);
+        charaTextPanel2.SetActive(false);
+
+
 
         // リザルト関連は非表示
         btnApply.SetActive(false);
         btnCancel.SetActive(false);
 
+        dicePicePanel.SetActive(false);
         AttackButton.SetActive(false);
         ATKText.SetActive(false);
 
@@ -292,106 +332,6 @@ public class GameSceneDirector : MonoBehaviour
         nextMode = MODE.NORMAL;
         Text info = txtResultInfo.GetComponent<Text>();
         info.text = "";
-
-        // --------------------
-        // ドローのチェック（簡易版）
-        // --------------------
-
-        // 1 vs 1になったら引き分け
-        if ( 3 > getUnits().Count)
-        {
-            info.text = "チェックメイトできないので\n引き分け";
-            nextMode = MODE.RESULT;
-        }
-
-        // 50ターンの誰も削除されなければドロー
-        if( 50 < prevDestroyTurn)
-        {
-            info.text = "50ターンルールで\n引き分け";
-            nextMode = MODE.RESULT;
-        }
-
-        // 3回同じ盤面になったらドロー
-        int prevcount = 0;
-
-        foreach (var v in prevUnits)
-        {
-            bool check = true;
-
-            for (int i = 0; i < v.GetLength(0); i++)
-            {
-                for (int j = 0; j < v.GetLength(1); j++)
-                {
-                    if (v[i, j] != units[i, j]) check = false;
-
-                }
-            }
-
-            if (check) prevcount++;
-        }
-
-        // 3回続いたか
-        if( 20 < prevcount)
-        {
-            info.text = "同じ盤面が続いたので\n引き分け";
-            nextMode = MODE.RESULT;
-        }
-
-        // --------------------
-        // チェックのチェック
-        // --------------------
-        // 今回のプレイヤーのキング
-        UnitController target = getUnit(nowPlayer, UnitController.TYPE.KING);
-        // チェックしているユニット
-        List<UnitController> checkunits = GetCheckUnits(units, nowPlayer);
-        // チェック状態セット
-        bool ischeck = (0 < checkunits.Count) ? true : false;
-
-        if( null != target)
-        {
-            target.SetCheckStatus(ischeck);
-        }
-
-        // ゲームが続くならチェックと表示
-        if( ischeck && MODE.RESULT != nextMode)
-        {
-            info.text = "チェック！！";
-        }
-
-        // --------------------
-        // 移動可能範囲を調べる
-        // --------------------
-        int tilecount = 0;
-
-        // 移動可能範囲をカウント
-        foreach(var v in getUnits(nowPlayer))
-        {
-            tilecount += getMovableTiles(v).Count;
-        }
-
-        // 動かせない
-        if( 1 > tilecount )
-        {
-            info.text = "ステイルメイト\n" + "引き分け";
-
-            if (ischeck)
-            {
-                info.text = "チェックメイト\n" + (getNextPlayer() + 1) + "Pの勝ち！！";
-            }
-
-            nextMode = MODE.RESULT;
-        }
-
-        // 今回の盤面をコピー
-        UnitController[,] copyunits = GetCopyArray(units);
-        prevUnits.Add(copyunits);
-
-        // 次のモードの準備
-        if(MODE.RESULT == nextMode)
-        {
-            btnApply.SetActive(true);
-            btnCancel.SetActive(true);
-        }
     }
 
     // ノーマルモード
@@ -400,7 +340,14 @@ public class GameSceneDirector : MonoBehaviour
         GameObject tile = null;
         UnitController unit = null;
 
-        if(invalidTile == true) {
+        if (DiceCount < 1)
+        {
+            //ここでダイスをふり行動を決める
+            StartCoroutine(dicePiece());
+            DiceCount++;
+        }
+
+        if (invalidTile == true) {
             // プレイヤーの処理
             if(Input.GetMouseButtonUp(0)) {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -415,7 +362,6 @@ public class GameSceneDirector : MonoBehaviour
             }
         }
 
-
         //コントローラーでのプレイヤー処理
         selectedObj = EventSystem.current.currentSelectedGameObject;
         // transformを取得
@@ -425,61 +371,121 @@ public class GameSceneDirector : MonoBehaviour
 
         float lsh = Input.GetAxis("L_Stick_H");
         float lsv = Input.GetAxis("L_Stick_V");
+        float lsh2 = Input.GetAxis("L_Stick_H_2");
+        float lsv2 = Input.GetAxis("L_Stick_V_2");
 
-        if (controlTimer < Time.time){
-            if (lsh < 0) {
-                if (pos.x > -4){//左に移動
-                    pos.x -= 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
-                    EventSystem.current.SetSelectedGameObject(null);
-                    mainCursor.SetActive(true);
+        if (usingDice == false)
+        {
+            if (controlTimer < Time.time)
+            {
+                if (lsh < 0 || lsh2 < 0)
+                {
+                    if (pos.x > -5)
+                    {//左に移動
+                        if(pos.z == -5) { pos.z = -4;}
+                        pos.x -= 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
+                        EventSystem.current.SetSelectedGameObject(null);
+                        mainCursor.SetActive(true);
+                        turnEndCursor.SetActive(false);
+                        turnEndButtonBack.SetActive(false);
+                        itemText1Panel.SetActive(false);
+                        itemBackImageBack1.SetActive(false);
+                        itemText2Panel.SetActive(false);
+                        itemBackImageBack2.SetActive(false);
+                        charaTextPanel2.SetActive(false);
+                        player2FrontFrameBack.SetActive(false);
+                    }
+                    if(pos.x == -5)
+                    {
+                        player1Button.Select();
+                        mainCursor.SetActive(false);
+                        charaTextPanel.SetActive(true);
+                        player1FrontFrameBack.SetActive(true);
+                    }
                 }
-                else{
-                    player1Button.Select();
-                    mainCursor.SetActive(false);
+                if (lsh > 0 || lsh2 > 0)
+                {
+                    if (pos.x < 4)
+                    {//右に移動
+                        if (pos.z == -5) { pos.z = -4; }
+                        pos.x += 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
+                        EventSystem.current.SetSelectedGameObject(null);
+                        mainCursor.SetActive(true);
+                        charaTextPanel.SetActive(false);
+                        player1FrontFrameBack.SetActive(false);
+                        itemText1Panel.SetActive(false);
+                        itemBackImageBack1.SetActive(false);
+                        itemText2Panel.SetActive(false);
+                        itemBackImageBack2.SetActive(false);
+                    }
+                    if(pos.x == 4)
+                    {
+                        if (pos.z < 0)
+                        {
+                            endButton.Select();
+                            mainCursor.SetActive(false);
+                            turnEndCursor.SetActive(true);
+                            turnEndButtonBack.SetActive(true);
+                        }
+                        else if (pos.z >= 0)
+                        {
+                            player2Button.Select();
+                            mainCursor.SetActive(false);
+                            charaTextPanel2.SetActive(true);
+                            player2FrontFrameBack.SetActive(true);
+                        }
+                    }
                 }
             }
-            if (lsh > 0){
-                if (pos.x < 3){//右に移動
-                    pos.x += 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
-                    EventSystem.current.SetSelectedGameObject(null);
-                    mainCursor.SetActive(true);
+            if (controlTimer < Time.time)
+            {
+                if (lsv < 0 || lsv2 < 0)
+                {
+                    if (pos.z < 3)
+                    {//上に移動
+                        if (pos.x == 4) { pos.x = 3; EventSystem.current.SetSelectedGameObject(null);mainCursor.SetActive(true);charaTextPanel2.SetActive(false); player2FrontFrameBack.SetActive(false); turnEndCursor.SetActive(false); turnEndButtonBack.SetActive(false); }
+                        if (pos.x == -5) { pos.x = -4; EventSystem.current.SetSelectedGameObject(null); mainCursor.SetActive(true); charaTextPanel.SetActive(false);}
+                        pos.z += 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
+                        EventSystem.current.SetSelectedGameObject(null);
+                        itemText1Panel.SetActive(false);
+                        itemBackImageBack1.SetActive(false);
+                        itemText2Panel.SetActive(false);
+                        itemBackImageBack2.SetActive(false);
+                        mainCursor.SetActive(true);
+                    }
                 }
-                else{
-                    endButton.Select();
-                    mainCursor.SetActive(false);
-                }
-            } 
-        }
-        if (controlTimer < Time.time){
-            if (lsv < 0) { 
-                if(pos.z < 3){//上に移動
-                    pos.z += 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
-                    EventSystem.current.SetSelectedGameObject(null);
-                    itemText1Panel.SetActive(false);
-                    itemText2Panel.SetActive(false);
-                    mainCursor.SetActive(true);
-                }
-            }
-            if (lsv > 0) { 
-                if(pos.z > -4){//下に移動
-                    pos.z -= 1; myTransform.position = pos; controlTimer = Time.time + DelayTime; 
-                }
-                else if(pos.z < -3 && pos.x < 0){
-                    item1Button.Select();
-                    itemText1Panel.SetActive(true);
-                    mainCursor.SetActive(false);
-                }
-                else if(pos.z < -3 && pos.x >= 0){
-                    item2Button.Select();
-                    itemText2Panel.SetActive(true);
-                    mainCursor.SetActive(false);
+                if (lsv > 0 || lsv2 > 0)
+                {
+                    if (pos.z > -5)
+                    {//下に移動
+                        if (pos.x == 4) { pos.x = 3; EventSystem.current.SetSelectedGameObject(null); mainCursor.SetActive(true); charaTextPanel2.SetActive(false); player2FrontFrameBack.SetActive(false); turnEndCursor.SetActive(false); turnEndButtonBack.SetActive(false); }
+                        if (pos.x == -5) { pos.x = -4; EventSystem.current.SetSelectedGameObject(null); mainCursor.SetActive(true); charaTextPanel.SetActive(false); }
+                        pos.z -= 1; myTransform.position = pos; controlTimer = Time.time + DelayTime;
+                    }
+                    if (pos.z == -5 && pos.x < 0)
+                    {
+                        item1Button.Select();
+                        itemText1Panel.SetActive(true);
+                        itemBackImageBack1.SetActive(true);
+                        mainCursor.SetActive(false);
+                    }
+                    if (pos.z == -5 && pos.x >= 0)
+                    {
+                        item2Button.Select();
+                        itemText2Panel.SetActive(true);
+                        itemBackImageBack2.SetActive(true);
+                        mainCursor.SetActive(false);
+                    }
                 }
             }
         }
 
+        if (Input.GetKeyDown("joystick 1 button 2") && usingDice == false || Input.GetKeyDown("joystick 2 button 2") && usingDice == false)
+        {
+            TrnEnd();
+        }
         if (Input.GetKeyDown("joystick 1 button 0") || Input.GetKeyDown("joystick 2 button 0") || Input.GetKey(KeyCode.Space))
         {
-            Debug.Log("a");
             // ユニットにも当たり判定があるのでヒットした全てのオブジェクト情報を取得
             foreach (RaycastHit hit in Physics.RaycastAll(transform.position, new Vector3(myTransform.position.x, -6, myTransform.position.y)))
             {
@@ -490,7 +496,6 @@ public class GameSceneDirector : MonoBehaviour
                 }
             }
         }
-
         // CPUの処理
         /*while( TitleSceneDirector.PlayerCount <= nowPlayer
                 && (null == selectUnit || null == tile ) )
@@ -531,10 +536,14 @@ public class GameSceneDirector : MonoBehaviour
 
         // ユニット
         unit = units[tilepos.x, tilepos.y];
-        if(unit != null)
+        if(unit != null && selectUnit != unit)
         {
             hpText.text = (unit.GetHP() + "/" + unit.GetMaxHp());
             hpSlider.value = (float)unit.GetHP() / unit.GetMaxHp();
+            PaseImageController pI;
+            pI = paseImage.GetComponent<PaseImageController>();
+            //駒のイメージを変える
+            pI.PaceCanChanger(unit.GetTYPE(), unit.GetPlayer());
         }
 
         // ユニット選択
@@ -542,7 +551,6 @@ public class GameSceneDirector : MonoBehaviour
             && selectUnit != unit
             && nowPlayer == unit.Player )
         {
-
             // 移動可能範囲を取得
             List<Vector2Int> tiles = getMovableTiles(unit);
 
@@ -551,7 +559,6 @@ public class GameSceneDirector : MonoBehaviour
 
             movableTiles = tiles;
             setSelectCursors(unit);
-            
         }
         // 移動
         else if (null != selectUnit && movableTiles.Contains(tilepos))
@@ -559,9 +566,7 @@ public class GameSceneDirector : MonoBehaviour
             if(canMoveCounter == true)
             {
                 StartCoroutine(moveUnit(selectUnit, tilepos));
-                
             }
-            
             //nextMode = MODE.STATUS_UPDATE;
         }
         // 移動範囲だけ見られる
@@ -576,7 +581,6 @@ public class GameSceneDirector : MonoBehaviour
         }
     }
 
-
     //戦闘処理
     void battleMode()
     {
@@ -584,61 +588,11 @@ public class GameSceneDirector : MonoBehaviour
         if(battleEnd == true) {
             nextMode = MODE.STATUS_UPDATE;
         }
-
     }
 
     // 移動後の処理
     void statusUpdateMode()
     {
-        /*// キャスリング
-        if(selectUnit.Status.Contains(UnitController.STATUS.QSIDE_CASTLING) )
-        {
-            // 左端のルーク
-            UnitController unit = units[0, selectUnit.Pos.y];
-            Vector2Int tile = new Vector2Int(selectUnit.Pos.x + 1, selectUnit.Pos.y);
-
-            moveUnit(unit, tile);
-        }
-        else if (selectUnit.Status.Contains(UnitController.STATUS.KSIDE_CASTLING))
-        {
-            // 右端のルーク
-            UnitController unit = units[TILE_X-1, selectUnit.Pos.y];
-            Vector2Int tile = new Vector2Int(selectUnit.Pos.x - 1, selectUnit.Pos.y);
-
-            moveUnit(unit, tile);
-        }
-
-        // アンパッサンとプロモーション
-        if (UnitController.TYPE.PAWN == selectUnit.Type)
-        {
-            foreach (var v in getUnits(getNextPlayer()))
-            {
-                if (!v.Status.Contains(UnitController.STATUS.EN_PASSANT)) continue;
-
-                // 置いた場所がアンパッサン対象か
-                if(selectUnit.Pos == v.OldPos)
-                {
-                    Destroy(v.gameObject);
-                }
-            }
-
-            // プロモーション
-            int py = TILE_Y - 1;
-            if (selectUnit.Player == 1) py = 0;
-
-            // 端に到達
-            if( py == selectUnit.Pos.y )
-            {
-                // クイーン固定
-                GameObject prefab = getPrefabUnit(nowPlayer, (int)UnitController.TYPE.QUEEN);
-                UnitController unit = Instantiate(prefab).GetComponent<UnitController>();
-                GameObject tile = tiles[selectUnit.Pos.x, selectUnit.Pos.y];
-
-                unit.SetUnit(selectUnit.Player, UnitController.TYPE.QUEEN, tile);
-                moveUnit(unit, new Vector2Int(selectUnit.Pos.x, selectUnit.Pos.y));
-            }
-        }*/
-
         // ターン経過
         foreach (var v in getUnits(nowPlayer))
         {
@@ -649,9 +603,7 @@ public class GameSceneDirector : MonoBehaviour
 
         // カーソル
         setSelectCursors();
-
         battleEnd = false;
-
         nextMode = MODE.TURN_CHANGE;
     }
 
@@ -672,7 +624,10 @@ public class GameSceneDirector : MonoBehaviour
         nowPlayer = getNextPlayer();
 
         // Infoの更新
-        txtTurnInfo.GetComponent<Text>().text = "" + (nowPlayer + 1) + "Pの番です";
+        string nowColor = "";
+        if (nowPlayer == 0) { nowColor = "白";}
+        else if(nowPlayer == 1) { nowColor = "黒";}
+        txtTurnInfo.GetComponent<Text>().text = "" + nowColor + "の番です";
 
         // 経過ターン（１P側にきたら+1）
         if( 0 == nowPlayer)
@@ -685,9 +640,6 @@ public class GameSceneDirector : MonoBehaviour
             turnNum++;
         }
         turnText.text = turnNum.ToString();
-        
-        
-
         nextMode = MODE.CHECK_MATE;
     }
 
@@ -695,7 +647,6 @@ public class GameSceneDirector : MonoBehaviour
     {
         int next = nowPlayer + 1;
         if (PLAYER_MAX <= next) next = 0;
-
         return next;
     }
 
@@ -706,11 +657,10 @@ public class GameSceneDirector : MonoBehaviour
         invalidTile = false;
         if(nowPlayer == 1) {
             turnAnim.SetTrigger("EnemyOn");
-            
-        } else if(nowPlayer == 0) {
+        } 
+        else if(nowPlayer == 0) {
             turnAnim.SetTrigger("YourOn");
         }
-
         yield return new WaitForSeconds(2.5f);
 
         invalidTile = true;
@@ -726,7 +676,6 @@ public class GameSceneDirector : MonoBehaviour
             if (player != v.Player) continue;
             if(type == v.Type ) return v;
         }
-
         return null;
     }
 
@@ -738,7 +687,6 @@ public class GameSceneDirector : MonoBehaviour
         foreach (var v in units)
         {
             if (null == v) continue;
-
             if(player == v.Player)
             {
                 ret.Add(v);
@@ -747,9 +695,7 @@ public class GameSceneDirector : MonoBehaviour
             {
                 ret.Add(v);
             }
-
         }
-
         return ret;
     }
 
@@ -792,10 +738,8 @@ public class GameSceneDirector : MonoBehaviour
 
                 if (1 > checkcount) ret.Add(v);
             }
-
             return ret;
         }
-
         // 通常移動可能範囲を返す
         return unit.GetMovableTiles(units);
     }
@@ -823,7 +767,7 @@ public class GameSceneDirector : MonoBehaviour
         foreach(var v in getMovableTiles(unit))
         {
             Vector3 pos = tiles[v.x, v.y].transform.position;
-            pos.y += 0.51f;
+            pos.y += 0.495f;
 
             GameObject obj = Instantiate(prefabCursor, pos, Quaternion.identity);
             cursors.Add(obj);
@@ -845,6 +789,8 @@ public class GameSceneDirector : MonoBehaviour
 
         //移動したかどうかのフラグ
         moved = true;
+        //動けないようにする
+        canMoveCounter = false;
 
         //moveSoundを流す
         SE sePlayer = SeObject.GetComponent<SE>();
@@ -855,6 +801,9 @@ public class GameSceneDirector : MonoBehaviour
         {
             //選択したタイルのコマのスクリプトを読み取り、GetHP()をHpにいれる
             Hp = units[tilepos.x, tilepos.y].GetHP();
+            int maxHP;
+
+            maxHP = units[tilepos.x, tilepos.y].GetMaxHp();
 
             //タイルをクリックできなくする　※モード移行を追加したのでいらないかも
             invalidTile = false;
@@ -867,15 +816,19 @@ public class GameSceneDirector : MonoBehaviour
             textAnim.SetTrigger("in");
 
             //ダイスをまわすボタンを少し遅らせて表示させる
-            Invoke("battleSetMode", 1f);
+            usingDice = true;
+            yield return new WaitForSeconds(1f);
+            battleSetMode();
 
             //pushAButtonがtrueになるまでここで待機
             yield return new WaitUntil(() => pushAButton == true);
             sePlayer.moveSound2();//ダイスを振る音
+            AttackButton.SetActive(false);
 
             //ダイスで出た数値をPUに入れる→Hp
             PU = diceTime();
             Hp = Hp - PU;
+            if (Hp < 0) { Hp = 0; }
 
             //SetHpを行う(相手コマに体力を保存させる)
             units[tilepos.x, tilepos.y].SetHP(Hp);
@@ -883,8 +836,7 @@ public class GameSceneDirector : MonoBehaviour
             //少し待つ
             yield return new WaitForSeconds(1f);
 
-            
-            if(Hp <= 0) {
+            if (Hp <= 0) {
                 battleEnd = true;
 
                 //バトル演出系をoffする
@@ -900,16 +852,22 @@ public class GameSceneDirector : MonoBehaviour
 
                 effCon.enemyPositionEff(4, units[tilepos.x, tilepos.y].unitVec());
 
-                //キングのHPが0になった時の処理
-                //まずキングを取得して１ｐと２ｐ
-                UnitController sinu1 = getUnit(0, UnitController.TYPE.KING);
-                UnitController sinu2 = getUnit(1, UnitController.TYPE.KING);
                 Text info = txtResultInfo.GetComponent<Text>();
-                if (sinu1.GetHP() <= 0) { info.text = "2Pの勝ち！！"; Invoke("Result", 3.0f); Debug.Log(sinu1.GetHP() + "通った"); }
-                if (sinu2.GetHP() <= 0) { info.text = "1Pの勝ち！！"; Invoke("Result", 3.0f); Debug.Log(sinu2.GetHP() + "通ったよ"); }
-                //ここでキングのＨＰが0なら勝者を３秒表示してリザルトに
-
-                yield return new WaitForSeconds(0.2f);
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 1 && nowPlayer == 0) { DontDestroySingleObject.p1TakePawn++; DontDestroySingleObject.p1Point+= units[tilepos.x, tilepos.y].GetPOINT(); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 1 && nowPlayer == 1) { DontDestroySingleObject.p2TakePawn++; DontDestroySingleObject.p2Point += units[tilepos.x, tilepos.y].GetPOINT(); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 2 && nowPlayer == 0) { DontDestroySingleObject.p1TakeRook++; DontDestroySingleObject.p1Point += units[tilepos.x, tilepos.y].GetPOINT(); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 2 && nowPlayer == 1) { DontDestroySingleObject.p2TakeRook++; DontDestroySingleObject.p2Point += units[tilepos.x, tilepos.y].GetPOINT(); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 3 && nowPlayer == 0) { DontDestroySingleObject.p1TakeKnight++; DontDestroySingleObject.p1Point += units[tilepos.x, tilepos.y].GetPOINT(); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 3 && nowPlayer == 1) { DontDestroySingleObject.p2TakeKnight++; DontDestroySingleObject.p2Point += units[tilepos.x, tilepos.y].GetPOINT(); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 4 && nowPlayer == 0) { DontDestroySingleObject.p1TakeBishop++; DontDestroySingleObject.p1Point += units[tilepos.x, tilepos.y].GetPOINT(); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 4 && nowPlayer == 1) { DontDestroySingleObject.p2TakeBishop++; DontDestroySingleObject.p2Point += units[tilepos.x, tilepos.y].GetPOINT(); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 5 && nowPlayer == 0) { DontDestroySingleObject.p1TakeQueen++; DontDestroySingleObject.p1Point += units[tilepos.x, tilepos.y].GetPOINT(); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 5 && nowPlayer == 1) { DontDestroySingleObject.p2TakeQueen++; DontDestroySingleObject.p2Point += units[tilepos.x, tilepos.y].GetPOINT(); }
+                //キングのHPが0になった時の処理 ここでキングのＨＰが0なら勝者を３秒表示してリザルトに
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 6 && nowPlayer == 0) { DontDestroySingleObject.p1TakeKing++; info.text = "2Pの勝ち！！"; Invoke("Result", 3.0f); DontDestroySingleObject.winner = 1; }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 6 && nowPlayer == 1) { DontDestroySingleObject.p2TakeKing++; info.text = "1Pの勝ち！！"; Invoke("Result", 3.0f); DontDestroySingleObject.winner = 0; }
+                
+                yield return new WaitForSeconds(0.1f);
 
                 Destroy(units[tilepos.x, tilepos.y].gameObject);//敵の駒のHPをUnitControllerのGetHPからとりif文で分岐
                 prevDestroyTurn = 0;
@@ -926,8 +884,13 @@ public class GameSceneDirector : MonoBehaviour
                     player2Chara.setPlayer2SpBar();
                 }
 
-                
+                //HPの表示を変える
+                hpText.text = (Hp + "/" + maxHP);
+                hpSlider.value = (float)Hp / maxHP;
 
+                //ダイスを振って動いていいかの判定
+                usingDice = false;
+          
                 // 新しい場所へ移動
                 unit.MoveUnit(tiles[tilepos.x, tilepos.y]);
 
@@ -936,9 +899,6 @@ public class GameSceneDirector : MonoBehaviour
 
                 // 内部データ更新（新しい場所）
                 units[tilepos.x, tilepos.y] = unit;
-
-                //動けないようにする
-                canMoveCounter = false;
 
                 yield break;
 
@@ -955,14 +915,18 @@ public class GameSceneDirector : MonoBehaviour
                 sePlayer.moveSound1();//戦闘音
                 yield return new WaitForSeconds(1.0f);
 
+                //HPの表示を変える
+                hpText.text = (Hp + "/" + maxHP);
+                hpSlider.value = (float)Hp / maxHP;
+
                 //自分の攻撃したコマが「ポーン、ナイト、キング」だったら移動しないでその場にとどまる
-                if(unit.Type == UnitController.TYPE.PAWN || unit.Type == UnitController.TYPE.KNIGHT || unit.Type == UnitController.TYPE.KING) {
+                if (unit.Type == UnitController.TYPE.PAWN || unit.Type == UnitController.TYPE.KNIGHT || unit.Type == UnitController.TYPE.KING) {
                     tilepos.x = selectUnit.Pos.x;
                     tilepos.y = selectUnit.Pos.y;
                 }
                 //自分の攻撃したコマが上のコマ以外だったら相手の駒の目の前でとどまる
-                else if(unit.Type == UnitController.TYPE.BISHOP || unit.Type == UnitController.TYPE.QUEEN || unit.Type == UnitController.TYPE.ROOK) {
-
+                else //if(unit.Type == UnitController.TYPE.BISHOP || unit.Type == UnitController.TYPE.QUEEN || unit.Type == UnitController.TYPE.ROOK) 
+                {
                     //右に移動
                     if(tilepos.x < selectUnit.Pos.x) {
                         tilepos.x = tilepos.x + 1;
@@ -976,10 +940,10 @@ public class GameSceneDirector : MonoBehaviour
                     else if(tilepos.y < selectUnit.Pos.y) {
                         tilepos.y = tilepos.y + 1;
                     }
-
                 }
 
-                
+                //ダイスを振って動いていいかの判定
+                usingDice = false;
 
                 // 新しい場所へ移動
                 unit.MoveUnit(tiles[tilepos.x, tilepos.y]);
@@ -989,9 +953,6 @@ public class GameSceneDirector : MonoBehaviour
 
                 // 内部データ更新（新しい場所）
                 units[tilepos.x, tilepos.y] = unit;
-
-                //動けないようにする
-                canMoveCounter = false;
 
                 yield break;
             }
@@ -1009,9 +970,6 @@ public class GameSceneDirector : MonoBehaviour
             // 内部データ更新（新しい場所）
             units[tilepos.x, tilepos.y] = unit;
 
-            //動けないようにする
-            canMoveCounter = false;
-
             yield break;
         }
     }
@@ -1022,25 +980,28 @@ public class GameSceneDirector : MonoBehaviour
         GameObject Dice = GameObject.Find("1PDice");
         Transform DiceTrn = Dice.transform;
         DiceTrn.Translate(0, -98, 0);//画面に映る値
+        Invoke("AttackDiceButton",0.1f);
+    }
+
+    public void AttackDiceButton()
+    {
+        attackDiceButton.Select();
     }
 
     //ダイス回すボタンクリック
     public void pushATKButton() {
         pushAButton = true;
-        Debug.Log("ボタン押した");
+        GameObject Dice = GameObject.Find("1PDice");
+        Transform DiceTrn = Dice.transform;
+        DiceTrn.Translate(0, +98, 0);
     }
-
 
     //試しダイス
     int rnd;
     public int diceTime()
     {
         GameObject d6 = GameObject.Find("1PDice/d6 2");
-        Debug.Log("ダイスON");
         rnd = d6.GetComponent<nanika>().GetNumber();
-        Debug.Log("じっす鵜"+rnd);
-        //rnd = Random.Range(1, 7);
-
         if(nowPlayer == 0)
         {
             if (damageFlag == 1)
@@ -1072,14 +1033,11 @@ public class GameSceneDirector : MonoBehaviour
                 damageFlag -= 2;
             }
         }
-
         ATKText.SetActive(true);
         aText.text = rnd.ToString();
 
         diceCheck = true;
         return rnd;
-
-
     }
 
     // ユニットのプレハブを取得
@@ -1125,55 +1083,116 @@ public class GameSceneDirector : MonoBehaviour
     //先攻後攻をきめる
     public IEnumerator firstTurn()
     {
-        
-
         Animator turnOrder = GameObject.Find("FirstTurnImage").GetComponent<Animator>();
-
         if(turnRnd == 0)
         {
             nowPlayer = 0;
             turnOrder.SetTrigger("Second");
-
         }
         else if(turnRnd == 1)
         {
             nowPlayer = 1;
-            
             turnOrder.SetTrigger("First");
-
         }
-        
-        
         nextMode = MODE.TURN_CHANGE;
-
         yield break;
     }
 
-   
+    //ここでボタンを押させる今回のダイスの目を見て//atodekannseisaseru
+    int rndP;
+    public int pieceDice()
+    {
+        //ダイスを獲得してrndに値を入れる
+        GameObject d6 = GameObject.Find("PieceDiceObj/d6 3");
+        rndP = d6.GetComponent<nanika>().GetNumber();
+        return rndP;
+    }
+    public IEnumerator dicePiece()
+    {
+        usingDice = true;
+        //ダイスをまわすボタンを少し遅らせて表示させる
+        yield return new WaitForSeconds(0.2f);
+        GameObject Dice = GameObject.Find("PieceDiceObj");
+        dicePiceSetMode();
+        Transform DiceTrn = Dice.transform;
+        DiceTrn.Translate(0, -101, 0);//画面に映る値
+        Debug.Log("DicePiece");
+        //pushAButtonがtrueになるまでここで待機
+        yield return new WaitUntil(() => pushDPButton == true);
+
+        Debug.Log("DicePiece2");
+        DiceTrn.Translate(0, +101, 0);//画面から出る
+        UnitController PieceDice;
+        int hoge = pieceDice();
+        //今のプレイヤーのユニットのタイプをすべてhogeに帰る
+        foreach (var v in getUnits(nowPlayer))
+        {
+            PieceDice = v;
+            PieceDice.SetTYPE(hoge);
+        }
+        dicePicePanel.SetActive(false);
+        pushDPButton = false;
+
+        yield break;
+    }
+    //UIの表示
+    public void dicePiceSetMode()
+    {
+        dicePicePanel.SetActive(true);
+        Invoke("dicePiceSelect", 0.1f);
+    }
+    public void dicePiceSelect()
+    {
+        dicePiceButton.Select();
+    }
+    public void DPButton()
+    {
+        pushDPButton=true;
+        usingDice = false;
+    }
+
+
+
 
     public void Retry()
     {
         SceneManager.LoadScene("SampleScene");
     }
-
     public void Title()
     {
         SceneManager.LoadScene("TitleScene");
     }
-
     public void Result()
     {
-        SceneManager.LoadScene("Result");
+        SceneManager.LoadScene("Result3");
     }
-
     public int daise()
     {
         return 1;
     }
-
     public void TrnEnd()
-    {
-        if(moved == true) {nextMode = MODE.STATUS_UPDATE; moved = false;}
+    { 
+        Image trnendImg;
+        trnendImg = endButton.GetComponent<Image>();
+        if(moved == true) {
+            nextMode = MODE.STATUS_UPDATE;
+            moved = false;
+            DiceCount=0;
+            SE sePlayer = SeObject.GetComponent<SE>();
+            sePlayer.moveSound12();
+            trnendImg.sprite = endButtonBSprite;
+            Invoke("TrnEndNext",1.5f);
+        }
+        else
+        {
+            SE sePlayer = SeObject.GetComponent<SE>();
+            sePlayer.moveSound6();
+        }
+    }
+    private void TrnEndNext() {
+        Image trnendImg;
+        trnendImg = endButton.GetComponent<Image>();
+        trnendImg.sprite = endButtonASprite;
     }
 
     //呼び出し用のinvalidTile反転メソッド

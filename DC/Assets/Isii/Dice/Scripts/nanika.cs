@@ -76,11 +76,10 @@ public class nanika: MonoBehaviour
             }
         }
         hairetu[count] = number;
-        transform.parent.position = new Vector3(0, 100, 0);
+        Debug.Log("oyagaue");
         Instantiate(CubePrefabs[number]);
         count++;
         number += 1;
-        Debug.Log("みつけるのは" + number);
         GameObject deme ;
         if (number == 1) { deme = GameObject.Find("1(Clone)"); }
         else if (number == 2) { deme = GameObject.Find("2(Clone)"); }
@@ -94,7 +93,6 @@ public class nanika: MonoBehaviour
 
     public int GetNumber()
     {
-        Debug.Log("GetNumberは"+number);
         return number;
     }
 }

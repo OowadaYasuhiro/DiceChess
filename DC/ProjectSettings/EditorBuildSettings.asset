@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/watanabe/Scenes/Result.unity
     guid: a11ecb471c5b9b44289251f04c94dbbc
+  - enabled: 1
+    path: Assets/watanabe/Scenes/Result3.unity
+    guid: 7d947fb580933f341bafd0df63b17dd2
   m_configObjects: {}

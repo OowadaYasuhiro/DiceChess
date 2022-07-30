@@ -81,7 +81,6 @@ public class kieru : MonoBehaviour
             }
         }
 
-        Debug.Log("出た目は " + result + " です");
         Destroy(this.gameObject, deleteTime);
     }
 }

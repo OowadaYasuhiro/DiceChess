@@ -69,7 +69,6 @@ public class SelectController : MonoBehaviour
         }
         else if(_mode == MODE.SETITEM) {
             _modeNum = (int)_mode;
-            SceneManager.LoadScene("Chess 1");
 
         }
         else if(_mode == MODE.ITEMSELECT) {

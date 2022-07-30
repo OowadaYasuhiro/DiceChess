@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 113402631}
   - component: {fileID: 113402630}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: DontDestroySingleOBJ
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -723,7 +723,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 696484759}
-        m_MethodName: ClickStartButton
+        m_MethodName: Chess
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

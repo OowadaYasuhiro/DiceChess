@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class SpecialMoveController : MonoBehaviour
 {
     //必殺技ゲージ
     public int damage = 3;
-    public int minSp = 30;
+    public int minSp = 15;
     int hp;
 
     //相手のステータスを読み取るためのヤツ    
@@ -59,8 +60,8 @@ public class SpecialMoveController : MonoBehaviour
         
 
         //nowPlayerが0の時は自分の番
-        if(sceneDirector.nowPlayer == 0 && player1Chara.Sp == 100) {
-            player1Chara.setSP(-100);
+        if(sceneDirector.nowPlayer == 0 && player1Chara.Sp == 50) {
+            player1Chara.setSP(-50);
             player1Chara.setPlayer1SpBar();
 
             effCon.setPositionEff(1,-8.25f,0f,-5f ,-35f,0f,0f);
@@ -90,13 +91,26 @@ public class SpecialMoveController : MonoBehaviour
                 unitCon.SetHP(hp);
                 Debug.Log(unit.name);
 
-                if(unitCon.GetTYPE() == 1)
+                if (unitCon.GetTYPE() == 1 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakePawn++; }
+                if (unitCon.GetTYPE() == 1 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakePawn++; }
+                if (unitCon.GetTYPE() == 2 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeRook++; }
+                if (unitCon.GetTYPE() == 2 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeRook++; }
+                if (unitCon.GetTYPE() == 3 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeKnight++; }
+                if (unitCon.GetTYPE() == 3 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeKnight++; }
+                if (unitCon.GetTYPE() == 4 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeBishop++; }
+                if (unitCon.GetTYPE() == 4 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeBishop++; }
+                if (unitCon.GetTYPE() == 5 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeQueen++; }
+                if (unitCon.GetTYPE() == 5 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeQueen++; }
+                if (unitCon.GetTYPE() == 6 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeKing++; }
+                if (unitCon.GetTYPE() == 6 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeKing++; }
+                if (unitCon.GetTYPE() == 6)
                 {
                     if(unitCon.GetHP() <= 0)
                     {
                         effCon.enemyPositionEff(4, enemyVec);
                         Text info = txtResultInfo.GetComponent<Text>();
                         //ちゃんとした勝利エフェクトを作れ
+                        DontDestroySingleObject.winner = 0;
                         info.text = "1Pの勝ち";
                         Invoke("goResult", 3.0f);
                         Destroy(unit);
@@ -112,8 +126,8 @@ public class SpecialMoveController : MonoBehaviour
             
         }
         //nowPlayerが1の時は相手の番
-        else if(sceneDirector.nowPlayer == 1 && player2Chara.Sp == 100) {
-            player2Chara.setSP(-100);
+        else if(sceneDirector.nowPlayer == 1 && player2Chara.Sp == 50) {
+            player2Chara.setSP(-50);
             player2Chara.setPlayer2SpBar();
 
             effCon.setPositionEff(1, 6.25f, 5f, -1.5f, -35f, 0f, 0f);
@@ -143,12 +157,26 @@ public class SpecialMoveController : MonoBehaviour
                 unitCon.SetHP(hp);
                 Debug.Log(unit.name);
 
-                if (unitCon.GetTYPE() == 1)
+
+                if (unitCon.GetTYPE() == 1 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakePawn++; DontDestroySingleObject.p1Point += unitCon.GetPOINT();}
+                if (unitCon.GetTYPE() == 1 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakePawn++; DontDestroySingleObject.p2Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 2 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeRook++; DontDestroySingleObject.p1Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 2 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeRook++; DontDestroySingleObject.p2Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 3 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeKnight++; DontDestroySingleObject.p1Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 3 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeKnight++; DontDestroySingleObject.p2Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 4 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeBishop++; DontDestroySingleObject.p1Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 4 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeBishop++; DontDestroySingleObject.p2Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 5 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeQueen++; DontDestroySingleObject.p1Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 5 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeQueen++; DontDestroySingleObject.p2Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 6 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p1TakeKing++; DontDestroySingleObject.p1Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 6 && unitCon.GetHP() <= 0) { DontDestroySingleObject.p2TakeKing++; DontDestroySingleObject.p2Point += unitCon.GetPOINT(); }
+                if (unitCon.GetTYPE() == 6)
                 {
                     if (unitCon.GetHP() <= 0)
                     {
                         effCon.enemyPositionEff(4, enemyVec);
                         Text info = txtResultInfo.GetComponent<Text>();
+                        DontDestroySingleObject.winner = 1;
                         //ちゃんとした勝利エフェクトを作れ
                         info.text = "2Pの勝ち";
                         Invoke("goResult", 3.0f);
@@ -203,14 +231,27 @@ public class SpecialMoveController : MonoBehaviour
     }
 
     public void getSpMove() {
-        StartCoroutine("specialMove1");
+        if (sceneDirector.nowPlayer == 0){
+            if (DontDestroySingleObject.p1Character == 0 || DontDestroySingleObject.p1Character == 1){
+                StartCoroutine("specialMove1");
+            }
+            if (DontDestroySingleObject.p1Character == 2 || DontDestroySingleObject.p1Character == 3){
+                StartCoroutine("specialMove4");
+            }
+        }
+        if (sceneDirector.nowPlayer == 1 ){
+            if (DontDestroySingleObject.p2Character == 0 || DontDestroySingleObject.p2Character == 1){
+                StartCoroutine("specialMove1");
+            }
+            if (DontDestroySingleObject.p2Character == 2 || DontDestroySingleObject.p2Character == 3){
+                StartCoroutine("specialMove4");
+            }
+        }
     }
 
-    public void goResult()
-    {
-        SceneManager.LoadScene("Result");
+    public void goResult(){
+        SceneManager.LoadScene("Result3");
     }
-
     /*必殺技使用方法
      * 別のスクリプトで「もしSpが100％かつプレイヤーアイコンを押されたら」という文を作る
      * 上のif分の中身にgetSpMoveを書く
