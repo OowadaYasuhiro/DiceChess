@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 30861486}
   - component: {fileID: 30861485}
   m_Layer: 5
-  m_Name: Image(20)
+  m_Name: Character1Image20
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -330,7 +330,7 @@ GameObject:
   - component: {fileID: 148311953}
   - component: {fileID: 148311952}
   m_Layer: 5
-  m_Name: Image(11)
+  m_Name: KnightImage11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -404,7 +404,7 @@ GameObject:
   - component: {fileID: 172449433}
   - component: {fileID: 172449432}
   m_Layer: 5
-  m_Name: Image(7)
+  m_Name: Character4nameImage7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -478,7 +478,7 @@ GameObject:
   - component: {fileID: 177874522}
   - component: {fileID: 177874521}
   m_Layer: 5
-  m_Name: Image(12)
+  m_Name: BishopImage12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -718,7 +718,7 @@ GameObject:
   - component: {fileID: 512735534}
   - component: {fileID: 512735533}
   m_Layer: 5
-  m_Name: Image(19)
+  m_Name: Character2Image19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -792,7 +792,7 @@ GameObject:
   - component: {fileID: 541600430}
   - component: {fileID: 541600429}
   m_Layer: 5
-  m_Name: Image(15)
+  m_Name: totalScoreImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -866,7 +866,7 @@ GameObject:
   - component: {fileID: 742199340}
   - component: {fileID: 742199339}
   m_Layer: 5
-  m_Name: Image(13)
+  m_Name: QueenImage13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -940,7 +940,7 @@ GameObject:
   - component: {fileID: 742849052}
   - component: {fileID: 742849051}
   m_Layer: 5
-  m_Name: Image(18)
+  m_Name: Character3Image18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1088,7 +1088,7 @@ GameObject:
   - component: {fileID: 933648388}
   - component: {fileID: 933648387}
   m_Layer: 5
-  m_Name: Image(16)
+  m_Name: totalScoreImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1384,7 +1384,7 @@ GameObject:
   - component: {fileID: 1097132040}
   - component: {fileID: 1097132039}
   m_Layer: 5
-  m_Name: Image(10)
+  m_Name: RookImage10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1458,7 +1458,7 @@ GameObject:
   - component: {fileID: 1123071056}
   - component: {fileID: 1123071055}
   m_Layer: 5
-  m_Name: Image(9)
+  m_Name: PawnImage9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1774,6 +1774,69 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1308082252
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1308082255}
+  - component: {fileID: 1308082254}
+  - component: {fileID: 1308082253}
+  m_Layer: 0
+  m_Name: GameObject(3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1308082253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308082252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d4e0f48ddb728a48a4764b473e18841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1308082254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308082252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12423d5ed69370040b21246027642c77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PawnImage9: {fileID: 0}
+  RookImage10: {fileID: 0}
+  KnightImage11: {fileID: 0}
+  BishopImage12: {fileID: 0}
+  QueenImage13: {fileID: 0}
+  KingImage14: {fileID: 0}
+  totalScoreImage: {fileID: 0}
+--- !u!4 &1308082255
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308082252}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 760, y: 640, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1345364244
 GameObject:
   m_ObjectHideFlags: 0
@@ -1953,7 +2016,7 @@ GameObject:
   - component: {fileID: 1441100098}
   - component: {fileID: 1441100097}
   m_Layer: 5
-  m_Name: Image(23)
+  m_Name: Character1nameImage23
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2101,7 +2164,7 @@ GameObject:
   - component: {fileID: 1616009311}
   - component: {fileID: 1616009310}
   m_Layer: 5
-  m_Name: Image(22)
+  m_Name: Character2nameImage22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2175,7 +2238,7 @@ GameObject:
   - component: {fileID: 1652922729}
   - component: {fileID: 1652922728}
   m_Layer: 5
-  m_Name: Image(14)
+  m_Name: KingImage14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2249,7 +2312,7 @@ GameObject:
   - component: {fileID: 1679659350}
   - component: {fileID: 1679659349}
   m_Layer: 5
-  m_Name: Image(8)
+  m_Name: Charecter4Image8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2323,7 +2386,7 @@ GameObject:
   - component: {fileID: 1743327731}
   - component: {fileID: 1743327730}
   m_Layer: 5
-  m_Name: Image(21)
+  m_Name: Character3nameImage21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2698,7 +2761,7 @@ GameObject:
   - component: {fileID: 2019054202}
   - component: {fileID: 2019054201}
   m_Layer: 5
-  m_Name: Image(17)
+  m_Name: totalScoreImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

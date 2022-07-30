@@ -36,8 +36,18 @@ public class Result : MonoBehaviour
     public Image kingPointImage;
 
     //合計スコアを表示するUIの取得
+
+    public Text totalScoreImage;
+
+    //スコアのカウント用
+    private int score;
+
+    //合計スコアのカウント用
+    private int totalScore;
+
     public Image totalScoreImage10;
     public Image totalScoreImage100;
+
 
     // Start is called before the first frame update
     void Start()
@@ -92,10 +102,21 @@ public class Result : MonoBehaviour
 
     private void Update()
     {
+
+        //現在のスコアを画面に表示する
+        PawnImage9 .text = score.ToString();
+        RookImage10 .text = score.ToString();
+        KnightImage11 .text = score.ToString();
+        BishopImage12 .text = score.ToString();
+        QueenImage13 .text = score.ToString();
+        KingImage14 .text = score.ToString();
+        totalScoreImage .text = score.ToString();
+
         if (Input.GetKeyDown("joystick 1 button 0"))
         {
             ClickStartButton();
         }
+
     }
 
     //Aボタンでタイトルに戻る
