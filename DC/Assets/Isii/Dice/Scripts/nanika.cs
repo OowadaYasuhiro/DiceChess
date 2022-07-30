@@ -77,7 +77,6 @@ public class nanika: MonoBehaviour
         }
         hairetu[count] = number;
         Debug.Log("oyagaue");
-        transform.parent.position = new Vector3(0, 100, 0);
         Instantiate(CubePrefabs[number]);
         count++;
         number += 1;

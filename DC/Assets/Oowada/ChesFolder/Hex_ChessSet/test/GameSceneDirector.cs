@@ -993,6 +993,9 @@ public class GameSceneDirector : MonoBehaviour
     //ダイス回すボタンクリック
     public void pushATKButton() {
         pushAButton = true;
+        GameObject Dice = GameObject.Find("1PDice");
+        Transform DiceTrn = Dice.transform;
+        DiceTrn.Translate(0, +98, 0);
     }
 
     //試しダイス

@@ -7983,6 +7983,8 @@ MonoBehaviour:
   hpText: {fileID: 1314942838}
   hpSlider: {fileID: 2021373829}
   paseImage: {fileID: 265318506}
+  endButtonASprite: {fileID: 0}
+  endButtonBSprite: {fileID: 0}
   eventSystem: {fileID: 2088663570}
   DelayTime: 0.3
   player1Button: {fileID: 554779761}
