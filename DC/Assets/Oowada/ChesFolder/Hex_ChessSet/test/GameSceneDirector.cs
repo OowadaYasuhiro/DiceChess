@@ -134,7 +134,7 @@ public class GameSceneDirector : MonoBehaviour
     //駒の動きをきめるダイス
     [SerializeField] private GameObject dicePicePanel;
     [SerializeField] private Button dicePiceButton;
-    int DiceCount = 0;
+    private int DiceCount = 0;
 
     //戦闘開始合図のアニメ(仮)
     Animator panelAnim;
@@ -150,20 +150,20 @@ public class GameSceneDirector : MonoBehaviour
     //攻撃ダイスを振ったかどうかのチェック    
     public bool diceCheck = false;
     public bool pushAButton = false;
-    int Hp = 0;
+    private int Hp = 0;
     //タイルを触れるようにするためのbool
-    bool invalidTile = true;
+    private bool invalidTile = true;
 
-    int turnNum = 0;
-    int turnCount = 0;
+    private int turnNum = 0;
+    private int turnCount = 0;
     Text turnText;
 
     //先攻後攻に使うランダム
     int turnRnd;
     //turnChangeを最初に行わないためのbool
-    bool firstTurnFlag;
+    private bool firstTurnFlag;
 
-    bool usingDice = false;
+    private bool usingDice = false;
 
     // Start is called before the first frame update
     void Start()
@@ -478,7 +478,7 @@ public class GameSceneDirector : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown("joystick 1 button 2"))
+        if (Input.GetKeyDown("joystick 1 button 2") && usingDice == false)
         {
             TrnEnd();
         }
@@ -814,7 +814,9 @@ public class GameSceneDirector : MonoBehaviour
             textAnim.SetTrigger("in");
 
             //ダイスをまわすボタンを少し遅らせて表示させる
-            Invoke("battleSetMode", 1f);
+            usingDice = true;
+            yield return new WaitForSeconds(1f);
+            battleSetMode();
 
             //pushAButtonがtrueになるまでここで待機
             yield return new WaitUntil(() => pushAButton == true);
@@ -829,15 +831,10 @@ public class GameSceneDirector : MonoBehaviour
             //SetHpを行う(相手コマに体力を保存させる)
             units[tilepos.x, tilepos.y].SetHP(Hp);
 
-            //HPの表示を変える
-            hpText.text = (Hp + "/" + maxHP);
-            hpSlider.value = (float)Hp / maxHP;
-
             //少し待つ
             yield return new WaitForSeconds(1f);
 
-            
-            if(Hp <= 0) {
+            if (Hp <= 0) {
                 battleEnd = true;
 
                 //バトル演出系をoffする
@@ -885,6 +882,10 @@ public class GameSceneDirector : MonoBehaviour
                     player2Chara.setPlayer2SpBar();
                 }
 
+                //HPの表示を変える
+                hpText.text = (Hp + "/" + maxHP);
+                hpSlider.value = (float)Hp / maxHP;
+
                 //ダイスを振って動いていいかの判定
                 usingDice = false;
           
@@ -927,19 +928,11 @@ public class GameSceneDirector : MonoBehaviour
                     else if(tilepos.x > selectUnit.Pos.x) {
                         tilepos.x = tilepos.x - 1;
                     }//上に移動
-                    else
-                    {
-
-                    }
                     if(tilepos.y > selectUnit.Pos.y) {
                         tilepos.y = tilepos.y - 1;
                     }//下に移動
                     else if(tilepos.y < selectUnit.Pos.y) {
                         tilepos.y = tilepos.y + 1;
-                    }
-                    else
-                    {
-
                     }
                 }
 
@@ -977,7 +970,6 @@ public class GameSceneDirector : MonoBehaviour
 
     //ボタン表示
     public void battleSetMode() {
-        usingDice = true;
         AttackButton.SetActive(true);
         GameObject Dice = GameObject.Find("1PDice");
         Transform DiceTrn = Dice.transform;
@@ -1114,7 +1106,7 @@ public class GameSceneDirector : MonoBehaviour
         usingDice = true;
         //ダイスをまわすボタンを少し遅らせて表示させる
         yield return new WaitForSeconds(0.2f);
-        GameObject Dice = GameObject.Find("PieceDiceObj/d6 3");
+        GameObject Dice = GameObject.Find("PieceDiceObj");
         dicePiceSetMode();
         Transform DiceTrn = Dice.transform;
         DiceTrn.Translate(0, -101, 0);//画面に映る値
