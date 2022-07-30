@@ -371,12 +371,14 @@ public class GameSceneDirector : MonoBehaviour
 
         float lsh = Input.GetAxis("L_Stick_H");
         float lsv = Input.GetAxis("L_Stick_V");
+        float lsh2 = Input.GetAxis("L_Stick_H_2");
+        float lsv2 = Input.GetAxis("L_Stick_V_2");
 
         if (usingDice == false)
         {
             if (controlTimer < Time.time)
             {
-                if (lsh < 0)
+                if (lsh < 0 || lsh2 < 0)
                 {
                     if (pos.x > -5)
                     {//左に移動
@@ -401,7 +403,7 @@ public class GameSceneDirector : MonoBehaviour
                         player1FrontFrameBack.SetActive(true);
                     }
                 }
-                if (lsh > 0)
+                if (lsh > 0 || lsh2 > 0)
                 {
                     if (pos.x < 4)
                     {//右に移動
@@ -437,7 +439,7 @@ public class GameSceneDirector : MonoBehaviour
             }
             if (controlTimer < Time.time)
             {
-                if (lsv < 0)
+                if (lsv < 0 || lsv2 < 0)
                 {
                     if (pos.z < 3)
                     {//上に移動
@@ -452,7 +454,7 @@ public class GameSceneDirector : MonoBehaviour
                         mainCursor.SetActive(true);
                     }
                 }
-                if (lsv > 0)
+                if (lsv > 0 || lsv2 > 0)
                 {
                     if (pos.z > -5)
                     {//下に移動
@@ -478,7 +480,7 @@ public class GameSceneDirector : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown("joystick 1 button 2") && usingDice == false)
+        if (Input.GetKeyDown("joystick 1 button 2") && usingDice == false || Input.GetKeyDown("joystick 2 button 2") && usingDice == false)
         {
             TrnEnd();
         }
@@ -912,6 +914,10 @@ public class GameSceneDirector : MonoBehaviour
                 effCon.enemyPositionEff(0, units[tilepos.x, tilepos.y].unitVec());
                 sePlayer.moveSound1();//戦闘音
                 yield return new WaitForSeconds(1.0f);
+
+                //HPの表示を変える
+                hpText.text = (Hp + "/" + maxHP);
+                hpSlider.value = (float)Hp / maxHP;
 
                 //自分の攻撃したコマが「ポーン、ナイト、キング」だったら移動しないでその場にとどまる
                 if (unit.Type == UnitController.TYPE.PAWN || unit.Type == UnitController.TYPE.KNIGHT || unit.Type == UnitController.TYPE.KING) {

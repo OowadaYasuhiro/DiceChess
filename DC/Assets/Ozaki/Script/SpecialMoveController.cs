@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class SpecialMoveController : MonoBehaviour
 {
     //必殺技ゲージ
     public int damage = 3;
-    public int minSp = 30;
+    public int minSp = 15;
     int hp;
 
     //相手のステータスを読み取るためのヤツ    
@@ -230,13 +231,27 @@ public class SpecialMoveController : MonoBehaviour
     }
 
     public void getSpMove() {
-        StartCoroutine("specialMove1");
+        if (sceneDirector.nowPlayer == 0){
+            if (DontDestroySingleObject.p1Character == 0 || DontDestroySingleObject.p1Character == 1){
+                StartCoroutine("specialMove1");
+            }
+            if (DontDestroySingleObject.p1Character == 2 || DontDestroySingleObject.p1Character == 3){
+                StartCoroutine("specialMove4");
+            }
+        }
+        if (sceneDirector.nowPlayer == 1 ){
+            if (DontDestroySingleObject.p2Character == 0 || DontDestroySingleObject.p2Character == 1){
+                StartCoroutine("specialMove1");
+            }
+            if (DontDestroySingleObject.p2Character == 2 || DontDestroySingleObject.p2Character == 3){
+                StartCoroutine("specialMove4");
+            }
+        }
     }
 
     public void goResult(){
         SceneManager.LoadScene("Result3");
     }
-
     /*必殺技使用方法
      * 別のスクリプトで「もしSpが100％かつプレイヤーアイコンを押されたら」という文を作る
      * 上のif分の中身にgetSpMoveを書く
