@@ -25,7 +25,7 @@ public class Result : MonoBehaviour
     public Text KingImage14;
 
     //合計スコアを表示するUIの取得
-    public Text totalScoreText;
+    public Text totalScoreImage;
 
     //スコアのカウント用
     private int score;
@@ -67,7 +67,7 @@ public class Result : MonoBehaviour
         BishopImage12 .text = score.ToString();
         QueenImage13 .text = score.ToString();
         KingImage14 .text = score.ToString();
-        totalScoreText .text = score.ToString();
+        totalScoreImage .text = score.ToString();
     }
 
     //Aボタンでタイトルに戻る
