@@ -11,6 +11,8 @@ public class animation : MonoBehaviour
     [SerializeField]private int ChessPanelNum;
     [SerializeField]private int setNum;
     [SerializeField]private GameObject[] ChessPanelObj;
+    private float controlTimer = 0.0f;
+    [SerializeField] private float DelayTime = 0.15f;
 
     // Start is called before the first frame update
     void Start()
@@ -41,18 +43,24 @@ public class animation : MonoBehaviour
         RepeatTime -= Time.deltaTime;
         if (animaEnd)
         {
-            if(Input.GetKeyDown("z")) 
+            float lsh = Input.GetAxis("L_Stick_H");
+            float lsv = Input.GetAxis("L_Stick_V");
+            if (controlTimer < Time.time)
             {
-                animaEnd = false;
-                anima.SetTrigger("rightAxis"); 
-                RepeatTime = 12f;
+                if (Input.GetKeyDown("z") || lsh < 0)
+                {
+                    animaEnd = false;
+                    anima.SetTrigger("rightAxis");
+                    RepeatTime = 12f;
+                }
+                if (Input.GetKeyDown("x") || RepeatTime <= 0 || lsh > 0)
+                {
+                    animaEnd = false;
+                    anima.SetTrigger("leftAxis");
+                    RepeatTime = 12f;
+                }
             }
-            if (Input.GetKeyDown("x")||RepeatTime <= 0)
-            {
-                animaEnd = false;
-                anima.SetTrigger("leftAxis");
-                RepeatTime = 12f;
-            }
+               
 
         }
         else

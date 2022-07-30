@@ -207,9 +207,7 @@ GameObject:
   - component: {fileID: 190199356}
   - component: {fileID: 190199355}
   m_Layer: 5
-
   m_Name: totalScoreImage
-
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -390,6 +388,7 @@ MonoBehaviour:
   bishopPointImage: {fileID: 2123170356}
   queenPointImage: {fileID: 1530908174}
   kingPointImage: {fileID: 178847119}
+  totalScoreImage: {fileID: 0}
   totalScoreImage10: {fileID: 1859449418}
   totalScoreImage100: {fileID: 648675394}
 --- !u!4 &291550494
@@ -1002,8 +1001,7 @@ GameObject:
   - component: {fileID: 648675395}
   - component: {fileID: 648675394}
   m_Layer: 5
-  m_Name: totalScoreImage
-n
+  m_Name: totalScoreImage100
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1689,69 +1687,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1423651161}
   m_CullTransparentMesh: 0
---- !u!1 &1453998166
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1453998169}
-  - component: {fileID: 1453998168}
-  - component: {fileID: 1453998167}
-  m_Layer: 0
-  m_Name: GameObject(2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1453998167
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1453998166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d4e0f48ddb728a48a4764b473e18841, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1453998168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1453998166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12423d5ed69370040b21246027642c77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PawnImage9: {fileID: 0}
-  RookImage10: {fileID: 0}
-  KnightImage11: {fileID: 0}
-  BishopImage12: {fileID: 0}
-  QueenImage13: {fileID: 0}
-  KingImage14: {fileID: 0}
-  totalScoreImage: {fileID: 0}
---- !u!4 &1453998169
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1453998166}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 760, y: 640, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1524671140
 GameObject:
   m_ObjectHideFlags: 0
@@ -2300,8 +2235,7 @@ GameObject:
   - component: {fileID: 1859449419}
   - component: {fileID: 1859449418}
   m_Layer: 5
-  m_Name: totalScoreImage
-
+  m_Name: totalScoreImage10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
