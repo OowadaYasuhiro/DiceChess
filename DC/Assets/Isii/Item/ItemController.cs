@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 public class ItemController : MonoBehaviour
 {
@@ -48,6 +49,12 @@ public class ItemController : MonoBehaviour
     [SerializeField] private Text chara1text;
     [SerializeField] private Text chara2text;
 
+    //csv
+    TextAsset csvFile; // CSVファイル
+    List<string[]> csvDatas = new List<string[]>(); // CSVの中身を入れるリスト;
+    public Vector3 position;
+    public Quaternion rotation;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -65,6 +72,20 @@ public class ItemController : MonoBehaviour
         if (DontDestroySingleObject.p2Character == 1) { chara2Image.sprite = chara2; chara2text.text = "相手の駒すべてに3ダメージ与える。"; }
         if (DontDestroySingleObject.p2Character == 2) { chara2Image.sprite = chara3; chara2text.text = "相手の必殺技ゲージを－30％する。"; }
         if (DontDestroySingleObject.p2Character == 3) { chara2Image.sprite = chara4; chara2text.text = "相手の必殺技ゲージを－30％する。"; }
+
+        //csv
+        csvFile = Resources.Load("CSV/ItemSpecial") as TextAsset; // Resouces下のCSV読み込み
+        StringReader reader = new StringReader(csvFile.text);
+
+        while (reader.Peek() != -1) // reader.Peaekが-1になるまで
+        {
+            string line = reader.ReadLine(); // 一行ずつ読み込み
+            csvDatas.Add(line.Split(',')); // , 区切りでリストに追加
+        }
+        recovery = int.Parse(csvDatas[0][3]);
+        Debug.Log("回復量は"+csvDatas[0][3]);
+        spRecovery = int.Parse(csvDatas[0][4]);
+        Debug.Log("必殺増加量は" + csvDatas[0][4]);
     }
 
     // Update is called once per frame
