@@ -36,7 +36,7 @@ public class CharacterStatus : MonoBehaviour
             csvDatas.Add(line.Split(',')); // , 区切りでリストに追加
         }
         _maxSp = int.Parse(csvDatas[0][0]);
-        Debug.Log("_maxSpは" + csvDatas[0][0]);
+        //Debug.Log("_maxSpは" + csvDatas[0][0]);
     }
 
     // Update is called once per frame

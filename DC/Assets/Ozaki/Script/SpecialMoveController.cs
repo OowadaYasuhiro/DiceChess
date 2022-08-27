@@ -63,9 +63,9 @@ public class SpecialMoveController : MonoBehaviour
             csvDatas.Add(line.Split(',')); // , 区切りでリストに追加
         }
         damage = int.Parse(csvDatas[0][1]);
-        Debug.Log("必殺1 ダメージ" + csvDatas[0][1]);
+        //Debug.Log("必殺1 ダメージ" + csvDatas[0][1]);
         minSp = int.Parse(csvDatas[0][2]);
-        Debug.Log("必殺4 SP吸収" + csvDatas[0][2]);
+        //Debug.Log("必殺4 SP吸収" + csvDatas[0][2]);
     }
 
     // Update is called once per frame

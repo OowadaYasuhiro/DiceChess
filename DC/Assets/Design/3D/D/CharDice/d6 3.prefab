@@ -140,12 +140,12 @@ MonoBehaviour:
   Num: 0
   deleteTime: 1
   CubePrefabs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 499702822645142781, guid: f39c8e23c51391542bde524aa1820d1a, type: 3}
+  - {fileID: 8349602649184862929, guid: b0e95180fd305d449bbe9705471412e0, type: 3}
+  - {fileID: 9005124455474890766, guid: 471ca7824deb1744b966ec5c3f268011, type: 3}
+  - {fileID: 9055513478812220035, guid: 0c3e457134acf194a91d352fea9f5a46, type: 3}
+  - {fileID: 552484992168526840, guid: adb60fd76df13c5478f7e9d6836ae0b6, type: 3}
+  - {fileID: 7407676342022485741, guid: d84c39d4c3986d140a769336d690a6ce, type: 3}
   hairetu: 000000000000000000000000000000000000000000000000
   count: 0
   dice: 0

@@ -60,6 +60,7 @@ public class GameSceneDirector : MonoBehaviour
     GameObject ui_BackGroundP2;
     CharacterStatus player1Chara; //プレイヤー1キャラのスクリプトを読み込む(読み込み対象変わるかも)
     CharacterStatus player2Chara; //同じく変わるかも
+    private bool hpDisplayl = false;
     [SerializeField] private Text hpText; //HPのテキスト
     [SerializeField] private Slider hpSlider;
     [SerializeField] private Image paseImage;
@@ -243,7 +244,7 @@ public class GameSceneDirector : MonoBehaviour
             for (int j = 0; j < csvDatas.Count; j++)
             {
                 unitType[i,j] = int.Parse(csvDatas[i][j]);
-                Debug.Log(i+","+j);
+                //Debug.Log(i+","+j);
             }
         }
 
@@ -498,6 +499,30 @@ public class GameSceneDirector : MonoBehaviour
             }
         }
 
+        //HPbarの表示
+        if (Input.GetKeyDown("joystick 1 button 3") && usingDice == false || Input.GetKeyDown("joystick 2 button 3") && usingDice == false || Input.GetKeyDown(KeyCode.Z) && usingDice)
+        {
+            if(hpDisplayl == false)
+            {
+                hpDisplayl=true;
+                for (int i = 0; i <= 1; i++){
+                    foreach (var v in getUnits(i)){
+                        v.OnHpDisplay();
+                    }
+                }
+                Debug.Log("HPbar");
+            }
+            else if (hpDisplayl == true)
+            {
+                hpDisplayl = false;
+                for (int i = 0; i <= 1; i++){
+                    foreach (var v in getUnits(i)){
+                        v.OffHpDisplay();
+                    }
+                }
+                Debug.Log("HPbard");
+            }
+        }
         if (Input.GetKeyDown("joystick 1 button 2") && usingDice == false || Input.GetKeyDown("joystick 2 button 2") && usingDice == false)
         {
             TrnEnd();
@@ -1134,11 +1159,11 @@ public class GameSceneDirector : MonoBehaviour
         dicePiceSetMode();
         Transform DiceTrn = Dice.transform;
         DiceTrn.Translate(0, -101, 0);//画面に映る値
-        Debug.Log("DicePiece");
+        //Debug.Log("DicePiece");
         //pushAButtonがtrueになるまでここで待機
         yield return new WaitUntil(() => pushDPButton == true);
 
-        Debug.Log("DicePiece2");
+        //Debug.Log("DicePiece2");
         DiceTrn.Translate(0, +101, 0);//画面から出る
         UnitController PieceDice;
         int hoge = pieceDice();
