@@ -83,9 +83,9 @@ public class ItemController : MonoBehaviour
             csvDatas.Add(line.Split(',')); // , 区切りでリストに追加
         }
         recovery = int.Parse(csvDatas[0][3]);
-        Debug.Log("回復量は"+csvDatas[0][3]);
+        //Debug.Log("回復量は"+csvDatas[0][3]);
         spRecovery = int.Parse(csvDatas[0][4]);
-        Debug.Log("必殺増加量は" + csvDatas[0][4]);
+        //Debug.Log("必殺増加量は" + csvDatas[0][4]);
     }
 
     // Update is called once per frame

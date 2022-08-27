@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.UI;
 
 public class UnitController : MonoBehaviour
 {
@@ -26,6 +27,13 @@ public class UnitController : MonoBehaviour
     public List<STATUS> Status;
     //移動距離の倍率　アイテム4
     public int moveTwice = 1;
+
+    //HPバー（スライダー）
+    [SerializeField] private GameObject hpcanvas;
+    [SerializeField] private Slider hpSlider;
+    public Text hptext;
+
+
 
     GameSceneDirector GS;
 
@@ -68,7 +76,7 @@ public class UnitController : MonoBehaviour
             string line = reader.ReadLine(); // 一行ずつ読み込み
             csvDatas.Add(line.Split(',')); // , 区切りでリストに追加
         }
-        Debug.Log(TrueType = csvDatas[0][0]);
+        //Debug.Log(TrueType = csvDatas[0][0]);
         for (int i = 1; i <= csvDatas.Count; i++)
         {
             //各配列を作りここで格納　https://wisteria-sophy.com/663/unity_basis9/
@@ -80,6 +88,11 @@ public class UnitController : MonoBehaviour
         if (TYPE.QUEEN == Type) {TrueType = csvDatas[4][0]; hp = int.Parse(csvDatas[4][1]); maxHp = int.Parse(csvDatas[4][1]); point = int.Parse(csvDatas[4][2]); }
         if (TYPE.KING == Type) {TrueType = csvDatas[5][0]; hp = int.Parse(csvDatas[5][1]); maxHp = int.Parse(csvDatas[5][1]); point = int.Parse(csvDatas[5][2]); }
         GS = GameObject.Find("SceneDirector").GetComponent<GameSceneDirector>();
+
+        //HP初期化
+        hpcanvas.SetActive(false);
+        hpSlider.value = (float)maxHp;
+        hptext.text = (hp+"/"+maxHp);
     }
 
     void Update()
@@ -617,5 +630,16 @@ public class UnitController : MonoBehaviour
     public string GetTrueType()
     {
         return this.TrueType;
+    }
+    public void OnHpDisplay()
+    {
+        hpcanvas.SetActive(true);
+        hpSlider.value = (float)hp / (float)maxHp;
+        hptext.text = (hp + "/" + maxHp); 
+    }
+
+    public void OffHpDisplay()
+    {
+        hpcanvas.SetActive(false);
     }
 }
