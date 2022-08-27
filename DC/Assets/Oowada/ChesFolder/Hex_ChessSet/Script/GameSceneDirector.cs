@@ -498,35 +498,7 @@ public class GameSceneDirector : MonoBehaviour
                 }
             }
         }
-
-        //HPbarの表示
-        if (Input.GetKeyDown("joystick 1 button 3") && usingDice == false || Input.GetKeyDown("joystick 2 button 3") && usingDice == false || Input.GetKeyDown(KeyCode.Z) && usingDice)
-        {
-            if(hpDisplayl == false)
-            {
-                hpDisplayl=true;
-                for (int i = 0; i <= 1; i++){
-                    foreach (var v in getUnits(i)){
-                        v.OnHpDisplay();
-                    }
-                }
-                Debug.Log("HPbar");
-            }
-            else if (hpDisplayl == true)
-            {
-                hpDisplayl = false;
-                for (int i = 0; i <= 1; i++){
-                    foreach (var v in getUnits(i)){
-                        v.OffHpDisplay();
-                    }
-                }
-                Debug.Log("HPbard");
-            }
-        }
-        if (Input.GetKeyDown("joystick 1 button 2") && usingDice == false || Input.GetKeyDown("joystick 2 button 2") && usingDice == false)
-        {
-            TrnEnd();
-        }
+        
         if (Input.GetKeyDown("joystick 1 button 0") || Input.GetKeyDown("joystick 2 button 0") || Input.GetKey(KeyCode.Space))
         {
             // ユニットにも当たり判定があるのでヒットした全てのオブジェクト情報を取得
@@ -539,6 +511,44 @@ public class GameSceneDirector : MonoBehaviour
                 }
             }
         }
+        if (Input.GetKeyDown("joystick 1 button 1") || Input.GetKeyDown("joystick 2 button 1") )
+        {
+            //選択解除
+            setSelectCursors();
+        }
+        if (Input.GetKeyDown("joystick 1 button 2") && usingDice == false || Input.GetKeyDown("joystick 2 button 2") && usingDice == false)
+        {
+            TrnEnd();
+        }
+        //HPbarの表示
+        if (Input.GetKeyDown("joystick 1 button 3") && usingDice == false || Input.GetKeyDown("joystick 2 button 3") && usingDice == false || Input.GetKeyDown(KeyCode.Z) && usingDice)
+        {
+            if (hpDisplayl == false)
+            {
+                hpDisplayl = true;
+                for (int i = 0; i <= 1; i++)
+                {
+                    foreach (var v in getUnits(i))
+                    {
+                        v.OnHpDisplay();
+                    }
+                }
+                Debug.Log("HPbar");
+            }
+            else if (hpDisplayl == true)
+            {
+                hpDisplayl = false;
+                for (int i = 0; i <= 1; i++)
+                {
+                    foreach (var v in getUnits(i))
+                    {
+                        v.OffHpDisplay();
+                    }
+                }
+                Debug.Log("HPbard");
+            }
+        }
+
         // CPUの処理
         /*while( TitleSceneDirector.PlayerCount <= nowPlayer
                 && (null == selectUnit || null == tile ) )
@@ -820,7 +830,7 @@ public class GameSceneDirector : MonoBehaviour
         if(setunit)
         {
             selectUnit = unit;
-            selectUnit.SelectUnit();
+            selectUnit.SelectUnit();//駒が上がる
         }
     }
 

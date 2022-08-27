@@ -467,13 +467,13 @@ public class UnitController : MonoBehaviour
     public void SelectUnit(bool select = true)
     {
         Vector3 pos = transform.position;
-        pos.y += 2;
+        pos.y += 0.5f;
         GetComponent<Rigidbody>().isKinematic = true;
 
         // 選択解除
         if (!select)
         {
-            pos.y = 1.35f;
+            pos.y = 1.5f;
             GetComponent<Rigidbody>().isKinematic = false;
         }
 
