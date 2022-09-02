@@ -88,14 +88,20 @@ public class CursorManager : MonoBehaviour
 
     }
 
+    public void ItemCnacel_count0() {
+        _charaSelectCount--;
+        _chara2Num = 0;
+    }
+
     //アイテムキャンセル
     public void ItemCnacel()
     {
+        //アイテムを何も選んでいない時にキャンセルしたら
         if (_itemSelectCount == 0)
         {
-            _charaSelectCount--;
-            _chara2Num = 0;
+            _itemSelectCount--;
         }
+        //アイテムを選んでいる時にキャンセルしたら(以下同じ)
         else if (_itemSelectCount == 1)
         {
             _itemSelectCount--;
@@ -135,5 +141,24 @@ public class CursorManager : MonoBehaviour
     public int ItemSelectCount {
         get { return _itemSelectCount; }
         set { _itemSelectCount = value; }
+    }
+
+    public int Chara1Num {
+        get { return _chara1Num; }
+    }
+    public int Chara2Num {
+        get { return _chara2Num; }
+    }
+    public int Item1_1Num {
+        get { return _item1_1Num; }
+    }
+    public int Item1_2Num {
+        get { return _item1_2Num; }
+    }
+    public int Item2_1Num {
+        get { return _item2_1Num; }
+    }
+    public int Item2_2Num {
+        get { return _item2_2Num; }
     }
 }
