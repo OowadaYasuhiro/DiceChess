@@ -2403,7 +2403,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 497862901}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &497862901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7921,6 +7932,7 @@ GameObject:
   - component: {fileID: 1472558009}
   - component: {fileID: 1472558012}
   - component: {fileID: 1472558013}
+  - component: {fileID: 1472558011}
   m_Layer: 0
   m_Name: SceneDirector
   m_TagString: Untagged
@@ -7963,9 +7975,10 @@ MonoBehaviour:
   - {fileID: 6202429355304657980, guid: 468a072fef67a8c4d848c713ab587004, type: 3}
   hpText: {fileID: 1314942838}
   hpSlider: {fileID: 2021373829}
-  paseImage: {fileID: 265318506}
-  endButtonASprite: {fileID: 0}
-  endButtonBSprite: {fileID: 0}
+  paseImage: {fileID: 598788658}
+  endButtonASprite: {fileID: 21300000, guid: ffce3ae7c6416d940866e757a713fb6f, type: 3}
+  endButtonBSprite: {fileID: 21300000, guid: 9745ea01ec3d18c48bdebd3d818e8492, type: 3}
+  uiDirector: {fileID: 1472558011}
   eventSystem: {fileID: 2088663570}
   DelayTime: 0.3
   player1Button: {fileID: 554779761}
@@ -8000,6 +8013,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1472558011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472558008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2ee2d6b86ffdcb4abe97660fd627602, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1472558012
 MonoBehaviour:
   m_ObjectHideFlags: 0
