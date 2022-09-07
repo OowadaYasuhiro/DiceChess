@@ -9,12 +9,24 @@ public class SelectController : MonoBehaviour
 {
     [SerializeField] private CursorManager cursorManager;
 
-    [SerializeField] private GameObject charaSelectCanvas;
-    [SerializeField] private GameObject itemSelsectCanvas;
-    [SerializeField] private EventSystem eventSystem;
+    [SerializeField] private GameObject _charaSelectCanvas;
+    [SerializeField] private GameObject _itemSelsectCanvas;
+    [SerializeField] private GameObject _sc;
+    [SerializeField] private EventSystem _eventSystem;
 
-    [SerializeField] private Button[] charaFrame;
-    [SerializeField] private Button[] itemFrame;
+    [SerializeField] private MessageController _messageCon;
+
+    [SerializeField] private GameObject[] _charaFrame;
+    [SerializeField] private GameObject[] _itemFrame;
+    [SerializeField] private Button[] _itemButton;
+    [SerializeField] private BGM _sound;
+    
+
+    private int _nowSelectCharaCursor;
+    private int _nowSelectItemCursor;
+    private int _lastItemSelect;
+
+    private bool _messageFlag = false;
 
     public enum MODE
     {
@@ -26,9 +38,11 @@ public class SelectController : MonoBehaviour
         NextScene
     }
     MODE _nowMode;
+    //private int _nowModeNum;
 
     private void Start()
     {
+        _messageFlag = false;
         _nowMode = MODE.CharaSet;
     }
 
@@ -64,8 +78,10 @@ public class SelectController : MonoBehaviour
             
             if (cursorManager.ItemSelectCount == 4)
             {
+                _lastItemSelect = _nowSelectItemCursor;
                 cursorManager.getI();
-                Invoke("ItemNextMode",1f);
+                _eventSystem.enabled = false;
+                Invoke("ItemNextMode",0.5f);
             }
             else
             {
@@ -74,78 +90,178 @@ public class SelectController : MonoBehaviour
         }
         else if(_nowMode == MODE.NextScene)
         {
-            SceneManager.LoadScene("LoadScene");
+            NextScene("LoadScene");
         }
     }
 
-    //1
+    //キャラクターセレクト画面準備
     public void CharaSet()
     {
-        charaSelectCanvas.SetActive(true);
-        itemSelsectCanvas.SetActive(false);
+        _charaSelectCanvas.SetActive(true);
+        _itemSelsectCanvas.SetActive(false);
 
-        charaFrame[0].Select();
+        //_charaFrame[0].Select();
+        _eventSystem.SetSelectedGameObject(_charaFrame[0]);
 
         _nowMode = MODE.CharaSelect;
     }
 
-    //2
+    //キャラ選択中
     public void CharaSelect()
     {
-        if(Input.GetButtonDown("Cancel")){
+        nowSelectCursor(1);
+
+        if(Input.GetButtonDown("Y1") && _messageFlag == false) {
+            Debug.Log("Yボタン押された");
+            _messageFlag = true;
+            
+            OpenMessage();
+        }
+
+        if(Input.GetButtonDown("Cancel") && _messageFlag == false){
 
             cursorManager.CharaCnacel("Title");
         }
+        
+    }
+
+    public void OpenMessage() {
+        _messageCon.setMessage();
+
+
     }
 
     public void CharaNextMode()
     {
         _nowMode = MODE.ItemSet;
     }
-    //応急処置
-    public void FrameColor()
-    {
-        if(cursorManager.CharaSelectCount == 0)
-        {
-            //eventSystem.firstSelectedGameObject.GetComponent<Button>();
+    
 
-        }
-    }
-
-    //3
+    //アイテムセレクト画面準備
     public void ItemSet()
     {
-        charaSelectCanvas.SetActive(false);
-        itemSelsectCanvas.SetActive(true);
+        _charaSelectCanvas.SetActive(false);
+        _itemSelsectCanvas.SetActive(true);
 
-        itemFrame[0].Select();
+        //_itemFrame[0].Select();
+        _eventSystem.SetSelectedGameObject(_itemFrame[0]);
+        cursorManager.ItemSelectCount = 0;
 
         _nowMode = MODE.ItemSelect;
     }
 
-    //4
+    //アイテム選択中
     public void ItemSelect()
     {
-        if (Input.GetButtonDown("Cancel"))
+        nowSelectCursor(2);
+
+        if (Input.GetButtonDown("Cancel") && _messageFlag == false)
         {
 
             cursorManager.ItemCnacel();
-            if(cursorManager.ItemSelectCount == 0)
+            if(cursorManager.ItemSelectCount == -1)
             {
+                cursorManager.ItemCnacel_count0();
                 _nowMode = MODE.CharaSet;
             }
+        }
+
+        if(Input.GetButtonDown("Y1")) {
+            _messageFlag = true;
+            OpenMessage();
         }
     }
     public void ItemNextMode()
     {
+        
         _nowMode = MODE.NextScene;
     }
 
-    //5
+    public void AreYouReady() {
+        _sc.SetActive(true);
+        var sb = GameObject.Find("SortieButton").GetComponent<Button>();
+        sb.Select();
+        Ready();
+    }
+
+    public void Ready() {
+        if(Input.GetButtonDown("Cancel")) {
+            cursorManager.ItemCnacel();
+            _sc.SetActive(false);
+            _itemButton[0].Select();
+            
+
+
+            _nowMode = MODE.ItemSelect;
+        }
+    }
+
+    /// <summary>
+    /// 次のシーンへ
+    /// </summary>
+    /// <param name="name">Loadしたいシーンの名前</param>
     public void NextScene(string name)
     {
         
         SceneManager.LoadScene(name);
     }
 
+    /// <summary>
+    /// EventSystemのカーソルセレクトで選択さてているobjectの名前で情報送る
+    /// </summary>
+    /// <param name="now">now = 1 はキャラセレ 2はアイテム</param>
+    public void nowSelectCursor(int now) {
+        if(now == 1) {
+            switch(_eventSystem.currentSelectedGameObject.name) {
+                case "Frame_01":
+                    _nowSelectCharaCursor = 0;
+
+                    break;
+                case "Frame_02":
+                    _nowSelectCharaCursor = 1;
+                    break;
+                case "Frame_03":
+                    _nowSelectCharaCursor = 2;
+                    break;
+                case "Frame_04":
+                    _nowSelectCharaCursor = 3;
+                    break;
+            }
+        } else {
+            switch(_eventSystem.currentSelectedGameObject.name) {
+                case "Frame_01":
+                    _nowSelectItemCursor = 0;
+
+                    break;
+                case "Frame_02":
+                    _nowSelectItemCursor = 1;
+                    break;
+                case "Frame_03":
+                    _nowSelectItemCursor = 2;
+                    break;
+                case "Frame_04":
+                    _nowSelectItemCursor = 3;
+                    break;
+                
+            }
+        }
+
+    }
+
+    public int nowMode {
+        get { return (int)_nowMode; }
+    }
+
+    public int nowSelectChara {
+        get { return _nowSelectCharaCursor;}
+    }
+
+    public int nowSelectItem {
+        get { return _nowSelectItemCursor;}
+    }
+
+    public bool messageFlag {
+        get { return _messageFlag; }
+        set { _messageFlag = value; }
+    }
 }
