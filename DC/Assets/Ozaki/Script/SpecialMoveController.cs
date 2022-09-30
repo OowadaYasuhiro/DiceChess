@@ -84,9 +84,10 @@ public class SpecialMoveController : MonoBehaviour
         
 
         //nowPlayerが0の時は自分の番
-        if(sceneDirector.nowPlayer == 0 && player1Chara.Sp == 50) {
-            player1Chara.setSP(-50);
+        if(sceneDirector.nowPlayer == 0 && player1Chara.Sp == int.Parse(csvDatas[0][0])) {
+            player1Chara.setSP(-int.Parse(csvDatas[0][0]));
             player1Chara.setPlayer1SpBar();
+            player1Chara.setPlayer1SpColor();
 
             effCon.setPositionEff(1,-8.25f,0f,-5f ,-35f,0f,0f);
             sceneDirector.tileBoolInversion();
@@ -151,9 +152,10 @@ public class SpecialMoveController : MonoBehaviour
             
         }
         //nowPlayerが1の時は相手の番
-        else if(sceneDirector.nowPlayer == 1 && player2Chara.Sp == 50) {
-            player2Chara.setSP(-50);
+        else if(sceneDirector.nowPlayer == 1 && player2Chara.Sp == int.Parse(csvDatas[0][0])) {
+            player2Chara.setSP(-int.Parse(csvDatas[0][0]));
             player2Chara.setPlayer2SpBar();
+            player2Chara.setPlayer2SpColor();
 
             effCon.setPositionEff(1, 6.25f, 5f, -1.5f, -35f, 0f, 0f);
             sceneDirector.tileBoolInversion();
@@ -237,20 +239,24 @@ public class SpecialMoveController : MonoBehaviour
     }
 
     public IEnumerator specialMove4() {
-        if(sceneDirector.nowPlayer == 0 && player1Chara.Sp == 100) {
-            player1Chara.setSP(-100);
+        if(sceneDirector.nowPlayer == 0 && player1Chara.Sp == int.Parse(csvDatas[0][0])) {
+            player1Chara.setSP(-int.Parse(csvDatas[0][0]));
             player1Chara.setPlayer1SpBar();
+            player1Chara.setPlayer1SpColor();
 
             player2Chara.setSP(-minSp);
             player2Chara.setPlayer2SpBar();
-            
-        } else if(sceneDirector.nowPlayer == 1 && player2Chara.Sp == 100) {
-            player2Chara.setSP(-100);
+            player2Chara.setPlayer2SpColor();
+
+        } else if(sceneDirector.nowPlayer == 1 && player2Chara.Sp == int.Parse(csvDatas[0][0])) {
+            player2Chara.setSP(-int.Parse(csvDatas[0][0]));
             player2Chara.setPlayer2SpBar();
+            player2Chara.setPlayer2SpColor();
 
             player1Chara.setSP(-minSp);
             player1Chara.setPlayer1SpBar();
-            
+            player1Chara.setPlayer1SpColor();
+
         }
 
         yield break;
