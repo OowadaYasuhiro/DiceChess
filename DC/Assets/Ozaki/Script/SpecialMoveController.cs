@@ -110,10 +110,11 @@ public class SpecialMoveController : MonoBehaviour
                 //敵全体(一体一体)にヒットエフェクトを発生させる
                 enemyVec = unit.transform.position;
                 effCon.enemyPositionEff(0,enemyVec);
-
+                Debug.Log("名前");
                 hp = unitCon.GetHP();
                 hp -= damage;
                 unitCon.SetHP(hp);
+                unitCon.HpDisplay();
                 Debug.Log(unit.name);
 
                 int a = unitCon.GetTYPE();
@@ -182,7 +183,8 @@ public class SpecialMoveController : MonoBehaviour
                 hp = unitCon.GetHP();
                 hp -= damage;
                 unitCon.SetHP(hp);
-                Debug.Log(unit.name);
+                unitCon.HpDisplay();
+                Debug.Log("この駒は"+unit.name);
 
                 int a = unitCon.GetTYPE();
                 int b = unitCon.GetPOINT();
@@ -221,7 +223,7 @@ public class SpecialMoveController : MonoBehaviour
 
             
         }
-        Debug.Log(damage);
+        Debug.Log("ダメージは"+damage);
 
         yield return new WaitForSeconds(1f);
 

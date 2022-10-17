@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 8731725573863658638}
   m_Layer: 0
   m_Name: b_bishop
-  m_TagString: Untagged
+  m_TagString: Player2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
