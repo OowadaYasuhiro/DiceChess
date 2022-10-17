@@ -631,13 +631,17 @@ public class UnitController : MonoBehaviour
     {
         return this.TrueType;
     }
-    public void OnHpDisplay()
+
+    
+    public void HpDisplay()
     {
-        hpcanvas.SetActive(true);
         hpSlider.value = (float)hp / (float)maxHp;
         hptext.text = (hp + "/" + maxHp); 
     }
-
+    public void OnHpDisplay()
+    {
+        hpcanvas.SetActive(true);
+    }
     public void OffHpDisplay()
     {
         hpcanvas.SetActive(false);

@@ -453,7 +453,7 @@ public class GameSceneDirector : MonoBehaviour
             TrnEnd();
         }
         //HPbarの表示
-        if (Input.GetKeyDown("joystick 1 button 3") && usingDice == false || Input.GetKeyDown("joystick 2 button 3") && usingDice == false || Input.GetKeyDown(KeyCode.Z) && usingDice == false)
+        if (Input.GetKeyDown("joystick 1 button 3") && usingDice == false || Input.GetKeyDown("joystick 2 button 3") && usingDice == false || Input.GetKeyDown(KeyCode.F1) && usingDice == false)
         {
             if (hpDisplayl == false)
             {
@@ -463,6 +463,7 @@ public class GameSceneDirector : MonoBehaviour
                     foreach (var v in getUnits(i))
                     {
                         v.OnHpDisplay();
+                        v.HpDisplay();
                     }
                 }
                 Debug.Log("HPbar");
@@ -884,6 +885,7 @@ public class GameSceneDirector : MonoBehaviour
                 //HPの表示を変える
                 hpText.text = (Hp + "/" + maxHP);
                 hpSlider.value = (float)Hp / maxHP;
+                units[tilepos.x, tilepos.y].HpDisplay();
 
                 //ダイスを振って動いていいかの判定
                 usingDice = false;
@@ -915,6 +917,7 @@ public class GameSceneDirector : MonoBehaviour
                 //HPの表示を変える
                 hpText.text = (Hp + "/" + maxHP);
                 hpSlider.value = (float)Hp / maxHP;
+                units[tilepos.x, tilepos.y].HpDisplay();
 
                 //自分の攻撃したコマが「ポーン、ナイト、キング」だったら移動しないでその場にとどまる
                 if (unit.Type == UnitController.TYPE.PAWN || unit.Type == UnitController.TYPE.KNIGHT || unit.Type == UnitController.TYPE.KING) {
@@ -1182,6 +1185,9 @@ public class GameSceneDirector : MonoBehaviour
             sePlayer.moveSound6();
         }
     }
+
+
+
 
 
     //呼び出し用のinvalidTile反転メソッド
