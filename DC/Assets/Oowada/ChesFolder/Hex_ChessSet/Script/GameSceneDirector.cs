@@ -864,11 +864,6 @@ public class GameSceneDirector : MonoBehaviour
                 //キングのHPが0になった時の処理 ここでキングのＨＰが0なら勝者を３秒表示してリザルトに
                 if (units[tilepos.x, tilepos.y].GetTYPE() == 6 && nowPlayer == 0) { DontDestroySingleObject.p1TakeKing++; info.text = "2Pの勝ち！！"; Invoke("Result", 3.0f); DontDestroySingleObject.winner = 1; }
                 if (units[tilepos.x, tilepos.y].GetTYPE() == 6 && nowPlayer == 1) { DontDestroySingleObject.p2TakeKing++; info.text = "1Pの勝ち！！"; Invoke("Result", 3.0f); DontDestroySingleObject.winner = 0; }
-                
-                yield return new WaitForSeconds(0.1f);
-
-                Destroy(units[tilepos.x, tilepos.y].gameObject);//敵の駒のHPをUnitControllerのGetHPからとりif文で分岐
-                prevDestroyTurn = 0;
 
                 yield return new WaitForSeconds(1f);
 
@@ -886,6 +881,11 @@ public class GameSceneDirector : MonoBehaviour
                 hpText.text = (Hp + "/" + maxHP);
                 hpSlider.value = (float)Hp / maxHP;
                 units[tilepos.x, tilepos.y].HpDisplay();
+
+                yield return new WaitForSeconds(0.1f);
+
+                Destroy(units[tilepos.x, tilepos.y].gameObject);//敵の駒のHPをUnitControllerのGetHPからとりif文で分岐
+                prevDestroyTurn = 0;
 
                 //ダイスを振って動いていいかの判定
                 usingDice = false;
