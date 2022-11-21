@@ -148,6 +148,9 @@ public class GameSceneDirector : MonoBehaviour
 
     private bool usingDice = false;
 
+    public GameObject winObject;
+    [SerializeField] private GameObject winPanel;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -183,6 +186,7 @@ public class GameSceneDirector : MonoBehaviour
         dicePicePanel.SetActive(false);
         AttackButton.SetActive(false);
         ATKText.SetActive(false);
+        winPanel.SetActive(false);
 
         // 内部データの初期化
         tiles = new GameObject[TILE_X, TILE_Y];
@@ -491,8 +495,8 @@ public class GameSceneDirector : MonoBehaviour
             }
             else if (menu == true)
             {
-                btnApply.SetActive(true);
-                btnCancel.SetActive(true);
+                btnApply.SetActive(false);
+                btnCancel.SetActive(false);
                 menu = false;
             }
         }
@@ -862,8 +866,8 @@ public class GameSceneDirector : MonoBehaviour
                 if (units[tilepos.x, tilepos.y].GetTYPE() == 5 && nowPlayer == 0) { DontDestroySingleObject.p1TakeQueen++; DontDestroySingleObject.p1Point += units[tilepos.x, tilepos.y].GetPOINT(); }
                 if (units[tilepos.x, tilepos.y].GetTYPE() == 5 && nowPlayer == 1) { DontDestroySingleObject.p2TakeQueen++; DontDestroySingleObject.p2Point += units[tilepos.x, tilepos.y].GetPOINT(); }
                 //キングのHPが0になった時の処理 ここでキングのＨＰが0なら勝者を３秒表示してリザルトに
-                if (units[tilepos.x, tilepos.y].GetTYPE() == 6 && nowPlayer == 0) { DontDestroySingleObject.p1TakeKing++; info.text = "2Pの勝ち！！"; Invoke("Result", 3.0f); DontDestroySingleObject.winner = 1; }
-                if (units[tilepos.x, tilepos.y].GetTYPE() == 6 && nowPlayer == 1) { DontDestroySingleObject.p2TakeKing++; info.text = "1Pの勝ち！！"; Invoke("Result", 3.0f); DontDestroySingleObject.winner = 0; }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 6 && nowPlayer == 0) { DontDestroySingleObject.p1TakeKing++; info.text = "Winner２P！！"; Invoke("Result", 5.0f); DontDestroySingleObject.winner = 1; sePlayer.winSound(); Instantiate(winObject, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(45, 0, 0)); winPanel.SetActive(true); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 6 && nowPlayer == 1) { DontDestroySingleObject.p2TakeKing++; info.text = "Winner１P！！"; Invoke("Result", 5.0f); DontDestroySingleObject.winner = 0; sePlayer.winSound(); Instantiate(winObject, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(45, 0, 0)); winPanel.SetActive(true); }
 
                 yield return new WaitForSeconds(1f);
 
@@ -1160,7 +1164,7 @@ public class GameSceneDirector : MonoBehaviour
     }
     public void Title()
     {
-        SceneManager.LoadScene("TitleScene");
+        SceneManager.LoadScene("Title");
     }
     public void Result()
     {
