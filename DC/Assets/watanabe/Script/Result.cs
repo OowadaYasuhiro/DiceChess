@@ -75,6 +75,8 @@ public class Result : MonoBehaviour
     public GameObject Panel;
     bool White = true;
 
+    float timer;
+
 
     // Start is called before the first frame update
     void Start()
@@ -87,10 +89,15 @@ public class Result : MonoBehaviour
 
     private void Update()
     {
+        timer += Time.deltaTime; // 経過時間を計算
         if (Input.GetKeyDown("joystick 1 button 0")|| Input.GetMouseButtonDown(0))
         {
-            Panel.GetComponent<FadeController>().isFadeOut = 2;
-            Invoke("abc",0.5f);
+            if (timer >= 2)
+            {
+                Panel.GetComponent<FadeController>().isFadeOut = 2;
+                Invoke("abc", 0.5f);
+                timer = 0;
+            }
         }
         if (Input.GetKeyDown("joystick 1 button 1") || Input.GetMouseButtonDown(1))
         {

@@ -25,6 +25,7 @@ public class SE : MonoBehaviour
     [SerializeField] private AudioClip suujihyouji;
     [SerializeField] private AudioClip pe_jiskip;
     [SerializeField] private AudioClip syutujinbotan;
+    [SerializeField] private AudioClip winSE;
 
 
     // Start is called before the first frame update
@@ -134,5 +135,10 @@ public class SE : MonoBehaviour
     public void moveSound16()
     {
         audio.PlayOneShot(syutujinbotan);
+    }
+    //出陣ボタン音
+    public void winSound()
+    {
+        audio.PlayOneShot(winSE);
     }
 }

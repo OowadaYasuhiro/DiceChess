@@ -138,7 +138,7 @@ public class SpecialMoveController : MonoBehaviour
                         Text info = txtResultInfo.GetComponent<Text>();
                         //ちゃんとした勝利エフェクトを作れ
                         DontDestroySingleObject.winner = 0;
-                        info.text = "1Pの勝ち";
+                        info.text = "Winner１P！！";
                         Invoke("goResult", 3.0f);
                         Destroy(unit);
                     }
@@ -208,7 +208,7 @@ public class SpecialMoveController : MonoBehaviour
                         Text info = txtResultInfo.GetComponent<Text>();
                         DontDestroySingleObject.winner = 1;
                         //ちゃんとした勝利エフェクトを作れ
-                        info.text = "2Pの勝ち";
+                        info.text = "Winner２P！！";
                         Invoke("goResult", 3.0f);
                         Destroy(unit);
                     }
