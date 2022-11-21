@@ -16,6 +16,13 @@ public class Result : MonoBehaviour
     public Sprite point7;
     public Sprite point8;
     public Sprite point9;
+    public Sprite backGloundWin;
+    public Sprite backGloundLose;
+
+    //Pawnスコアを表示するUIの取得
+    public Image back1PImage;
+    //Pawnスコアを表示するUIの取得
+    public Image back2PImage;
 
     //Pawnスコアを表示するUIの取得
     public Image pawnPointImage;
@@ -231,7 +238,10 @@ public class Result : MonoBehaviour
         if (DontDestroySingleObject.p2Character == 1) { LIAN_p2.SetActive(true); LIANText_p2.SetActive(true); }
         if (DontDestroySingleObject.p2Character == 2) { VIOLA_p2.SetActive(true); VIOLAText_p2.SetActive(true); }
         if (DontDestroySingleObject.p2Character == 3) { LLL_p2.SetActive(true); LLLText_p2.SetActive(true); }
+        if (DontDestroySingleObject.winner == 0) { back1PImage.sprite = backGloundWin; back2PImage.sprite = backGloundLose; }
+        if (DontDestroySingleObject.winner == 1) { back2PImage.sprite = backGloundWin; back1PImage.sprite = backGloundLose; }
+
     }
-    
+
 
 }

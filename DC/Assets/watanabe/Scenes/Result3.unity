@@ -692,6 +692,10 @@ MonoBehaviour:
   point7: {fileID: 21300000, guid: 7854645114a97ef4aad04cdd4bf3be26, type: 3}
   point8: {fileID: 21300000, guid: a1437f3ee482f7a449eb50aff839d441, type: 3}
   point9: {fileID: 21300000, guid: 50bf949459dc7504bbf4dd0230467716, type: 3}
+  backGloundWin: {fileID: 21300000, guid: f02c68f966f46fb429d22fde76d5def1, type: 3}
+  backGloundLose: {fileID: 21300000, guid: 68a347ab6b83a1749ab52b233819b1e0, type: 3}
+  back1PImage: {fileID: 1759986760}
+  back2PImage: {fileID: 603373687}
   pawnPointImage: {fileID: 1423651163}
   rookPointImage: {fileID: 642687613}
   knightPointImage: {fileID: 637502757}
@@ -2709,7 +2713,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.5
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
