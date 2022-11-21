@@ -485,19 +485,21 @@ public class GameSceneDirector : MonoBehaviour
                 Debug.Log("HPbard");
             }
         }
-        if (Input.GetKeyDown("joystick button 7"))
+        if (Input.GetKeyDown("joystick button 7") || Input.GetKeyDown(KeyCode.F2))
         {
             if (menu == false)
             {
                 btnApply.SetActive(true);
                 btnCancel.SetActive(true);
                 menu = true;
+                uiDirector.TitleButtonTrue();
             }
             else if (menu == true)
             {
                 btnApply.SetActive(false);
                 btnCancel.SetActive(false);
                 menu = false;
+                uiDirector.TitleButtonFalse();
             }
         }
 
