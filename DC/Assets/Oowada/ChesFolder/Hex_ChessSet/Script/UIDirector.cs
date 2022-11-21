@@ -35,6 +35,7 @@ public class UIDirector : MonoBehaviour
     [SerializeField] private Button item1Button;
     [SerializeField] private Button item2Button;
     [SerializeField] private Button endButton;
+    [SerializeField] private Button titleButton;
     [SerializeField] private GameObject mainCursor;
 
 
@@ -148,7 +149,15 @@ public class UIDirector : MonoBehaviour
         turnEndCursor.SetActive(false);
         turnEndButtonBack.SetActive(false);
     }
-
+    public void TitleButtonTrue()
+    {
+        titleButton.Select();
+    }
+    public void TitleButtonFalse()
+    {
+        titleButton.Select();
+        EventSystem.current.SetSelectedGameObject(null);
+    }
 
 
 
