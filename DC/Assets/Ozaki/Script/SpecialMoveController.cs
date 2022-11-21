@@ -118,18 +118,18 @@ public class SpecialMoveController : MonoBehaviour
                 Debug.Log(unit.name);
 
                 int a = unitCon.GetTYPE();
-                if (a == 1 && hp <= 0) { DontDestroySingleObject.p1TakePawn++; }
-                if (a == 1 && hp <= 0) { DontDestroySingleObject.p2TakePawn++; }
-                if (a == 2 && hp <= 0) { DontDestroySingleObject.p1TakeRook++; }
-                if (a == 2 && hp <= 0) { DontDestroySingleObject.p2TakeRook++; }
-                if (a == 3 && hp <= 0) { DontDestroySingleObject.p1TakeKnight++; }
-                if (a == 3 && hp <= 0) { DontDestroySingleObject.p2TakeKnight++; }
-                if (a == 4 && hp <= 0) { DontDestroySingleObject.p1TakeBishop++; }
-                if (a == 4 && hp <= 0) { DontDestroySingleObject.p2TakeBishop++; }
-                if (a == 5 && hp <= 0) { DontDestroySingleObject.p1TakeQueen++; }
-                if (a == 5 && hp <= 0) { DontDestroySingleObject.p2TakeQueen++; }
-                if (a == 6 && hp <= 0) { DontDestroySingleObject.p1TakeKing++; }
-                if (a == 6 && hp <= 0) { DontDestroySingleObject.p2TakeKing++; }
+                if (a == 1 && hp <= 0 && sceneDirector.nowPlayer == 0) { DontDestroySingleObject.p1TakePawn++; }
+                if (a == 1 && hp <= 0 && sceneDirector.nowPlayer == 1) { DontDestroySingleObject.p2TakePawn++; }
+                if (a == 2 && hp <= 0 && sceneDirector.nowPlayer == 0) { DontDestroySingleObject.p1TakeRook++; }
+                if (a == 2 && hp <= 0 && sceneDirector.nowPlayer == 1) { DontDestroySingleObject.p2TakeRook++; }
+                if (a == 3 && hp <= 0 && sceneDirector.nowPlayer == 0) { DontDestroySingleObject.p1TakeKnight++; }
+                if (a == 3 && hp <= 0 && sceneDirector.nowPlayer == 1) { DontDestroySingleObject.p2TakeKnight++; }
+                if (a == 4 && hp <= 0 && sceneDirector.nowPlayer == 0) { DontDestroySingleObject.p1TakeBishop++; }
+                if (a == 4 && hp <= 0 && sceneDirector.nowPlayer == 1) { DontDestroySingleObject.p2TakeBishop++; }
+                if (a == 5 && hp <= 0 && sceneDirector.nowPlayer == 0) { DontDestroySingleObject.p1TakeQueen++; }
+                if (a == 5 && hp <= 0 && sceneDirector.nowPlayer == 1) { DontDestroySingleObject.p2TakeQueen++; }
+                if (a == 6 && hp <= 0 && sceneDirector.nowPlayer == 0) { DontDestroySingleObject.p1TakeKing++; }
+                if (a == 6 && hp <= 0 && sceneDirector.nowPlayer == 1) { DontDestroySingleObject.p2TakeKing++; }
                 if (a == 6)
                 {
                     if(hp <= 0)
@@ -188,18 +188,18 @@ public class SpecialMoveController : MonoBehaviour
 
                 int a = unitCon.GetTYPE();
                 int b = unitCon.GetPOINT();
-                if (a == 1 && hp <= 0) { DontDestroySingleObject.p1TakePawn++; DontDestroySingleObject.p1Point += b;}
-                if (a == 1 && hp <= 0) { DontDestroySingleObject.p2TakePawn++; DontDestroySingleObject.p2Point += b; }
-                if (a == 2 && hp <= 0) { DontDestroySingleObject.p1TakeRook++; DontDestroySingleObject.p1Point += b; }
-                if (a == 2 && hp <= 0) { DontDestroySingleObject.p2TakeRook++; DontDestroySingleObject.p2Point += b; }
-                if (a == 3 && hp <= 0) { DontDestroySingleObject.p1TakeKnight++; DontDestroySingleObject.p1Point += b; }
-                if (a == 3 && hp <= 0) { DontDestroySingleObject.p2TakeKnight++; DontDestroySingleObject.p2Point += b; }
-                if (a == 4 && hp <= 0) { DontDestroySingleObject.p1TakeBishop++; DontDestroySingleObject.p1Point += b; }
-                if (a == 4 && hp <= 0) { DontDestroySingleObject.p2TakeBishop++; DontDestroySingleObject.p2Point += b; }
-                if (a == 5 && hp <= 0) { DontDestroySingleObject.p1TakeQueen++; DontDestroySingleObject.p1Point += b; }
-                if (a == 5 && hp <= 0) { DontDestroySingleObject.p2TakeQueen++; DontDestroySingleObject.p2Point += b; }
-                if (a == 6 && hp <= 0) { DontDestroySingleObject.p1TakeKing++; DontDestroySingleObject.p1Point += b; }
-                if (a == 6 && hp <= 0) { DontDestroySingleObject.p2TakeKing++; DontDestroySingleObject.p2Point += b; }
+                if (a == 1 && hp <= 0 && sceneDirector.nowPlayer == 0) { DontDestroySingleObject.p1TakePawn++; }
+                if (a == 1 && hp <= 0 && sceneDirector.nowPlayer == 1) { DontDestroySingleObject.p2TakePawn++; }
+                if (a == 2 && hp <= 0 && sceneDirector.nowPlayer == 0) { DontDestroySingleObject.p1TakeRook++; }
+                if (a == 2 && hp <= 0 && sceneDirector.nowPlayer == 1) { DontDestroySingleObject.p2TakeRook++; }
+                if (a == 3 && hp <= 0 && sceneDirector.nowPlayer == 0) { DontDestroySingleObject.p1TakeKnight++; }
+                if (a == 3 && hp <= 0 && sceneDirector.nowPlayer == 1) { DontDestroySingleObject.p2TakeKnight++; }
+                if (a == 4 && hp <= 0 && sceneDirector.nowPlayer == 0) { DontDestroySingleObject.p1TakeBishop++; }
+                if (a == 4 && hp <= 0 && sceneDirector.nowPlayer == 1) { DontDestroySingleObject.p2TakeBishop++; }
+                if (a == 5 && hp <= 0 && sceneDirector.nowPlayer == 0) { DontDestroySingleObject.p1TakeQueen++; }
+                if (a == 5 && hp <= 0 && sceneDirector.nowPlayer == 1) { DontDestroySingleObject.p2TakeQueen++; }
+                if (a == 6 && hp <= 0 && sceneDirector.nowPlayer == 0) { DontDestroySingleObject.p1TakeKing++; }
+                if (a == 6 && hp <= 0 && sceneDirector.nowPlayer == 1) { DontDestroySingleObject.p2TakeKing++; }
                 if (a == 6)
                 {
                     if (hp <= 0)

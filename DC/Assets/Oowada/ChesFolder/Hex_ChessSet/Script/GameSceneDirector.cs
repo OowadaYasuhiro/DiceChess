@@ -866,8 +866,8 @@ public class GameSceneDirector : MonoBehaviour
                 if (units[tilepos.x, tilepos.y].GetTYPE() == 5 && nowPlayer == 0) { DontDestroySingleObject.p1TakeQueen++; DontDestroySingleObject.p1Point += units[tilepos.x, tilepos.y].GetPOINT(); }
                 if (units[tilepos.x, tilepos.y].GetTYPE() == 5 && nowPlayer == 1) { DontDestroySingleObject.p2TakeQueen++; DontDestroySingleObject.p2Point += units[tilepos.x, tilepos.y].GetPOINT(); }
                 //キングのHPが0になった時の処理 ここでキングのＨＰが0なら勝者を３秒表示してリザルトに
-                if (units[tilepos.x, tilepos.y].GetTYPE() == 6 && nowPlayer == 0) { DontDestroySingleObject.p1TakeKing++; info.text = "Winner２P！！"; Invoke("Result", 5.0f); DontDestroySingleObject.winner = 1; sePlayer.winSound(); Instantiate(winObject, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(45, 0, 0)); winPanel.SetActive(true); }
-                if (units[tilepos.x, tilepos.y].GetTYPE() == 6 && nowPlayer == 1) { DontDestroySingleObject.p2TakeKing++; info.text = "Winner１P！！"; Invoke("Result", 5.0f); DontDestroySingleObject.winner = 0; sePlayer.winSound(); Instantiate(winObject, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(45, 0, 0)); winPanel.SetActive(true); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 6 && nowPlayer == 0) { DontDestroySingleObject.p1TakeKing++; info.text = "Winner１P！！"; Invoke("Result", 5.0f); DontDestroySingleObject.winner = 0; sePlayer.winSound(); Instantiate(winObject, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(45, 0, 0)); winPanel.SetActive(true); }
+                if (units[tilepos.x, tilepos.y].GetTYPE() == 6 && nowPlayer == 1) { DontDestroySingleObject.p2TakeKing++; info.text = "Winner２P！！"; Invoke("Result", 5.0f); DontDestroySingleObject.winner = 1; sePlayer.winSound(); Instantiate(winObject, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(45, 0, 0)); winPanel.SetActive(true); }
 
                 yield return new WaitForSeconds(1f);
 
