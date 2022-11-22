@@ -66,12 +66,12 @@ public class ItemController : MonoBehaviour
         canItem2_2P = true;
         if (DontDestroySingleObject.p1Character == 0) { chara1Image.sprite = chara1; chara1text.text = "相手の駒すべてに3ダメージ与える。"; }
         if (DontDestroySingleObject.p1Character == 1) { chara1Image.sprite = chara2; chara1text.text = "相手の駒すべてに3ダメージ与える。"; }
-        if (DontDestroySingleObject.p1Character == 2) { chara1Image.sprite = chara3; chara1text.text = "相手の必殺技ゲージを－30％する。"; }
-        if (DontDestroySingleObject.p1Character == 3) { chara1Image.sprite = chara4; chara1text.text = "相手の必殺技ゲージを－30％する。"; }
+        if (DontDestroySingleObject.p1Character == 2) { chara1Image.sprite = chara3; chara1text.text = "相手の必殺技ゲージを－30する。"; }
+        if (DontDestroySingleObject.p1Character == 3) { chara1Image.sprite = chara4; chara1text.text = "相手の必殺技ゲージを－30する。"; }
         if (DontDestroySingleObject.p2Character == 0) { chara2Image.sprite = chara1; chara2text.text = "相手の駒すべてに3ダメージ与える。"; }
         if (DontDestroySingleObject.p2Character == 1) { chara2Image.sprite = chara2; chara2text.text = "相手の駒すべてに3ダメージ与える。"; }
-        if (DontDestroySingleObject.p2Character == 2) { chara2Image.sprite = chara3; chara2text.text = "相手の必殺技ゲージを－30％する。"; }
-        if (DontDestroySingleObject.p2Character == 3) { chara2Image.sprite = chara4; chara2text.text = "相手の必殺技ゲージを－30％する。"; }
+        if (DontDestroySingleObject.p2Character == 2) { chara2Image.sprite = chara3; chara2text.text = "相手の必殺技ゲージを－30する。"; }
+        if (DontDestroySingleObject.p2Character == 3) { chara2Image.sprite = chara4; chara2text.text = "相手の必殺技ゲージを－30する。"; }
 
         //csv
         csvFile = Resources.Load("CSV/ItemSpecial") as TextAsset; // Resouces下のCSV読み込み
@@ -121,7 +121,7 @@ public class ItemController : MonoBehaviour
             }
             if (DontDestroySingleObject.p1item1 == 2){
                 item1Box.sprite = item3;
-                item1text.text = "必殺技ゲージ30％増加";
+                item1text.text = "必殺技ゲージ30増加";
             }
             if (DontDestroySingleObject.p1item1 == 3){
                 item1Box.sprite = item4;
@@ -137,7 +137,7 @@ public class ItemController : MonoBehaviour
             }
             if (DontDestroySingleObject.p1item2 == 2){
                 item2Box.sprite = item3;
-                item2text.text = "必殺技ゲージ30％増加";
+                item2text.text = "必殺技ゲージ30増加";
             }
             if (DontDestroySingleObject.p1item2 == 3){
                 item2Box.sprite = item4;
@@ -163,7 +163,7 @@ public class ItemController : MonoBehaviour
             }
             if (DontDestroySingleObject.p2item1 == 2){
                 item1Box.sprite = item3;
-                item1text.text = "必殺技ゲージ30％増加";
+                item1text.text = "必殺技ゲージ30増加";
             }
             if (DontDestroySingleObject.p2item1 == 3){
                 item1Box.sprite = item4;
@@ -179,7 +179,7 @@ public class ItemController : MonoBehaviour
             }
             if (DontDestroySingleObject.p2item2 == 2){
                 item2Box.sprite = item3;
-                item2text.text = "必殺技ゲージ30％増加";
+                item2text.text = "必殺技ゲージ30増加";
             }
             if (DontDestroySingleObject.p2item2 == 3){
                 item2Box.sprite = item4;
