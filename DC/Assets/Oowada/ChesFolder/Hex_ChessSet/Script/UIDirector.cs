@@ -155,7 +155,6 @@ public class UIDirector : MonoBehaviour
     }
     public void TitleButtonFalse()
     {
-        titleButton.Select();
         EventSystem.current.SetSelectedGameObject(null);
     }
 

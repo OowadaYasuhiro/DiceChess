@@ -447,17 +447,17 @@ public class GameSceneDirector : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown("joystick 1 button 1") || Input.GetKeyDown("joystick 2 button 1") )
+        /*if (Input.GetKeyDown("joystick 1 button 1") || Input.GetKeyDown("joystick 2 button 1") )
         {
             //選択解除
             setSelectCursors();
-        }
-        if (Input.GetKeyDown("joystick 1 button 2") && usingDice == false || Input.GetKeyDown("joystick 2 button 2") && usingDice == false)
+        }*/
+        if (Input.GetKeyDown("joystick 1 button 3") && usingDice == false || Input.GetKeyDown("joystick 2 button 3") && usingDice == false || Input.GetKeyDown(KeyCode.F1) && usingDice == false)
         {
             TrnEnd();
         }
         //HPbarの表示
-        if (Input.GetKeyDown("joystick 1 button 3") && usingDice == false || Input.GetKeyDown("joystick 2 button 3") && usingDice == false || Input.GetKeyDown(KeyCode.F1) && usingDice == false)
+        if (Input.GetKeyDown("joystick 1 button 2") && usingDice == false || Input.GetKeyDown("joystick 2 button 2") && usingDice == false)
         {
             if (hpDisplayl == false)
             {
