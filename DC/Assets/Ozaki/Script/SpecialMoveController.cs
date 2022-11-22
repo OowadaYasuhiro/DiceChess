@@ -31,6 +31,9 @@ public class SpecialMoveController : MonoBehaviour
     Animator fadeAnim;
     GameObject txtResultInfo;
 
+    //SEのためのオブジェクト
+    [SerializeField] private GameObject SeObject;
+
     //キャラタイプ。これで必殺技内容を変える。 1=ティカ　2=リアン　3=ヴィオラ　4=ララ＆リリ＆ロロ
     public enum TYPE
     {
@@ -88,6 +91,8 @@ public class SpecialMoveController : MonoBehaviour
             player1Chara.setSP(-int.Parse(csvDatas[0][0]));
             player1Chara.setPlayer1SpBar();
             player1Chara.setPlayer1SpColor();
+            SE sePlayer = SeObject.GetComponent<SE>();
+            sePlayer.moveSound5();
 
             effCon.setPositionEff(1,-8.25f,0f,-5f ,-35f,0f,0f);
             sceneDirector.tileBoolInversion();
@@ -108,6 +113,7 @@ public class SpecialMoveController : MonoBehaviour
             foreach(GameObject unit in player) {
                 unitCon = unit.GetComponent<UnitController>();
                 //敵全体(一体一体)にヒットエフェクトを発生させる
+                sePlayer.moveSound1();
                 enemyVec = unit.transform.position;
                 effCon.enemyPositionEff(0,enemyVec);
                 Debug.Log("名前");
@@ -157,6 +163,8 @@ public class SpecialMoveController : MonoBehaviour
             player2Chara.setSP(-int.Parse(csvDatas[0][0]));
             player2Chara.setPlayer2SpBar();
             player2Chara.setPlayer2SpColor();
+            SE sePlayer = SeObject.GetComponent<SE>();
+            sePlayer.moveSound5();
 
             effCon.setPositionEff(1, 6.25f, 5f, -1.5f, -35f, 0f, 0f);
             sceneDirector.tileBoolInversion();
@@ -179,7 +187,7 @@ public class SpecialMoveController : MonoBehaviour
 
                 enemyVec = unit.transform.position;
                 effCon.enemyPositionEff(0, enemyVec);
-
+                sePlayer.moveSound1();
                 hp = unitCon.GetHP();
                 hp -= damage;
                 unitCon.SetHP(hp);
@@ -245,7 +253,8 @@ public class SpecialMoveController : MonoBehaviour
             player1Chara.setSP(-int.Parse(csvDatas[0][0]));
             player1Chara.setPlayer1SpBar();
             player1Chara.setPlayer1SpColor();
-
+            SE sePlayer = SeObject.GetComponent<SE>();
+            sePlayer.moveSound5();
             player2Chara.setSP(-minSp);
             player2Chara.setPlayer2SpBar();
             player2Chara.setPlayer2SpColor();
@@ -254,7 +263,8 @@ public class SpecialMoveController : MonoBehaviour
             player2Chara.setSP(-int.Parse(csvDatas[0][0]));
             player2Chara.setPlayer2SpBar();
             player2Chara.setPlayer2SpColor();
-
+            SE sePlayer = SeObject.GetComponent<SE>();
+            sePlayer.moveSound5();
             player1Chara.setSP(-minSp);
             player1Chara.setPlayer1SpBar();
             player1Chara.setPlayer1SpColor();

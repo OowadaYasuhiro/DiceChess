@@ -8127,6 +8127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   position: {x: 0, y: 0, z: 0}
   rotation: {x: 0, y: 0, z: 0, w: 0}
+  SeObject: {fileID: 28373631}
 --- !u!114 &1472558013
 MonoBehaviour:
   m_ObjectHideFlags: 0
