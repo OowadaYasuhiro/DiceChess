@@ -83,11 +83,12 @@ public class Result : MonoBehaviour
     bool White = true;
 
     float timer;
-
+    int fo;
 
     // Start is called before the first frame update
     void Start()
     {
+        fo = 0;
         setcount();
         setCharacter();
         whiteRect = WhitePanel.GetComponent<RectTransform>();
@@ -99,12 +100,21 @@ public class Result : MonoBehaviour
         timer += Time.deltaTime; // 経過時間を計算
         if (Input.GetKeyDown("joystick 1 button 0")|| Input.GetMouseButtonDown(0))
         {
-            if (timer >= 2)
+            if (fo == 0)
             {
-                Panel.GetComponent<FadeController>().isFadeOut = 2;
-                Invoke("abc", 0.5f);
-                timer = 0;
+                if (timer >= 1)
+                {
+                    Panel.GetComponent<FadeController>().isFadeOut = 2;
+                    Invoke("abc", 1.0f);
+                    timer = 0;
+                    fo = 1;
+                }
             }
+            else if (fo == 1)
+            {
+                ClickStartButton();
+            }
+            
         }
         if (Input.GetKeyDown("joystick 1 button 1") || Input.GetMouseButtonDown(1))
         {

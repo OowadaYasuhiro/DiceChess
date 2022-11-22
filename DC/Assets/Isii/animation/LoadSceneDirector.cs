@@ -72,7 +72,7 @@ public class LoadSceneDirector : MonoBehaviour
 
     public void ChangeScene()
     {
-        if (Input.GetKeyDown("joystick 1 button 0") || Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown("joystick 1 button 0") || Input.GetKeyDown("joystick 2 button 0") || Input.GetKey(KeyCode.Space))
         {
             Fade.isFadeOut = 2;
             StartCoroutine(Change());
