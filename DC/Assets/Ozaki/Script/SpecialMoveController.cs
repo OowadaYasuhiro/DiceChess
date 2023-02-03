@@ -110,10 +110,11 @@ public class SpecialMoveController : MonoBehaviour
             yield return new WaitForSeconds(0.3f);
 
             player = GameObject.FindGameObjectsWithTag("Player2");
-            foreach(GameObject unit in player) {
+            sePlayer.moveSound1();
+            foreach (GameObject unit in player) {
                 unitCon = unit.GetComponent<UnitController>();
                 //敵全体(一体一体)にヒットエフェクトを発生させる
-                sePlayer.moveSound1();
+                
                 enemyVec = unit.transform.position;
                 effCon.enemyPositionEff(0,enemyVec);
                 Debug.Log("名前");
@@ -182,12 +183,13 @@ public class SpecialMoveController : MonoBehaviour
             yield return new WaitForSeconds(0.3f);
 
             player = GameObject.FindGameObjectsWithTag("Player1");
-            foreach(GameObject unit in player) {
+            sePlayer.moveSound1();
+            foreach (GameObject unit in player) {
                 unitCon = unit.GetComponent<UnitController>();
 
                 enemyVec = unit.transform.position;
                 effCon.enemyPositionEff(0, enemyVec);
-                sePlayer.moveSound1();
+                
                 hp = unitCon.GetHP();
                 hp -= damage;
                 unitCon.SetHP(hp);
