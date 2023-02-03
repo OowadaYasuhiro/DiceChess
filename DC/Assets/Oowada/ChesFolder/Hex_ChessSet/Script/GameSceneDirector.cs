@@ -1125,7 +1125,8 @@ public class GameSceneDirector : MonoBehaviour
         //Debug.Log("DicePiece");
         //pushAButtonがtrueになるまでここで待機
         yield return new WaitUntil(() => pushDPButton == true);
-
+        SE sePlayer = SeObject.GetComponent<SE>();
+        sePlayer.moveSound2();
         //Debug.Log("DicePiece2");
         DiceTrn.Translate(0, +101, 0);//画面から出る
         UnitController PieceDice;
