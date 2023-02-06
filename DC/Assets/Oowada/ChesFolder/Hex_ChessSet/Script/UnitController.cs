@@ -473,7 +473,7 @@ public class UnitController : MonoBehaviour
         // 選択解除
         if (!select)
         {
-            pos.y = 1.5f;
+            pos.y = 1.0f;
             GetComponent<Rigidbody>().isKinematic = false;
         }
 

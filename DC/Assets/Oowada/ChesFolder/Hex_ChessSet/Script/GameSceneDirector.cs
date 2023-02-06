@@ -447,11 +447,11 @@ public class GameSceneDirector : MonoBehaviour
                 }
             }
         }
-        /*if (Input.GetKeyDown("joystick 1 button 1") || Input.GetKeyDown("joystick 2 button 1") )
+        if (Input.GetKeyDown("joystick 1 button 1") && usingDice == false || Input.GetKeyDown("joystick 2 button 1") && usingDice == false)
         {
             //選択解除
             setSelectCursors();
-        }*/
+        }
         if (Input.GetKeyDown("joystick 1 button 3") && usingDice == false || Input.GetKeyDown("joystick 2 button 3") && usingDice == false || Input.GetKeyDown(KeyCode.F1) && usingDice == false)
         {
             TrnEnd();
